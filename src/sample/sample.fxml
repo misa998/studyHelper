@@ -33,6 +33,7 @@
                                  <children>
                                     <Button fx:id="button" mnemonicParsing="false" prefHeight="52.0" prefWidth="261.0" text="CourseName" textFill="#a8a8a8" />
                                  </children></VBox>
+                              <Button layoutX="587.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCourse" text="Add" />
                            </children></Pane>
                      </children></AnchorPane>
             </content>
@@ -44,7 +45,19 @@
             </Tab>
             <Tab text="Motivacija">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane fx:id="coursePanel1" layoutX="14.0" layoutY="14.0" prefHeight="343.0" prefWidth="639.0">
+                           <children>
+                              <VBox fx:id="vBox1" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="258.0" spacing="15.0">
+                                 <children>
+                                    <Button fx:id="button1" mnemonicParsing="false" prefHeight="52.0" prefWidth="261.0" text="Motivation" textFill="#a8a8a8" />
+                                 </children>
+                              </VBox>
+                              <Button layoutX="587.0" layoutY="14.0" mnemonicParsing="false" text="Add" />
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
                 </content>
             </Tab>
         </tabs>

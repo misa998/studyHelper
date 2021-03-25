@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Controller {
@@ -21,6 +22,8 @@ public class Controller {
     }
 
     public void courseTabChange(){
+        vBox.getChildren().clear();
+
         DataSource.getInstance().openConnection();
         DataSource.getInstance().getAllTime();
         List<Course> courseList = DataSource.getInstance().getAllCourses();
@@ -40,6 +43,12 @@ public class Controller {
             vBox.getChildren().add(button2);
         }
 
+        DataSource.getInstance().closeConnection();
+    }
+
+    public void addCourse(){
+        DataSource.getInstance().openConnection();
+        DataSource.getInstance().insertCourse(new Course(0, "art", "description", LocalDate.now().plusMonths(2), 1));
         DataSource.getInstance().closeConnection();
     }
 }

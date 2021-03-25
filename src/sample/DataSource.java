@@ -91,4 +91,43 @@ public class DataSource {
             return null;
         }
     }
+
+    public void insertAll(){
+
+    }
+
+    public void insertStudent(Student student){
+        StringBuilder sb = new StringBuilder();
+        try(Statement statement = connection.createStatement()){
+            sb.append("INSERT INTO student (\"name\") VALUES (\"");
+            sb.append(student.getName());
+            sb.append("\")");
+            statement.execute(sb.toString());
+
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
+    public void insertCourse(Course course){
+        StringBuilder sb = new StringBuilder();
+        try(Statement statement = connection.createStatement()){
+            sb.append("INSERT INTO course (\"name\", \"description\", \"due\", \"student_id\") VALUES (\"");
+            sb.append(course.getName());
+            sb.append("\", \"");
+            sb.append(course.getDescription());
+            sb.append("\", \"");
+            sb.append(course.getDue().toString());
+            sb.append("\", \"");
+            sb.append(course.getStudent_id());
+            sb.append("\")");
+            statement.execute(sb.toString());
+            System.out.println(sb.toString());
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
 }
