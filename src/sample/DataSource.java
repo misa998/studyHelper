@@ -110,9 +110,9 @@ public class DataSource {
         }
     }
 
-    public void insertCourse(Course course){
+    public void insertCourse(Course course) {
         StringBuilder sb = new StringBuilder();
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             sb.append("INSERT INTO course (\"name\", \"description\", \"due\", \"student_id\") VALUES (\"");
             sb.append(course.getName());
             sb.append("\", \"");
@@ -124,10 +124,28 @@ public class DataSource {
             sb.append("\")");
             statement.execute(sb.toString());
             System.out.println(sb.toString());
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return;
         }
     }
 
+    public Course getCourseByName(String courseName){
+        try(Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM course WHERE \"name\"= " + courseName);
+            Course course = new Course();
+            course.setId(resultSet.getInt("id"));
+            course.setName(resultSet.getString("name"));
+            course.setDescription(resultSet.getString("description"));
+            course.setStudent_id(resultSet.getInt("student_id"));
+            LocalDate localDate = LocalDate.parse(resultSet.getString("due"));
+            localDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
+            course.setDue(localDate);
+
+            return course;
+        } catch (SQLException e){
+            System.out.println("Error: " + e.getMessage());
+            return null;
+        }
+    }
 }

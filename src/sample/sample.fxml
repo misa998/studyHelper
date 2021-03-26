@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Pregled">
+          <Tab onSelectionChanged="#dashboardTabChanged" text="Pregled">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <StackedBarChart layoutX="14.0" layoutY="14.0">
+                        <StackedBarChart fx:id="stackedBarChart" layoutX="14.0" layoutY="14.0" title="Hours per day spent on studying each subject">
                           <xAxis>
-                            <CategoryAxis side="BOTTOM" />
+                            <CategoryAxis label="Days" side="BOTTOM" fx:id="xAxis" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis side="LEFT" />
+                            <NumberAxis fx:id="yAxis" label="Hours" side="LEFT" />
                           </yAxis>
                         </StackedBarChart>
                      </children></AnchorPane>
@@ -47,16 +51,82 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Pane fx:id="coursePanel1" layoutX="14.0" layoutY="14.0" prefHeight="343.0" prefWidth="639.0">
+                        <Pane fx:id="coursePanel1" layoutX="8.0" layoutY="7.0" prefHeight="343.0" prefWidth="639.0">
                            <children>
-                              <VBox fx:id="vBox1" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="258.0" spacing="15.0">
+                              <VBox fx:id="vBox1" layoutX="14.0" layoutY="14.0" prefHeight="205.0" prefWidth="543.0" spacing="15.0">
                                  <children>
-                                    <Button fx:id="button1" mnemonicParsing="false" prefHeight="52.0" prefWidth="261.0" text="Motivation" textFill="#a8a8a8" />
+                                    <StackPane fx:id="stac" prefHeight="81.0" prefWidth="488.0">
+                                       <children>
+                                          <Rectangle fx:id="rectangle" arcHeight="25.0" arcWidth="25.0" fill="#8f8f8fb4" height="81.0" strokeType="OUTSIDE" styleClass="rectangle" width="543.0">
+                                             <stroke>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color opacity="0.6695652008056641" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="1.0" green="1.0" blue="1.0" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </stroke>
+                                          </Rectangle>
+                                          <Label fx:id="labelTitle" text="Title" textFill="#404040" StackPane.alignment="TOP_LEFT">
+                                             <StackPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </StackPane.margin>
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font></Label>
+                                          <Label fx:id="labelBody" text="Body" StackPane.alignment="BOTTOM_LEFT">
+                                             <StackPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </StackPane.margin></Label>
+                                       </children>
+                                    </StackPane>
                                  </children>
                               </VBox>
                               <Button layoutX="587.0" layoutY="14.0" mnemonicParsing="false" text="Add" />
                            </children>
                         </Pane>
+                     </children></AnchorPane>
+                </content>
+            </Tab>
+            <Tab text="Data">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="courseTable" layoutX="14.0" layoutY="14.0" prefHeight="106.0" prefWidth="572.0">
+                          <columns>
+                            <TableColumn prefWidth="32.0" text="id" />
+                            <TableColumn prefWidth="107.0" text="name" />
+                              <TableColumn prefWidth="130.0" text="description" />
+                              <TableColumn prefWidth="104.0" text="due" />
+                              <TableColumn prefWidth="67.0" text="student_id" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="timeTable" layoutX="14.0" layoutY="130.0" prefHeight="107.0" prefWidth="572.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="studentTable" layoutX="14.0" layoutY="247.0" prefHeight="116.0" prefWidth="571.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="motivationTable" layoutX="16.0" layoutY="374.0" prefHeight="120.0" prefWidth="568.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
                      </children></AnchorPane>
                 </content>
             </Tab>
