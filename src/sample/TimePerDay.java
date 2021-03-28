@@ -47,4 +47,14 @@ public class TimePerDay {
     public void setCourse_id(int course_id) {
         this.course_id = course_id;
     }
+
+    @Override
+    public String toString() {
+        return "TimePerDay{" +
+                "id=" + id +
+                ", date=" + date +
+                ", hours=" + hours +
+                ", course_id=" + course_id +
+                '}';
+    }
 }
