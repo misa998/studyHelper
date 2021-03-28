@@ -8,16 +8,14 @@ public class Course {
     private String name;
     private String description;
     private LocalDate due;
-    private int student_id;
 
     public Course(){}
 
-    public Course(int id, String name, String description, LocalDate due, int student_id) {
+    public Course(int id, String name, String description, LocalDate due) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.due = due;
-        this.student_id = student_id;
     }
 
     public int getId() {
@@ -52,14 +50,6 @@ public class Course {
         this.due = due;
     }
 
-    public int getStudent_id() {
-        return student_id;
-    }
-
-    public void setStudent_id(int student_id) {
-        this.student_id = student_id;
-    }
-
     @Override
     public String toString() {
         return "Course{" +
@@ -67,7 +57,6 @@ public class Course {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", due=" + due +
-                ", student_id=" + student_id +
                 '}';
     }
 }

@@ -61,7 +61,6 @@ public class DataSource {
                 course.setId(resultSet.getInt("id"));
                 course.setName(resultSet.getString("name"));
                 course.setDescription(resultSet.getString("description"));
-                course.setStudent_id(resultSet.getInt("student_id"));
                 LocalDate localDate = LocalDate.parse(resultSet.getString("due"));
                 localDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
                 course.setDue(localDate);
@@ -99,37 +98,20 @@ public class DataSource {
 
     }
 
-    public void insertStudent(Student student){
-        StringBuilder sb = new StringBuilder();
-        try(Statement statement = connection.createStatement()){
-            sb.append("INSERT INTO student (\"name\") VALUES (\"");
-            sb.append(student.getName());
-            sb.append("\")");
-            statement.execute(sb.toString());
-
-        } catch (SQLException e){
-            logger.log(Level.SEVERE, e.getMessage());
-            return;
-        }
-    }
-
     public void insertCourse(Course course) {
         StringBuilder sb = new StringBuilder();
         try (Statement statement = connection.createStatement()) {
-            sb.append("INSERT INTO course (\"name\", \"description\", \"due\", \"student_id\") VALUES (\"");
+            sb.append("INSERT INTO course (\"name\", \"description\", \"due\") VALUES (\"");
             sb.append(course.getName());
             sb.append("\", \"");
             sb.append(course.getDescription());
             sb.append("\", \"");
             sb.append(course.getDue().toString());
-            sb.append("\", \"");
-            sb.append(course.getStudent_id());
             sb.append("\")");
             statement.execute(sb.toString());
             logger.log(Level.INFO, sb.toString());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return;
         }
     }
 
@@ -145,7 +127,6 @@ public class DataSource {
             course.setId(resultSet.getInt("id"));
             course.setName(resultSet.getString("name"));
             course.setDescription(resultSet.getString("description"));
-            course.setStudent_id(resultSet.getInt("student_id"));
             LocalDate localDate = LocalDate.parse(resultSet.getString("due"));
             localDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
             course.setDue(localDate);
@@ -198,7 +179,6 @@ public class DataSource {
             logger.log(Level.INFO, sb.toString());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return;
         }
     }
 
