@@ -6,5 +6,7 @@ module StudyHelper {
     requires javafx.web;
     requires java.desktop;
 
-    opens sample;
+    exports com.studyhelper.controller to javafx.graphics, javafx.fxml;
+    opens com.studyhelper.controller to javafx.fxml;
+    opens com.studyhelper;
 }
