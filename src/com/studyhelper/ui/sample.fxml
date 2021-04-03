@@ -22,12 +22,12 @@
                             <CategoryAxis label="Days" side="BOTTOM" fx:id="xAxis" />
                           </xAxis>
                           <yAxis>
-                            <NumberAxis fx:id="yAxis" label="Hours" side="LEFT" />
+                            <NumberAxis fx:id="yAxis" label="Minutes" side="LEFT" />
                           </yAxis>
                         </StackedBarChart>
                         <Label layoutX="561.0" layoutY="88.0" text="Days to show" />
                         <TextField fx:id="daysToShowTextField" layoutX="642.0" layoutY="84.0" prefHeight="25.0" prefWidth="35.0" promptText="5" />
-                        <Button fx:id="changeChartBtn" layoutX="561.0" layoutY="124.0" mnemonicParsing="false" onAction="#onButtonDaysToShowChange" text="Change Chart" wrapText="true" />
+                        <Button fx:id="changeChartBtn" defaultButton="true" layoutX="561.0" layoutY="124.0" mnemonicParsing="false" onAction="#onButtonDaysToShowChange" text="Change Chart" wrapText="true" />
                         <ChoiceBox layoutX="642.0" layoutY="50.0" prefHeight="25.0" prefWidth="95.0" />
                         <Label layoutX="561.0" layoutY="54.0" text="Type" />
                         <WebView fx:id="webView" layoutX="561.0" layoutY="192.0" prefHeight="120.0" prefWidth="243.0" />
@@ -57,21 +57,24 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="timerLabel" layoutX="276.0" layoutY="221.0" text="00:00:00" textFill="#6f6f6f">
+                        <Label fx:id="timerLabel" layoutX="276.0" layoutY="221.0" text="00:00:00" textFill="#404040a8">
                            <font>
                               <Font name="System Bold" size="72.0" />
                            </font>
                         </Label>
                         <ProgressBar fx:id="timerProgress" layoutX="320.0" layoutY="326.0" prefWidth="200.0" progress="0.0" />
-                        <Button fx:id="startTimerBtn" layoutX="197.0" layoutY="90.0" mnemonicParsing="false" onAction="#startTimer" text="Start" />
+                        <Button fx:id="startTimerBtn" layoutX="197.0" layoutY="90.0" mnemonicParsing="false" onAction="#startTimer" text="Start studying" />
                         <TextField fx:id="miniPauseTxt" layoutX="130.0" layoutY="50.0" prefHeight="25.0" prefWidth="38.0" promptText="5" />
                         <TextField fx:id="largePauseTxt" layoutX="130.0" layoutY="90.0" prefHeight="25.0" prefWidth="39.0" promptText="20" />
-                        <Label fx:id="studySessionLabel" layoutX="14.0" layoutY="17.0" text="Study session" />
-                        <Label layoutX="14.0" layoutY="54.0" text="Mini pause" />
-                        <Label layoutX="14.0" layoutY="94.0" text="Large pause" />
-                        <TextField fx:id="studyText" layoutX="130.0" layoutY="13.0" prefHeight="25.0" prefWidth="37.0" promptText="25" />
-                        <Button fx:id="pauseTimerBtn" layoutX="253.0" layoutY="90.0" mnemonicParsing="false" onAction="#onPauseTimer" text="Pause" />
-                        <Button fx:id="endTimerBtn" layoutX="200.0" layoutY="127.0" mnemonicParsing="false" onAction="#onEndTimer" text="End" />
+                        <Label fx:id="studySessionLabel" layoutX="14.0" layoutY="17.0" text="Study session" textFill="#0d6300" />
+                        <Label layoutX="14.0" layoutY="54.0" text="Mini pause" textFill="#993000" />
+                        <Label layoutX="14.0" layoutY="94.0" text="Large pause" textFill="#993000" />
+                        <TextField fx:id="studyTxt" layoutX="130.0" layoutY="13.0" prefHeight="25.0" prefWidth="37.0" promptText="25" />
+                        <Button fx:id="pauseTimerBtn" disable="true" layoutX="298.0" layoutY="90.0" mnemonicParsing="false" onAction="#onPauseTimer" text="Pause studying" />
+                        <Button fx:id="endTimerBtn" disable="true" layoutX="406.0" layoutY="90.0" mnemonicParsing="false" onAction="#onEndTimer" text="End studying session" />
+                        <Label layoutX="14.0" layoutY="131.0" text="Subject to study" />
+                        <ChoiceBox fx:id="subjectChoiceBox" layoutX="130.0" layoutY="127.0" prefHeight="25.0" prefWidth="109.0" />
+                        <Button fx:id="skipPauseBtn" cancelButton="true" layoutX="385.0" layoutY="362.0" mnemonicParsing="false" onAction="#onSkipPause" text="Skip pause" visible="false" />
                      </children></AnchorPane>
                 </content>
             </Tab>

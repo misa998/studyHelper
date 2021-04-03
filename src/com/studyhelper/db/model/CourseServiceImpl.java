@@ -46,6 +46,7 @@ public class CourseServiceImpl implements CourseService{
             logger.log(Level.SEVERE, e.getMessage());
             return null;
         } finally {
+            connection = null;
             DataSource.getInstance().closeConnection();
         }
     }
@@ -97,6 +98,9 @@ public class CourseServiceImpl implements CourseService{
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
             return null;
+        } finally {
+            connection = null;
+            DataSource.getInstance().closeConnection();
         }
     }
 

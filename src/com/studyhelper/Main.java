@@ -1,5 +1,6 @@
 package com.studyhelper;
 
+import com.studyhelper.db.model.PomodoroServiceImpl;
 import com.studyhelper.db.source.DataSource;
 import com.studyhelper.controller.Controller;
 import javafx.application.Application;
@@ -28,11 +29,17 @@ public class Main extends Application {
         }*/
     }
 
+    /*
+        # properly shutting down the app
+        # study session will be ended and added to the db, only if it's already running
+     */
     @Override
     public void stop() throws Exception {
-        super.stop();
         Controller.closeTray();
+        if(PomodoroServiceImpl.getInstance().getState() == PomodoroServiceImpl.State.STUDY)
+            PomodoroServiceImpl.getInstance().endStudySession(null);
         DataSource.getInstance().closeConnection();
+        super.stop();
     }
 
 

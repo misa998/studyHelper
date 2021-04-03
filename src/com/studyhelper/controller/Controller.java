@@ -1,37 +1,49 @@
 package com.studyhelper.controller;
 
 import com.studyhelper.db.entity.Course;
+import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.entity.TimePerDay;
 import com.studyhelper.db.model.CourseServiceImpl;
+import com.studyhelper.db.model.PomodoroServiceImpl;
 import com.studyhelper.db.model.TimePerDayServiceImpl;
 import com.studyhelper.db.source.DataSource;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.MenuItem;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
@@ -72,6 +84,18 @@ public class Controller {
     private Button pauseTimerBtn;
     @FXML
     private Button endTimerBtn;
+    @FXML
+    private TextField studyTxt;
+    @FXML
+    private TextField largePauseTxt;
+    @FXML
+    private TextField miniPauseTxt;
+    @FXML
+    private ChoiceBox<String> subjectChoiceBox;
+    @FXML
+    private Button skipPauseBtn;
+    @FXML
+    private ProgressBar timerProgress;
 
     public void initialize(){
         showTray();
@@ -112,7 +136,7 @@ public class Controller {
     }
 
     private int daysToShow = 5;
-    private int MAX_DAYS_TO_SHOW = 31;
+    private final int MAX_DAYS_TO_SHOW = 31;
 
     @FXML
     public void onButtonDaysToShowChange(){
@@ -162,7 +186,10 @@ public class Controller {
                 // for each hour A day
                 if(timePerDayForDayAndCourseId.size() > 0) {
                     for (TimePerDay tpd : timePerDayForDayAndCourseId) {
-                        hours += tpd.getHours().getHour();
+                        //hours += tpd.getHours().getHour();
+                        double min = tpd.getHours().getMinute();
+                        double hrs = tpd.getHours().getHour();
+                        hours += hrs * 60 + min;
                     }
                 }
                 series.getData().add(new XYChart.Data<>(String.valueOf(LocalDate.now().minusDays(daysToShow-j).getDayOfMonth()), hours));
@@ -286,16 +313,159 @@ public class Controller {
     private Timeline timeline;
     private LocalTime time = LocalTime.parse("00:00:00");
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static int studySessionCounter = 0;
 
     @FXML
     public void pomodoroTabChange() {
-        timeline = new Timeline(new KeyFrame(Duration.millis(1000), ae -> incrementTime()));
+        choiceBoxFill();
+        setupTimeline();
+    }
+
+    private void setupTimeline(){
+        timeline = new Timeline(
+                                new KeyFrame(Duration.millis(1000), ae -> {
+
+                                    incrementTime();
+
+                                    switch (PomodoroServiceImpl.state) {
+                                        case STUDY:
+                                            if (PomodoroServiceImpl.getInstance().isStudySessionOver(time))
+                                                if (trayIcon != null)
+                                                    trayIcon.displayMessage("Your study helper", time.getMinute() + " minutes passed in study session. " + studySessionCounter + " session over.", TrayIcon.MessageType.INFO);
+                                            break;
+                                        case MINIPAUSE:
+                                            if (PomodoroServiceImpl.getInstance().isMiniPauseOver(time))
+                                                if (trayIcon != null)
+                                                    trayIcon.displayMessage("Your study helper", time.getMinute() + " minutes passed in mini pause.", TrayIcon.MessageType.INFO);
+                                            break;
+                                        case LARGEPAUSE:
+                                            if (PomodoroServiceImpl.getInstance().isLargePauseOver(time))
+                                                if (trayIcon != null)
+                                                    trayIcon.displayMessage("Your study helper", time.getMinute() + " minutes passed in large pause.", TrayIcon.MessageType.INFO);
+                                            break;
+                                    }
+                                }));
         timeline.setCycleCount(Animation.INDEFINITE);
+    }
+
+
+    /*
+        - choice box se azurira svaki put kada se otvori tab pomodoro
+        - ako se prvi put otvara, bice popunjen
+        - ako se ne otvara prvi put tj. size > 0, uzece se odabrana vrednost,
+            azurirace se iznova iz baze podataka, vratice se odabrana vrednost
+            (ako postoji u novoj listi)
+     */
+    private void choiceBoxFill() {
+        String choice = null;
+        if(subjectChoiceBox.getItems().size() > 0) {
+            choice = subjectChoiceBox.getValue();
+            subjectChoiceBox.getItems().clear();
+        }
+        else
+            subjectChoiceBox.getItems().clear();
+
+        List<Course> courseList = new CourseServiceImpl().getAllCourses();
+        for(Course course : courseList)
+            subjectChoiceBox.getItems().add(course.getName());
+
+        if(subjectChoiceBox.getItems().contains(choice))
+            subjectChoiceBox.setValue(choice);
     }
 
     private void incrementTime() {
         time = time.plusSeconds(1);
         timerLabel.setText(time.format(dtf));
+    }
+
+    private void setupPomodoro(){
+        LocalTime studySessionTime = LocalTime.of(0, Integer.parseInt(studyTxt.getText().equals("") ? studyTxt.getPromptText() : studyTxt.getText()), 1);
+        LocalTime miniPauseTime = LocalTime.of(0, Integer.parseInt(miniPauseTxt.getText().equals("") ? miniPauseTxt.getPromptText() : miniPauseTxt.getText()), 1);
+        LocalTime largePauseTime = LocalTime.of(0, Integer.parseInt(largePauseTxt.getText().equals("") ? largePauseTxt.getPromptText() : largePauseTxt.getText()), 1);
+
+        if(subjectChoiceBox.getValue() != null) {
+            PomodoroServiceImpl.getInstance().setup(new Pomodoro(studySessionTime, miniPauseTime, largePauseTime, new CourseServiceImpl().getCourseByName(subjectChoiceBox.getValue()).getId()));
+            PomodoroServiceImpl.getInstance().startStudySession();
+        }
+        else
+            System.out.println("Choice box is null");
+    }
+
+    private void timerLabelCleanUp(){
+        time = LocalTime.parse("00:00:00");
+        timerLabel.setText(time.format(dtf));
+        timerLabel.setTextFill(Paint.valueOf("#404040"));
+        //timeQuantity.setValue(0);
+    }
+
+    @FXML
+    private void startTimer(ActionEvent event) {
+        if(trayIcon != null)
+            trayIcon.displayMessage("Your study helper", "studying session started", TrayIcon.MessageType.INFO);
+
+        if (timeline.getStatus().equals(Animation.Status.PAUSED)) {
+            timeline.play();
+            PomodoroServiceImpl.getInstance().setState(PomodoroServiceImpl.State.STUDY);
+            pauseTimerBtn.setDisable(false);
+            startTimerBtn.setDisable(true);
+            endTimerBtn.setDisable(false);
+        } else {
+            timerLabelCleanUp();
+            timerLabel.setTextFill(Paint.valueOf("#0d6300"));
+            setupPomodoro();
+            timeline.play();
+            studySessionCounter++;
+            PomodoroServiceImpl.getInstance().setState(PomodoroServiceImpl.State.STUDY);
+            startTimerBtn.setDisable(true);
+            pauseTimerBtn.setDisable(false);
+            endTimerBtn.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void onPauseTimer(ActionEvent event) {
+        if (timeline.getStatus().equals(Animation.Status.RUNNING)) {
+            timeline.pause();
+            startTimerBtn.setDisable(false);
+            pauseTimerBtn.setDisable(true);
+        }
+    }
+
+    @FXML
+    private void onEndTimer(ActionEvent event) {
+        if(studySessionCounter == 4){
+            if(trayIcon != null) {
+                trayIcon.displayMessage("Your study helper", studySessionCounter + " study sessions over. Big pause!", TrayIcon.MessageType.INFO);
+                PomodoroServiceImpl.getInstance().setState(PomodoroServiceImpl.State.LARGEPAUSE);
+                PomodoroServiceImpl.getInstance().endStudySession(time);
+            }
+        } else {
+            PomodoroServiceImpl.getInstance().setState(PomodoroServiceImpl.State.MINIPAUSE);
+            PomodoroServiceImpl.getInstance().endStudySession(time);
+        }
+
+        pauseTimerBtn.setDisable(false);
+        startTimerBtn.setDisable(false);
+        endTimerBtn.setDisable(true);
+        timeline.stop();
+        timerLabelCleanUp();
+
+        startPause();
+    }
+
+    private void startPause(){
+        endTimerBtn.setDisable(true);
+        skipPauseBtn.setVisible(true);
+        timerLabel.setTextFill(Paint.valueOf("#993000"));
+        timeline.play();
+    }
+
+    @FXML
+    private void onSkipPause(){
+        timerLabelCleanUp();
+        timeline.stop();
+        PomodoroServiceImpl.getInstance().setState(PomodoroServiceImpl.State.STOPPED);
+        skipPauseBtn.setVisible(false);
     }
 
     static TrayIcon trayIcon;
@@ -325,7 +495,6 @@ public class Controller {
         about.addActionListener(e -> System.out.println("About clicked."));
         exit.addActionListener(e -> System.exit(0));
 
-        trayIcon.displayMessage("hey", "faggot", TrayIcon.MessageType.WARNING);
         trayIcon.setPopupMenu(menu);
         try {
             systemTray.add(trayIcon);
@@ -345,39 +514,5 @@ public class Controller {
 
     private Image createImage() throws MalformedURLException {
         return new ImageIcon("/com/studyhelper/ui/resources/icon.png").getImage();
-    }
-
-    @FXML
-    private void startTimer(ActionEvent event) {
-        if(trayIcon != null)
-            trayIcon.displayMessage("Your study helper", "studying session started", TrayIcon.MessageType.INFO);
-
-        if (timeline.getStatus().equals(Animation.Status.PAUSED)) {
-            timeline.play();
-            pauseTimerBtn.setDisable(false);
-            startTimerBtn.setDisable(true);
-        } else {
-            timeline.play();
-            startTimerBtn.setDisable(true);
-            pauseTimerBtn.setDisable(false);
-        }
-    }
-
-    @FXML
-    private void onPauseTimer(ActionEvent event) {
-        if (timeline.getStatus().equals(Animation.Status.RUNNING)) {
-            timeline.pause();
-            startTimerBtn.setDisable(false);
-            pauseTimerBtn.setDisable(true);
-        }
-    }
-
-    @FXML
-    private void onEndTimer(ActionEvent event) {
-        pauseTimerBtn.setDisable(false);
-        startTimerBtn.setDisable(false);
-        timeline.stop();
-        time = LocalTime.parse("00:00:00");
-        timerLabel.setText(time.format(dtf));
     }
 }

@@ -72,10 +72,11 @@ public class TimePerDayServiceImpl implements TimePerDayService{
         sb.append("INSERT INTO timePerDay (\"date\", \"hours\", \"course_id\") VALUES (\"");
         sb.append(LocalDate.now());
         sb.append("\", \"");
-        if(tpd.getHours() != null)
+        if(tpd.getHours() != null && !tpd.getHours().isBefore(LocalTime.of(0,0)))
             sb.append(tpd.getHours());
         else {
-            logger.log(Level.WARNING, "hours = null");
+            logger.log(Level.WARNING, "hours column = null");
+            return false;
         }
         sb.append("\", \"");
         sb.append(tpd.getCourse_id());
