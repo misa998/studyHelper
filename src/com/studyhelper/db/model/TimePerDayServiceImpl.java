@@ -21,7 +21,7 @@ public class TimePerDayServiceImpl implements TimePerDayService{
     private Connection connection = null;
 
     @Override
-    public List<TimePerDay> getAll() {
+    public List<TimePerDay> getAllTimePerDayInstances() {
         connection = DataSource.getInstance().openConnection();
         if(connection == null) {
             return null;
@@ -34,9 +34,9 @@ public class TimePerDayServiceImpl implements TimePerDayService{
             while (resultSet.next()) {
                 TimePerDay time = new TimePerDay();
                 time.setId(resultSet.getInt("id"));
-                LocalDate localDate = LocalDate.parse(resultSet.getString("date"));
-                localDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-                time.setDate(localDate);
+                LocalDate dateOfStudy = LocalDate.parse(resultSet.getString("date"));
+                dateOfStudy.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
+                time.setDate(dateOfStudy);
                 time.setCourse_id(resultSet.getInt("course_id"));
                 time.setHours(LocalTime.parse(resultSet.getString("hours"), DateTimeFormatter.ofPattern("HH:mm:ss")));
 
@@ -62,29 +62,32 @@ public class TimePerDayServiceImpl implements TimePerDayService{
     }
 
     @Override
-    public boolean addTimePerDay(TimePerDay tpd) {
+    public boolean addTimePerDay(TimePerDay timePerDay) {
         connection = DataSource.getInstance().openConnection();
         if(connection == null) {
             return false;
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO timePerDay (\"date\", \"hours\", \"course_id\") VALUES (\"");
-        sb.append(LocalDate.now());
-        sb.append("\", \"");
-        if(tpd.getHours() != null && !tpd.getHours().isBefore(LocalTime.of(0,0)))
-            sb.append(tpd.getHours());
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("INSERT INTO timePerDay (\"date\", \"hours\", \"course_id\") VALUES (\"");
+        stringBuilder.append(LocalDate.now());
+        stringBuilder.append("\", \"");
+        if(timePerDay.getHours().isAfter(LocalTime.of(0,0))) {
+            System.out.println(timePerDay.getHours());
+            stringBuilder.append(timePerDay.getHours());
+        }
         else {
-            logger.log(Level.WARNING, "hours column = null");
+            System.out.println(timePerDay.getHours());
+            logger.log(Level.WARNING, "time < one minute");
             return false;
         }
-        sb.append("\", \"");
-        sb.append(tpd.getCourse_id());
-        sb.append("\")");
+        stringBuilder.append("\", \"");
+        stringBuilder.append(timePerDay.getCourse_id());
+        stringBuilder.append("\")");
 
         try (Statement statement = connection.createStatement()) {
-            statement.execute(sb.toString());
-            logger.log(Level.INFO, sb.toString());
+            statement.execute(stringBuilder.toString());
+            logger.log(Level.INFO, stringBuilder.toString());
 
             return true;
         } catch (SQLException e) {
@@ -96,21 +99,21 @@ public class TimePerDayServiceImpl implements TimePerDayService{
     }
 
     @Override
-    public List<TimePerDay> getByDateAndCourse_id(int course_id, LocalDate localDate) {
+    public List<TimePerDay> getTimeByDateAndCourse_id(int course_id, LocalDate dateOfStudy) {
         connection = DataSource.getInstance().openConnection();
         if(connection == null) {
             return null;
         }
 
-        List<TimePerDay> tpdList = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM timePerDay WHERE course_id=");
-        sb.append(course_id);
-        sb.append(" AND date=\"");
-        sb.append(localDate.toString());
-        sb.append("\"");
+        List<TimePerDay> timePerDaysList = new ArrayList<>();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT * FROM timePerDay WHERE course_id=");
+        stringBuilder.append(course_id);
+        stringBuilder.append(" AND date=\"");
+        stringBuilder.append(dateOfStudy.toString());
+        stringBuilder.append("\"");
         try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sb.toString());
+            ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
             while (resultSet.next()) {
                 TimePerDay time = new TimePerDay();
                 time.setId(resultSet.getInt("id"));
@@ -120,9 +123,9 @@ public class TimePerDayServiceImpl implements TimePerDayService{
                 time.setCourse_id(resultSet.getInt("course_id"));
                 time.setHours(LocalTime.parse(resultSet.getString("hours"), DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-                tpdList.add(time);
+                timePerDaysList.add(time);
             }
-            return tpdList;
+            return timePerDaysList;
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
             return null;

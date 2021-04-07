@@ -20,25 +20,25 @@ public class TimeServiceImpl implements TimeService{
     private Connection connection = null;
 
     @Override
-    public List<Time> getAll() {
+    public List<Time> getAllTime() {
         connection = DataSource.getInstance().openConnection();
         if(connection == null) {
             return null;
         }
 
-        List<com.studyhelper.db.entity.Time> periods = new ArrayList<>();
+        List<Time> timePeriodList = new ArrayList<>();
 
         try(Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM time");
             while (resultSet.next()) {
-                com.studyhelper.db.entity.Time time = new Time();
+                Time time = new Time();
                 time.setId(resultSet.getInt("id"));
                 time.setCourse_id(resultSet.getInt("course_id"));
                 time.setPeriod(LocalTime.parse(resultSet.getString("period"), DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-                periods.add(time);
+                timePeriodList.add(time);
             }
-            return periods;
+            return timePeriodList;
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
             return null;
@@ -48,7 +48,7 @@ public class TimeServiceImpl implements TimeService{
     }
 
     @Override
-    public Time getByCourse_id(int course_id) {
+    public Time getTimeByCourse_id(int course_id) {
         return null;
     }
 
@@ -58,7 +58,7 @@ public class TimeServiceImpl implements TimeService{
     }
 
     @Override
-    public boolean addTime(Time time) {
+    public boolean addTimeInstance(Time time) {
         return false;
     }
 }

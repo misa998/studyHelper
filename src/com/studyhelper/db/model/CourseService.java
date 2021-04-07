@@ -9,5 +9,5 @@ public interface CourseService {
     List<Course> getAllCourses();
     void insertCourse(Course course);
     Course getCourseByName(String courseName);
-    Course getDueByName(String courseName);
+    Course getCourseDueByName(String courseName);
 }

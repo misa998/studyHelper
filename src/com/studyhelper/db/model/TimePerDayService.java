@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TimePerDayService {
-    public List<TimePerDay> getAll();
+    public List<TimePerDay> getAllTimePerDayInstances();
     TimePerDay getByCourse_id(int course_id);
     List<TimePerDay> getByDate(LocalDate localDate);
     boolean addTimePerDay(TimePerDay tpd);
-    List<TimePerDay> getByDateAndCourse_id(int course_id, LocalDate localDate);
+    List<TimePerDay> getTimeByDateAndCourse_id(int course_id, LocalDate localDate);
 }

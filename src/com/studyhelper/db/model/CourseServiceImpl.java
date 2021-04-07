@@ -25,7 +25,7 @@ public class CourseServiceImpl implements CourseService{
         if(connection == null)
             return null;
 
-        List<Course> courses = new ArrayList<>();
+        List<Course> courseArrayList = new ArrayList<>();
 
         try(Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM COURSE");
@@ -35,13 +35,13 @@ public class CourseServiceImpl implements CourseService{
                 course.setId(resultSet.getInt("id"));
                 course.setName(resultSet.getString("name"));
                 course.setDescription(resultSet.getString("description"));
-                LocalDate localDate = LocalDate.parse(resultSet.getString("due"));
-                localDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-                course.setDue(localDate);
+                LocalDate dueDate = LocalDate.parse(resultSet.getString("due"));
+                dueDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
+                course.setDue(dueDate);
 
-                courses.add(course);
+                courseArrayList.add(course);
             }
-            return courses;
+            return courseArrayList;
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
             return null;
@@ -53,20 +53,20 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public void insertCourse(Course course) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO course (\"name\", \"description\", \"due\") VALUES (\"");
-        sb.append(course.getName());
-        sb.append("\", \"");
-        sb.append(course.getDescription());
-        sb.append("\", \"");
-        sb.append(course.getDue().toString());
-        sb.append("\")");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("INSERT INTO course (\"name\", \"description\", \"due\") VALUES (\"");
+        stringBuilder.append(course.getName());
+        stringBuilder.append("\", \"");
+        stringBuilder.append(course.getDescription());
+        stringBuilder.append("\", \"");
+        stringBuilder.append(course.getDue().toString());
+        stringBuilder.append("\")");
         connection = DataSource.getInstance().openConnection();
         if(connection == null)
             return;
 
         try (Statement statement = connection.createStatement()) {
-            statement.execute(sb.toString());
+            statement.execute(stringBuilder.toString());
             DataSource.getInstance().closeConnection();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
@@ -75,24 +75,24 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public Course getCourseByName(String courseName) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("SELECT * FROM course WHERE \"name\"= ");
-        sb.append("\"");
-        sb.append(courseName);
-        sb.append("\"");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT * FROM course WHERE \"name\"= ");
+        stringBuilder.append("\"");
+        stringBuilder.append(courseName);
+        stringBuilder.append("\"");
         connection = DataSource.getInstance().openConnection();
         if(connection == null)
             return null;
 
         try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sb.toString());
+            ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
             Course course = new Course();
             course.setId(resultSet.getInt("id"));
             course.setName(resultSet.getString("name"));
             course.setDescription(resultSet.getString("description"));
-            LocalDate localDate = LocalDate.parse(resultSet.getString("due"));
-            localDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-            course.setDue(localDate);
+            LocalDate dueDate = LocalDate.parse(resultSet.getString("due"));
+            dueDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
+            course.setDue(dueDate);
 
             return course;
         } catch (SQLException e){
@@ -105,7 +105,7 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public Course getDueByName(String courseName) {
+    public Course getCourseDueByName(String courseName) {
         return null;
     }
 
