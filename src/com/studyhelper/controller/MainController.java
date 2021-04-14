@@ -539,17 +539,14 @@ public class MainController {
         switch (PomodoroServiceImpl.studyState) {
             case STUDY:
                 if (PomodoroServiceImpl.getInstance().isStudyTimerOver())
-                    if (TrayIconController.trayIcon != null)
                         trayIconController.displayMessage(PomodoroServiceImpl.getInstance().getCurrentStudyTime().getMinute() + " minutes passed in study session. " + PomodoroServiceImpl.getInstance().getStudySessionCounter() + " session over.");
                 break;
             case MINIPAUSE:
                 if (PomodoroServiceImpl.getInstance().isMiniPauseTimerOver())
-                    if (TrayIconController.trayIcon != null)
                         trayIconController.displayMessage(PomodoroServiceImpl.getInstance().getCurrentStudyTime().getMinute() + " minutes passed in mini pause.");
                 break;
             case LARGEPAUSE:
                 if (PomodoroServiceImpl.getInstance().isLargePauseTimerOver())
-                    if (TrayIconController.trayIcon != null)
                         trayIconController.displayMessage(PomodoroServiceImpl.getInstance().getCurrentStudyTime().getMinute() + " minutes passed in large pause.");
                 break;
         }
@@ -584,9 +581,7 @@ public class MainController {
 
         pauseTimerBtn.setDisable(false);
 
-        if(TrayIconController.trayIcon != null) {
-            trayIconController.displayMessage("studying session started");
-        }
+        trayIconController.displayMessage("studying session started");
 
         if(timelineForStudyTime.getStatus().equals(Animation.Status.STOPPED)) {
             timerLabelCleanUp();
@@ -609,9 +604,9 @@ public class MainController {
     private void onEndTimer(ActionEvent event) {
         if(PomodoroServiceImpl.getInstance().isStudySessionOver()){
             PomodoroServiceImpl.getInstance().studySessionCounterReset();
-            if(TrayIconController.trayIcon != null) {
-                trayIconController.displayMessage("Study sessions over. Big pause!");
-            }
+
+            trayIconController.displayMessage("Study sessions over. Big pause!");
+
             PomodoroServiceImpl.getInstance().setStudyState(PomodoroServiceImpl.StudyState.LARGEPAUSE);
         } else {
             PomodoroServiceImpl.getInstance().setStudyState(PomodoroServiceImpl.StudyState.MINIPAUSE);
