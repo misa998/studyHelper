@@ -23,6 +23,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent rootWindow = FXMLLoader.load(getClass().getResource(MAIN_FXML_LOCATION));
         primaryStage.setTitle(WINDOW_TITLE);
+        primaryStage.setResizable(false);
+        //primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(rootWindow, mainWindowDimensions.x, mainWindowDimensions.y));
         primaryStage.getIcons().add(new Image(IMAGE_URL));
         primaryStage.show();

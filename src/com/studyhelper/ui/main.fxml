@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
@@ -28,26 +29,67 @@
                         <ChoiceBox layoutX="642.0" layoutY="50.0" prefHeight="25.0" prefWidth="95.0" />
                         <Label layoutX="561.0" layoutY="54.0" text="Type" />
                         <WebView fx:id="webView" layoutX="561.0" layoutY="192.0" prefHeight="120.0" prefWidth="243.0" />
-                        <Label layoutX="560.0" layoutY="322.0" text="Live stream:" />
-                        <ToggleButton fx:id="toggleBtn" layoutX="633.0" layoutY="318.0" mnemonicParsing="false" onAction="#liveStreamToggle" prefHeight="20.0" prefWidth="25.0" selected="true" />
-                        <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="407.0" max="31.0" min="1.0" onMouseReleased="#onScrollFinishedForChart" onScrollFinished="#onScrollFinishedForChart" showTickLabels="true" showTickMarks="true" value="5.0" />
+                        <Label fx:id="unableToLoadWebViewLabel" layoutX="561.0" layoutY="326.0" text="Unable to load webpage" visible="false" wrapText="true" />
+                        <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="414.0" max="31.0" min="1.0" onMouseReleased="#onScrollFinishedForChart" onScrollFinished="#onScrollFinishedForChart" showTickLabels="true" showTickMarks="true" value="5.0" />
+                        <Button fx:id="refreshWebEngineButton" layoutX="730.0" layoutY="322.0" mnemonicParsing="false" onAction="#setupRadio" text="Refresh" />
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab onSelectionChanged="#courseTabChange" text="Predmeti">
+          <Tab onSelectionChanged="#courseTabChange" text="Courses">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Pane fx:id="coursePanel" layoutX="8.0" layoutY="7.0" prefHeight="343.0" prefWidth="562.0">
-                           <children>
-                              <VBox fx:id="vBox" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="258.0" spacing="15.0">
-                                 <children>
-                                    <Button fx:id="button" defaultButton="true" mnemonicParsing="false" prefHeight="52.0" prefWidth="261.0" text="CourseName" textFill="#a8a8a8" />
-                                 </children></VBox>
-                              <Button layoutX="513.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCourseButtonAction" text="Add" />
-                           </children></Pane>
                         <Separator layoutX="570.0" layoutY="25.0" orientation="VERTICAL" prefHeight="200.0" />
                         <Pane fx:id="editCoursesPane" layoutX="577.0" layoutY="25.0" prefHeight="325.0" prefWidth="249.0" />
+                        <Button layoutX="788.0" layoutY="397.0" mnemonicParsing="false" onAction="#addCourseButtonAction" text="Add" />
+                        <ScrollPane fx:id="scrollPaneCourses" hbarPolicy="NEVER" layoutX="8.0" layoutY="-2.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="161.0" styleClass="scrollPaneCourses" vbarPolicy="NEVER">
+                          <content>
+                              <VBox fx:id="vBoxCourses" alignment="CENTER" spacing="10.0">
+                                 <children>
+                                    <VBox fx:id="vBoxEachCourse" alignment="CENTER" maxHeight="138.0" maxWidth="140.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxCoursesOnAction" prefHeight="138.0" prefWidth="140.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #393351; -fx-background-color: #393351; -fx-border-width: 3; -fx-border-style: solid;" styleClass="vBoxEachCourses" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="courseNameText" alignment="TOP_CENTER" contentDisplay="CENTER" text="CourseName" textAlignment="CENTER" textFill="#cdcdcd" wrapText="true">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" text="Due" textAlignment="CENTER" textFill="#bcbcbc" wrapText="true">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                       <effect>
+                                          <DropShadow />
+                                       </effect>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                          </content>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </ScrollPane>
+                        <ScrollPane fx:id="todoInProgressScrollPane" hbarPolicy="NEVER" layoutX="210.0" layoutY="54.0" prefHeight="146.0" prefWidth="360.0" styleClass="scrollPaneCourses">
+                          <content>
+
+                              <TableView fx:id="todoTableView" editable="true" layoutX="16.0" layoutY="374.0" prefHeight="146.0" prefWidth="360.0">
+                                  <columns>
+                                      <TableColumn fx:id="selectTableColumn" prefWidth="56.0" text="Done" />
+                                      <TableColumn fx:id="itemTableColumn" onEditCommit="#itemCellOnEditCommit" prefWidth="302.0" text="Item" />
+                                  </columns>
+                              </TableView>
+
+                          </content>
+                        </ScrollPane>
+                        <TextField fx:id="todoTextField" layoutX="346.0" layoutY="13.0" promptText="Enter your todo item" />
+                        <Button fx:id="addTodo" layoutX="503.0" layoutY="13.0" mnemonicParsing="false" onAction="#addTodoOnAction" text="Add todo" />
+                        <Button fx:id="deleteSelectedTodo" layoutX="511.0" layoutY="213.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedTodo" text="Delete" />
+                        <ProgressIndicator fx:id="todoProgressIndicator" layoutX="223.0" layoutY="206.0" progress="0.0" />
+
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -60,19 +102,19 @@
                               <Font name="System Bold" size="72.0" />
                            </font>
                         </Label>
-                        <ProgressBar fx:id="timerProgress" layoutX="320.0" layoutY="326.0" prefWidth="200.0" progress="0.0" />
-                        <Button fx:id="startTimerBtn" layoutX="197.0" layoutY="90.0" mnemonicParsing="false" onAction="#startTimer" text="Start studying" />
-                        <TextField fx:id="miniPauseTimeTextField" layoutX="130.0" layoutY="50.0" prefHeight="25.0" prefWidth="38.0" promptText="5" />
-                        <TextField fx:id="largePauseTimeTextField" layoutX="130.0" layoutY="90.0" prefHeight="25.0" prefWidth="39.0" promptText="20" />
-                        <Label fx:id="studySessionLabel" layoutX="14.0" layoutY="17.0" text="Study session" textFill="#0d6300" />
-                        <Label layoutX="14.0" layoutY="54.0" text="Mini pause" textFill="#993000" />
-                        <Label layoutX="14.0" layoutY="94.0" text="Large pause" textFill="#993000" />
-                        <TextField fx:id="studySessionTimeTextField" layoutX="130.0" layoutY="13.0" prefHeight="25.0" prefWidth="37.0" promptText="25" />
-                        <Button fx:id="pauseTimerBtn" disable="true" layoutX="298.0" layoutY="90.0" mnemonicParsing="false" onAction="#onPauseTimer" text="Pause studying" />
-                        <Button fx:id="endTimerBtn" disable="true" layoutX="406.0" layoutY="90.0" mnemonicParsing="false" onAction="#onEndTimer" text="End studying session" />
-                        <Label layoutX="14.0" layoutY="131.0" text="Subject to study" />
-                        <ChoiceBox fx:id="courseChoiceBox" layoutX="130.0" layoutY="127.0" prefHeight="25.0" prefWidth="109.0" />
-                        <Button fx:id="skipPauseBtn" cancelButton="true" layoutX="385.0" layoutY="362.0" mnemonicParsing="false" onAction="#onSkipPauseButtonAction" text="Skip pause" visible="false" />
+                         <TextField fx:id="studySessionTimeTextField" layoutX="130.0" layoutY="13.0" prefHeight="25.0" prefWidth="37.0" promptText="25" />
+                         <TextField fx:id="miniPauseTimeTextField" layoutX="130.0" layoutY="50.0" prefHeight="25.0" prefWidth="38.0" promptText="5" />
+                         <TextField fx:id="largePauseTimeTextField" layoutX="130.0" layoutY="90.0" prefHeight="25.0" prefWidth="39.0" promptText="20" />
+                         <ChoiceBox fx:id="courseChoiceBox" layoutX="130.0" layoutY="127.0" prefHeight="25.0" prefWidth="109.0" />
+                         <Button fx:id="startTimerBtn" defaultButton="true" layoutX="197.0" layoutY="90.0" mnemonicParsing="false" onAction="#startTimer" text="Start studying" />
+                         <Button fx:id="pauseTimerBtn" disable="true" layoutX="298.0" layoutY="90.0" mnemonicParsing="false" onAction="#onPauseTimer" text="Pause studying" />
+                         <Button fx:id="endTimerBtn" cancelButton="true" contentDisplay="CENTER" disable="true" layoutX="406.0" layoutY="90.0" mnemonicParsing="false" onAction="#onEndTimer" text="End studying session" />
+                         <Button fx:id="skipPauseBtn" cancelButton="true" layoutX="383.0" layoutY="387.0" mnemonicParsing="false" onAction="#onSkipPauseButtonAction" text="Skip pause" visible="false" />
+                         <ProgressBar fx:id="timerProgress" layoutX="320.0" layoutY="326.0" prefWidth="200.0" progress="0.0" />
+                         <Label fx:id="studySessionLabel" layoutX="14.0" layoutY="17.0" text="Study session" textFill="#0d6300" />
+                         <Label layoutX="14.0" layoutY="54.0" text="Mini pause" textFill="#993000" />
+                         <Label layoutX="14.0" layoutY="94.0" text="Large pause" textFill="#993000" />
+                         <Label layoutX="14.0" layoutY="131.0" text="Subject to study" />
                         <Label layoutX="392.0" layoutY="362.0" text="Currently: " />
                         <Label layoutX="456.0" layoutY="362.0" text="___" />
                      </children></AnchorPane>
@@ -152,12 +194,7 @@
                             <TableColumn prefWidth="75.0" text="C2" />
                           </columns>
                         </TableView>
-                        <TableView fx:id="motivationTable" layoutX="16.0" layoutY="374.0" prefHeight="120.0" prefWidth="568.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
+
                      </children></AnchorPane>
                 </content>
             </Tab>

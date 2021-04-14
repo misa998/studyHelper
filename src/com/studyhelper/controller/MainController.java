@@ -3,22 +3,23 @@ package com.studyhelper.controller;
 import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.entity.TimePerDay;
+import com.studyhelper.db.entity.Todo;
 import com.studyhelper.db.model.CourseServiceImpl;
 import com.studyhelper.db.model.PomodoroServiceImpl;
 import com.studyhelper.db.model.TimePerDayServiceImpl;
+import com.studyhelper.db.model.TodoServiceImpl;
 import com.studyhelper.db.source.DataSource;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.CategoryAxis;
@@ -28,17 +29,21 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
-import javafx.util.Duration;
+import javafx.util.Callback;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -89,18 +94,157 @@ public class MainController {
     private Slider daysSliderForChart;
     @FXML
     private Label studyStateLabel;
+    @FXML
+    private Label unableToLoadWebViewLabel;
+    @FXML
+    private VBox vBoxCourses;
+    @FXML
+    private VBox vBoxEachCourse;
+    @FXML
+    private ScrollPane scrollPaneCourses;
+    @FXML
+    private CheckBox todoCheckBox;
+    @FXML
+    private VBox todoVBox;
+    @FXML
+    private TextField todoTextField;
+    @FXML
+    private TableView<Todo> todoTableView;
+    @FXML
+    private TableColumn<Todo, String> itemTableColumn;
+    @FXML
+    private TableColumn<Todo, Boolean> selectTableColumn;
+    @FXML
+    private ProgressIndicator todoProgressIndicator;
+
+    private int selectedCourse = 1;
 
     private final TrayIconController trayIconController = new TrayIconController();
     private static final Logger logger = Logger.getLogger(DataSource.class.getName());
 
     public void initialize(){
         trayIconController.showTray();
-        playRadio();
+        setupRadio();
+    }
+
+    private void todoTableViewSetup() {
+        todoTableViewRefresh();
+        itemTableColumnSetup();
+        selectTableColumnSetup();
+    }
+
+    private void todoTableViewRefresh(){
+        todoTableView.getItems().clear();
+
+        final ObservableList<Todo> data = new TodoServiceImpl().getAllTodoByCourseId(selectedCourse);
+        todoTableView.setItems(data);
+
+        setTodoProgressIndicator(countDoneTodos(data), data.size());
+    }
+
+    private void setTodoProgressIndicator(int doneTodos, int size){
+        DoubleProperty done = new SimpleDoubleProperty(0.0);
+        todoProgressIndicator.progressProperty().bind(done);
+        done.setValue((double)doneTodos / (double) size);
+    }
+
+    private int countDoneTodos(ObservableList<Todo> data){
+        int doneCount = 0;
+        for(Todo todo : data)
+            if(todo.getCompletedProperty().get())
+                doneCount++;
+
+        return doneCount;
+    }
+
+    private void itemTableColumnSetup(){
+        itemTableColumn.setCellValueFactory(new PropertyValueFactory<>("item"));
+        itemTableColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+    }
+
+    private void selectTableColumnSetup(){
+        selectTableColumn.setCellValueFactory(new PropertyValueFactory<>("completed"));
+        selectTableColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Todo, Boolean>, ObservableValue<Boolean>>() {
+                    @Override
+                    public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Todo, Boolean> param) {
+                        if (param.getValue() != null)
+                            return param.getValue().getCompletedSBP();
+                        else
+                            return null;
+                    }
+                });
+        selectTableColumn.setCellFactory(checkboxCellSetup());
+    }
+
+    /*
+    * how checkbox cell will be setup
+     */
+    private Callback<TableColumn<Todo, Boolean>, TableCell<Todo, Boolean>> checkboxCellSetup() {
+        return new Callback<TableColumn<Todo, Boolean>, TableCell<Todo, Boolean>>() {
+            @Override
+            public TableCell<Todo, Boolean> call(TableColumn<Todo, Boolean> todoBooleanTableColumn) {
+                CheckBoxTableCell<Todo, Boolean> cell = new CheckBoxTableCell<>();
+                cell.setSelectedStateCallback(new Callback<Integer, ObservableValue<Boolean>>() {
+                    @Override
+                    public ObservableValue<Boolean> call(Integer index) {
+                        return onCheckBoxActionSelectTableColumn(index);
+                    }
+                });
+
+                return cell;
+            }
+        };
+    }
+
+    /*
+    * what will happen on checkbox select
+     */
+    private ObservableValue<Boolean> onCheckBoxActionSelectTableColumn(Integer index){
+        BooleanProperty selected = new SimpleBooleanProperty(todoTableView.getItems().get(index).getCompletedProperty().get());
+        selected.addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                onActionCheckBoxUpdate(selected.get(), index);
+                todoTableViewRefresh();
+            }
+        });
+        return selected;
+    }
+
+    private void onActionCheckBoxUpdate(boolean isSelected, int rowIndex){
+        Todo todoSelected = todoTableView.getItems().get(rowIndex);
+        todoSelected.setCompleted(isSelected);
+        new TodoServiceImpl().updateTodo(todoSelected);
+    }
+
+    @FXML
+    private void itemCellOnEditCommit(TableColumn.CellEditEvent<Todo, String> cellEditEvent){
+        Todo todoSelected = todoTableView.getSelectionModel().getSelectedItem();
+        todoSelected.setItem(cellEditEvent.getNewValue());
+        new TodoServiceImpl().updateTodo(todoSelected);
+    }
+
+    @FXML
+    private void addTodoOnAction(){
+        new TodoServiceImpl().insertTodo(new Todo(false, todoTextField.getText(), selectedCourse));
+
+        todoTableViewRefresh();
+    }
+
+    @FXML
+    private void onActionDeleteSelectedTodo(){
+        if(todoTableView.getSelectionModel().getSelectedItem() != null)
+            new TodoServiceImpl().deleteTodo(todoTableView.getSelectionModel().getSelectedItem());
+
+        todoTableViewRefresh();
     }
 
     @FXML
     public void courseTabChange(){
-        vBox.getChildren().clear();
+        vBoxCourses.getChildren().clear();
+        vBoxEachCourse.getChildren().clear();
+
+        todoTableViewSetup();
 
         List<Course> courseList = new CourseServiceImpl().getAllCourses();
         if(courseList == null) {
@@ -110,13 +254,43 @@ public class MainController {
         int i = 1;
 
         for (Course course : courseList) {
-            Button button2 = new Button();
-            button2.setText(course.getName());
-            button2.setId("button" + i++);
-            button2.setPrefWidth(button.getPrefWidth());
-            button2.setPrefHeight(button.getPrefHeight());
-            vBox.getChildren().add(button2);
+            VBox vbox = new VBox();
+            //vbox.setId(vBoxEachCourse.getId() + i++);
+            vbox.setId(course.getName());
+            vbox.setStyle(vBoxEachCourse.getStyle());
+            vbox.setEffect(vBoxEachCourse.getEffect());
+            vbox.setOnMouseClicked(vBoxEachCourse.getOnMouseClicked());
+            vbox.setPrefSize(vBoxEachCourse.getPrefWidth(), vBoxEachCourse.getPrefHeight());
+            vbox.setSpacing(10);
+
+            vbox.setAlignment(vBoxEachCourse.getAlignment());
+
+            Label label1 = new Label();
+            String paint = "#cdcdcd";
+            label1.setWrapText(true);
+            label1.setTextFill(Paint.valueOf(paint));
+            label1.setText(course.getName());
+            vbox.getChildren().add(label1);
+
+            Label label2 = new Label();
+            label2.setTextFill(Paint.valueOf(paint));
+            label2.setWrapText(true);
+            long daysLeft = Duration.between(LocalDate.now().atStartOfDay(), course.getDue().atStartOfDay()).toDays();
+            String daysLeftString = daysLeft <= 0 ? "expired" : daysLeft + " days left";
+            label2.setText(daysLeftString);
+            vbox.getChildren().add(label2);
+
+            vBoxCourses.getChildren().add(vbox);
         }
+    }
+
+    @FXML
+    private void vboxCoursesOnAction(MouseEvent mouseEvent){
+        VBox vbox = (VBox) mouseEvent.getSource();
+        Course course = new CourseServiceImpl().getCourseByName(vbox.getId());
+        selectedCourse = course.getId();
+
+        todoTableViewRefresh();
     }
 
     @FXML
@@ -269,37 +443,31 @@ public class MainController {
         */
     }
 
-    @FXML
-    public void liveStreamToggle(){
-        if (toggleBtn.isPressed()) {
-            webView.setDisable(false);
-            //playRadio();
-        } else {
-            webView.setDisable(true);
-        }
-    }
-
     private String RADIO_URL = "http://tunein.com/popout/player/s288329";
 
-    private void playRadio() {
+    @FXML
+    private void setupRadio(){
+        unableToLoadWebViewLabel.setVisible(false);
         WebEngine webEngine = webView.getEngine();
 
+        webEngine.setOnError(new EventHandler<WebErrorEvent>() {
+            @Override
+            public void handle(WebErrorEvent webErrorEvent) {
+                System.out.println("On Error");
+            }
+        });
         webEngine.getLoadWorker().stateProperty()
                 .addListener(new ChangeListener<Worker.State>() {
                     @Override
                     public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
-                        if (newState == Worker.State.SUCCEEDED) {
-                            //stage.setTitle(webEngine.getLocation());
+                        if (newState == Worker.State.FAILED) {
+                            unableToLoadWebViewLabel.setVisible(true);
                         }
                     }
                 });
+        //webEngine.getLoadWorker().exceptionProperty().addListener((obs, oldExc, newExc) -> { if (newExc != null) { newExc.printStackTrace();}});
         webEngine.load(RADIO_URL);
-        //webEngine.getOnError().handle(new WebErrorEvent());
-        //webEngine.load("http://tun.in/s288329");
-        //System.out.println(webEngine.getOnError());
     }
-
-
 
     @FXML
     public void pomodoroTabChange() {
@@ -309,6 +477,7 @@ public class MainController {
             setupTimelineForStudying();
         progressBarSetup();
         //studyStateLabelSetup();
+        buttonManipulator();
     }
 
     private ObjectProperty<PomodoroServiceImpl.StudyState> studyStateObjectProperty = new SimpleObjectProperty<>();
@@ -325,22 +494,18 @@ public class MainController {
 
     private void buttonManipulator() {
         // text fields moraju biti popunjena za start button
-/*
 
         startTimerBtn.disableProperty().bind(
-                Bindings.isEmpty(studyTxt.textProperty())
-                .or(Bindings.isEmpty(miniPauseTxt.textProperty()))
-                .or(Bindings.isEmpty(largePauseTxt.textProperty()))
-                .or(Bindings.createBooleanBinding(() -> !endTimerBtn.isDisabled()))
-                //.or(Bindings.createBooleanBinding(() -> (subjectChoiceBox.getValue() == null)))
+                Bindings.isEmpty(studySessionTimeTextField.textProperty())
+                .or(Bindings.isEmpty(miniPauseTimeTextField.textProperty()))
+                .or(Bindings.isEmpty(largePauseTimeTextField.textProperty()))
+                .or(Bindings.isNull(courseChoiceBox.valueProperty()))
+                .or(Bindings.not(endTimerBtn.disabledProperty()))
         );
-*/
-        /*pauseTimerBtn.disableProperty().bind(
-                Bindings.createBooleanBinding(() -> !startTimerBtn.isDisabled())
+        pauseTimerBtn.disableProperty().bind(
+                Bindings.selectBoolean(endTimerBtn.disabledProperty())
         );
-        endTimerBtn.disableProperty().bind(
-                Bindings.createBooleanBinding(() -> !startTimerBtn.isDisabled())
-        );*/
+        // start i pause medjusobno iskljucivi
     }
 
     /*
@@ -357,7 +522,7 @@ public class MainController {
     private Timeline timelineForStudyTime = null;
 
     private void setupTimelineForStudying(){
-        timelineForStudyTime = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> {
+        timelineForStudyTime = new Timeline(new KeyFrame(javafx.util.Duration.millis(1000), actionEvent -> {
             incrementTimeForStudyTimeline();
             trayIconNotificationForTimePassed();
         }));
@@ -439,8 +604,8 @@ public class MainController {
         if(studySessionTimeTextField.getText().equals("") || miniPauseTimeTextField.getText().equals("") || largePauseTimeTextField.getText().equals(""))
                 return;
 
-        startTimerBtn.setDisable(true);
-        pauseTimerBtn.setDisable(false);
+        //startTimerBtn.setDisable(true);
+        //pauseTimerBtn.setDisable(false);
         endTimerBtn.setDisable(false);
 
         if(TrayIconController.trayIcon != null)
@@ -462,18 +627,18 @@ public class MainController {
     private void onPauseTimer(ActionEvent event) {
         if (timelineForStudyTime.getStatus().equals(Animation.Status.RUNNING)) {
             timelineForStudyTime.pause();
-            pauseTimerBtn.setDisable(true);
-            startTimerBtn.setDisable(false);
+            //pauseTimerBtn.setDisable(true);
+            //startTimerBtn.setDisable(false);
         } else if(timelineForStudyTime.getStatus().equals(Animation.Status.PAUSED)){
             System.out.println("Animation status: running");
             timelineForStudyTime.pause();
-            pauseTimerBtn.setDisable(true);
-            startTimerBtn.setDisable(false);
+            //pauseTimerBtn.setDisable(true);
+            //startTimerBtn.setDisable(false);
         } else if(timelineForStudyTime.getStatus().equals(Animation.Status.STOPPED)){
             System.out.println("Animation status: stopped");
             timelineForStudyTime.pause();
-            pauseTimerBtn.setDisable(true);
-            startTimerBtn.setDisable(false);
+            //pauseTimerBtn.setDisable(true);
+            //startTimerBtn.setDisable(false);
         }
     }
 
@@ -491,9 +656,9 @@ public class MainController {
 
         PomodoroServiceImpl.getInstance().endStudySession();
 
-        pauseTimerBtn.setDisable(false);
+        //pauseTimerBtn.setDisable(false);
         endTimerBtn.setDisable(true);
-        startTimerBtn.setDisable(false);
+        //startTimerBtn.setDisable(false);
 
         timelineForStudyTime.stop();
         timerLabelCleanUp();

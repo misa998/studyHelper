@@ -8,5 +8,6 @@ module StudyHelper {
 
     exports com.studyhelper.controller to javafx.graphics, javafx.fxml;
     opens com.studyhelper.controller to javafx.fxml;
+    opens com.studyhelper.db.entity to javafx.base;
     opens com.studyhelper;
 }
