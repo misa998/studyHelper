@@ -310,11 +310,6 @@ public class MainController {
     }
 
     @FXML
-    public void onButtonDaysToShowChange(){
-        dashboardTabChanged();
-    }
-
-    @FXML
     public void dashboardTabChanged(){
         // clear the chart, because of tab refresh
         stackedBarChart.getData().clear();
@@ -475,9 +470,9 @@ public class MainController {
         // creating new instances on every tab change results in multiple animations that can not be stopped
         if(timelineForStudyTime == null)
             setupTimelineForStudying();
-        progressBarSetup();
+
         //studyStateLabelSetup();
-        buttonManipulator();
+        setupPomodoroTimerButtonBindings();
     }
 
     private ObjectProperty<PomodoroServiceImpl.StudyState> studyStateObjectProperty = new SimpleObjectProperty<>();
@@ -492,20 +487,18 @@ public class MainController {
         studySessions.set((PomodoroServiceImpl.getInstance().getStudySessionCounter())/4.0);
     }
 
-    private void buttonManipulator() {
-        // text fields moraju biti popunjena za start button
-
+    private void setupPomodoroTimerButtonBindings() {
         startTimerBtn.disableProperty().bind(
                 Bindings.isEmpty(studySessionTimeTextField.textProperty())
                 .or(Bindings.isEmpty(miniPauseTimeTextField.textProperty()))
                 .or(Bindings.isEmpty(largePauseTimeTextField.textProperty()))
                 .or(Bindings.isNull(courseChoiceBox.valueProperty()))
-                .or(Bindings.not(endTimerBtn.disabledProperty()))
+                .or(Bindings.not(pauseTimerBtn.disabledProperty()))
+                .or(Bindings.selectBoolean(skipPauseBtn.visibleProperty()))
         );
-        pauseTimerBtn.disableProperty().bind(
-                Bindings.selectBoolean(endTimerBtn.disabledProperty())
+        endTimerBtn.disableProperty().bind(
+                Bindings.selectBoolean(pauseTimerBtn.disabledProperty())
         );
-        // start i pause medjusobno iskljucivi
     }
 
     /*
@@ -534,9 +527,6 @@ public class MainController {
         studyTimerLabel.setText(PomodoroServiceImpl.getInstance().getCurrentStudyTimeString());
     }
 
-    /*
-     * Getting all the data for new pomodoro instance
-     */
     private void setupPomodoro(){
         LocalTime studySessionTime = LocalTime.of(0, Integer.parseInt(studySessionTimeTextField.getText()), 1);
         LocalTime miniPauseTime = LocalTime.of(0, Integer.parseInt(miniPauseTimeTextField.getText()), 1);
@@ -565,13 +555,6 @@ public class MainController {
         }
     }
 
-    /*
-        - choice box se azurira svaki put kada se otvori tab pomodoro
-        - ako se prvi put otvara, bice popunjen
-        - ako se ne otvara prvi put tj. size > 0, uzece se odabrana vrednost,
-            azurirace se iznova iz baze podataka, vratice se odabrana vrednost
-            (ako postoji u novoj listi)
-     */
     private void choiceBoxFillWithCourses() {
         String choice = null;
         if(courseChoiceBox.getItems().size() > 0) {
@@ -597,49 +580,29 @@ public class MainController {
 
     @FXML
     private void startTimer(ActionEvent event) {
-        //progressBarSetup();
         //studyStateLabelSetup();
-        if(courseChoiceBox.getValue() == null)
-            return;
-        if(studySessionTimeTextField.getText().equals("") || miniPauseTimeTextField.getText().equals("") || largePauseTimeTextField.getText().equals(""))
-                return;
 
-        //startTimerBtn.setDisable(true);
-        //pauseTimerBtn.setDisable(false);
-        endTimerBtn.setDisable(false);
+        pauseTimerBtn.setDisable(false);
 
-        if(TrayIconController.trayIcon != null)
+        if(TrayIconController.trayIcon != null) {
             trayIconController.displayMessage("studying session started");
+        }
 
         if(timelineForStudyTime.getStatus().equals(Animation.Status.STOPPED)) {
             timerLabelCleanUp();
             studyTimerLabel.setTextFill(Paint.valueOf("#0d6300"));
             setupPomodoro();
             PomodoroServiceImpl.getInstance().startTimer();
-        } else{
-            System.out.println("Animation status: stopped - Study resume - label not clear, timer not started, pomodoro not set");
         }
 
         timelineForStudyTime.play();
+        progressBarSetup();
     }
 
     @FXML
     private void onPauseTimer(ActionEvent event) {
-        if (timelineForStudyTime.getStatus().equals(Animation.Status.RUNNING)) {
-            timelineForStudyTime.pause();
-            //pauseTimerBtn.setDisable(true);
-            //startTimerBtn.setDisable(false);
-        } else if(timelineForStudyTime.getStatus().equals(Animation.Status.PAUSED)){
-            System.out.println("Animation status: running");
-            timelineForStudyTime.pause();
-            //pauseTimerBtn.setDisable(true);
-            //startTimerBtn.setDisable(false);
-        } else if(timelineForStudyTime.getStatus().equals(Animation.Status.STOPPED)){
-            System.out.println("Animation status: stopped");
-            timelineForStudyTime.pause();
-            //pauseTimerBtn.setDisable(true);
-            //startTimerBtn.setDisable(false);
-        }
+        timelineForStudyTime.pause();
+        pauseTimerBtn.setDisable(true);
     }
 
     @FXML
@@ -656,9 +619,7 @@ public class MainController {
 
         PomodoroServiceImpl.getInstance().endStudySession();
 
-        //pauseTimerBtn.setDisable(false);
-        endTimerBtn.setDisable(true);
-        //startTimerBtn.setDisable(false);
+        pauseTimerBtn.setDisable(true);
 
         timelineForStudyTime.stop();
         timerLabelCleanUp();
@@ -667,7 +628,6 @@ public class MainController {
     }
 
     private void startPauseTimer(){
-        endTimerBtn.setDisable(true);
         skipPauseBtn.setVisible(true);
         studyTimerLabel.setTextFill(Paint.valueOf("#993000"));
         timelineForStudyTime.play();
