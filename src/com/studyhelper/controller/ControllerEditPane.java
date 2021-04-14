@@ -23,10 +23,14 @@ public class ControllerEditPane {
     private Button addCourse;
 
     public void initialize(){
+        buttonBindings();
+    }
+
+    private void buttonBindings(){
         addCourse.disableProperty().bind(
                 Bindings.selectBoolean(editName.textProperty().isEmpty())
-                .or(Bindings.selectBoolean(editDesc.textProperty().isEmpty()))
-                .or(Bindings.selectBoolean(editDue.valueProperty().isNull()))
+                        .or(Bindings.selectBoolean(editDesc.textProperty().isEmpty()))
+                        .or(Bindings.selectBoolean(editDue.valueProperty().isNull()))
         );
     }
 

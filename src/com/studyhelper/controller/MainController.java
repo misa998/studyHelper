@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.CategoryAxis;
@@ -47,6 +48,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class MainController {
@@ -116,6 +118,8 @@ public class MainController {
     private TableColumn<Todo, Boolean> selectTableColumn;
     @FXML
     private ProgressIndicator todoProgressIndicator;
+    @FXML
+    private TextArea courseDescription;
 
     private int selectedCourse = 1;
 
@@ -245,6 +249,7 @@ public class MainController {
         vBoxEachCourse.getChildren().clear();
 
         todoTableViewSetup();
+        setupCourseDescription();
 
         List<Course> courseList = new CourseServiceImpl().getAllCourses();
         if(courseList == null) {
@@ -284,6 +289,25 @@ public class MainController {
         }
     }
 
+    private void setupCourseDescription() {
+        courseDescription.focusedProperty().addListener(changeListenerForDescription());
+        courseDescriptionRefresh();
+    }
+
+    private void courseDescriptionRefresh(){
+        courseDescription.setText(new CourseServiceImpl().getCourseById(selectedCourse).getDescription());
+    }
+
+    private ChangeListener<Boolean> changeListenerForDescription(){
+        return new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+                if(oldValue)
+                    new CourseServiceImpl().updateCourseDescription(courseDescription.getText(), selectedCourse);
+            }
+        };
+    }
+
     @FXML
     private void vboxCoursesOnAction(MouseEvent mouseEvent){
         VBox vbox = (VBox) mouseEvent.getSource();
@@ -291,14 +315,36 @@ public class MainController {
         selectedCourse = course.getId();
 
         todoTableViewRefresh();
+        courseDescriptionRefresh();
     }
 
     @FXML
-    public void addCourseButtonAction() throws IOException {
+    public void addCourseButtonAction() {
+        try {
+            loadEditPane();
+        } catch (IOException e){
+            System.out.println("unable to load edit pane");
+        }
+    }
+
+    private void loadEditPane() throws IOException {
         GridPane gridPane = FXMLLoader.load(getClass().getResource("/com/studyhelper/ui/editPaneView.fxml"));
         gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
         gridPane.setMaxHeight(editCoursesPane.getMaxHeight());
         editCoursesPane.getChildren().setAll(gridPane);
+    }
+
+    @FXML
+    private void onActionDeleteSelectedCourse(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Todo item");
+        alert.setHeaderText("Delete item: " + new CourseServiceImpl().getCourseById(selectedCourse).getName());
+        alert.setContentText("Are you sure?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && (result.get() == ButtonType.OK)){
+            new CourseServiceImpl().deleteCourseById(selectedCourse);
+            courseTabChange();
+        }
     }
 
     private int daysToShowInChart = 5;

@@ -32,7 +32,7 @@
                         <WebView fx:id="webView" layoutX="561.0" layoutY="192.0" prefHeight="120.0" prefWidth="243.0" />
                         <Label fx:id="unableToLoadWebViewLabel" layoutX="561.0" layoutY="326.0" text="Unable to load webpage" visible="false" wrapText="true" />
                         <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="414.0" max="31.0" min="1.0" onMouseReleased="#onScrollFinishedForChart" onScrollFinished="#onScrollFinishedForChart" showTickLabels="true" showTickMarks="true" value="5.0" />
-                        <Button fx:id="refreshWebEngineButton" layoutX="730.0" layoutY="322.0" mnemonicParsing="false" onAction="#setupRadio" text="Refresh" textFill="#c3c3c3" wrapText="true">
+                        <Button layoutX="730.0" layoutY="322.0" mnemonicParsing="false" onAction="#setupRadio" text="Refresh" textFill="#c3c3c3" wrapText="true">
                             <graphic>
                                 <ImageView>
                                     <Image url="@resources/refresh-black-16.png" />
@@ -48,8 +48,8 @@
                      <children>
                         <Separator layoutX="570.0" layoutY="25.0" orientation="VERTICAL" prefHeight="200.0" />
                         <Pane fx:id="editCoursesPane" layoutX="577.0" layoutY="25.0" prefHeight="325.0" prefWidth="249.0" />
-                        <Button layoutX="788.0" layoutY="397.0" mnemonicParsing="false" onAction="#addCourseButtonAction" text="Add" />
-                        <ScrollPane fx:id="scrollPaneCourses" hbarPolicy="NEVER" layoutX="8.0" layoutY="-2.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="549.0" prefWidth="161.0" styleClass="scrollPaneCourses" vbarPolicy="NEVER">
+                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCourseButtonAction" text="Add" />
+                        <ScrollPane fx:id="scrollPaneCourses" hbarPolicy="NEVER" layoutX="8.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="502.0" prefWidth="161.0" styleClass="scrollPaneCourses" vbarPolicy="NEVER">
                           <content>
                               <VBox fx:id="vBoxCourses" alignment="CENTER" spacing="10.0">
                                  <children>
@@ -96,6 +96,9 @@
                         <Button fx:id="addTodo" layoutX="503.0" layoutY="13.0" mnemonicParsing="false" onAction="#addTodoOnAction" text="Add todo" />
                         <Button fx:id="deleteSelectedTodo" layoutX="511.0" layoutY="213.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedTodo" text="Delete" />
                         <ProgressIndicator fx:id="todoProgressIndicator" layoutX="223.0" layoutY="206.0" progress="0.0" />
+                        <Button fx:id="deleteCourse" layoutX="118.0" layoutY="14.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedCourse" text="Delete" />
+                        <PieChart fx:id="coursePieChart" layoutX="370.0" layoutY="246.0" prefHeight="172.0" prefWidth="0.0" title="Hours spent studying this course in comparesment to other courses" />
+                        <TextArea fx:id="courseDescription" layoutX="169.0" layoutY="256.0" prefHeight="55.0" prefWidth="200.0" promptText="Course description" wrapText="true" />
 
                      </children></AnchorPane>
             </content>

@@ -9,5 +9,7 @@ public interface CourseService {
     List<Course> getAllCourses();
     void insertCourse(Course course);
     Course getCourseByName(String courseName);
-    Course getCourseDueByName(String courseName);
+    void deleteCourseById(int id);
+    Course getCourseById(int id);
+    void updateCourseDescription(String description, int id);
 }
