@@ -1,15 +1,15 @@
 package com.studyhelper.db.entity;
 
-import java.time.LocalTime;
+import java.time.Duration;
 
 public class Time {
     private int id;
-    private LocalTime period;
+    private Duration duration;
     private int course_id;
 
-    public Time(int id, LocalTime period, int course_id) {
+    public Time(int id, Duration duration, int course_id) {
         this.id = id;
-        this.period = period;
+        this.duration = duration;
         this.course_id = course_id;
     }
     public Time(){}
@@ -22,12 +22,12 @@ public class Time {
         this.id = id;
     }
 
-    public LocalTime getPeriod() {
-        return period;
+    public Duration getDuration() {
+        return duration;
     }
 
-    public void setPeriod(LocalTime period) {
-        this.period = period;
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 
     public int getCourse_id() {
@@ -42,7 +42,7 @@ public class Time {
     public String toString() {
         return "Time{" +
                 "id=" + id +
-                ", period=" + period +
+                ", duration=" + duration +
                 ", course_id=" + course_id +
                 '}';
     }

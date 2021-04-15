@@ -1,17 +1,17 @@
 package com.studyhelper.db.entity;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class TimePerDay {
     private int id;
     private LocalDate date;
-    private LocalTime hours;
+    private Duration duration;
     private int course_id;
 
-    public TimePerDay(LocalDate date, LocalTime hours, int course_id) {
+    public TimePerDay(LocalDate date, Duration duration, int course_id) {
         this.date = date;
-        this.hours = hours;
+        this.duration = duration;
         this.course_id = course_id;
     }
     public TimePerDay(){}
@@ -32,12 +32,12 @@ public class TimePerDay {
         this.date = date;
     }
 
-    public LocalTime getHours() {
-        return hours;
+    public Duration getDuration() {
+        return duration;
     }
 
-    public void setHours(LocalTime hours) {
-        this.hours = hours;
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 
     public int getCourse_id() {
@@ -53,7 +53,7 @@ public class TimePerDay {
         return "TimePerDay{" +
                 "id=" + id +
                 ", date=" + date +
-                ", hours=" + hours +
+                ", duration=" + duration +
                 ", course_id=" + course_id +
                 '}';
     }

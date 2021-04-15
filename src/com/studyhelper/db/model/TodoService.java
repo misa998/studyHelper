@@ -9,4 +9,5 @@ public interface TodoService {
     ObservableList<Todo> getAllTodo();
     boolean updateTodo(Todo todo);
     void deleteTodo(Todo todo);
+    void deleteAllTodoByCourseId(int id);
 }

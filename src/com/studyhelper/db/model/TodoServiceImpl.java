@@ -1,6 +1,5 @@
 package com.studyhelper.db.model;
 
-import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.entity.Todo;
 import com.studyhelper.db.source.DataSource;
 import javafx.collections.FXCollections;
@@ -10,10 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,12 +65,14 @@ public class TodoServiceImpl implements TodoService {
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(stringBuilder.toString());
-            DataSource.getInstance().closeConnection();
 
             return true;
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
             return false;
+        }finally {
+            connection = null;
+            DataSource.getInstance().closeConnection();
         }
     }
 
@@ -151,6 +148,28 @@ public class TodoServiceImpl implements TodoService {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("DELETE FROM todo WHERE id=");
         stringBuilder.append(todo.getId());
+
+        try(Statement statement = connection.createStatement()) {
+            statement.executeQuery(stringBuilder.toString());
+
+        } catch (SQLException e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        } finally {
+            connection = null;
+            DataSource.getInstance().closeConnection();
+        }
+    }
+
+    @Override
+    public void deleteAllTodoByCourseId(int id) {
+        connection = DataSource.getInstance().openConnection();
+        if(connection == null)
+            return;
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("DELETE FROM todo WHERE course_id=");
+        stringBuilder.append(id);
 
         try(Statement statement = connection.createStatement()) {
             statement.executeQuery(stringBuilder.toString());

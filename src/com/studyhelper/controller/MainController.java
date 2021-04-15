@@ -1,13 +1,7 @@
 package com.studyhelper.controller;
 
-import com.studyhelper.db.entity.Course;
-import com.studyhelper.db.entity.Pomodoro;
-import com.studyhelper.db.entity.TimePerDay;
-import com.studyhelper.db.entity.Todo;
-import com.studyhelper.db.model.CourseServiceImpl;
-import com.studyhelper.db.model.PomodoroServiceImpl;
-import com.studyhelper.db.model.TimePerDayServiceImpl;
-import com.studyhelper.db.model.TodoServiceImpl;
+import com.studyhelper.db.entity.*;
+import com.studyhelper.db.model.*;
 import com.studyhelper.db.source.DataSource;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -16,17 +10,16 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.Node;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -120,7 +113,26 @@ public class MainController {
     private ProgressIndicator todoProgressIndicator;
     @FXML
     private TextArea courseDescription;
+    @FXML
+    private PieChart coursePieChart;
+    @FXML
+    private Button closeEditPaneBtn;
+    @FXML
+    private Button addCourseButton;
+    @FXML
+    private Button addTodo;
+    @FXML
+    private Button deleteSelectedTodo;
+    @FXML
+    private Tab coursesTab;
+    @FXML
+    private TabPane tabPane;
+    @FXML
+    private AnchorPane coursesAnchorPane;
+    @FXML
+    private TextField courseNameTextField;
 
+    //courseTabChange
     private int selectedCourse = 1;
 
     private final TrayIconController trayIconController = new TrayIconController();
@@ -231,6 +243,7 @@ public class MainController {
     @FXML
     private void addTodoOnAction(){
         new TodoServiceImpl().insertTodo(new Todo(false, todoTextField.getText(), selectedCourse));
+        todoTextField.setText("");
 
         todoTableViewRefresh();
     }
@@ -248,8 +261,7 @@ public class MainController {
         vBoxCourses.getChildren().clear();
         vBoxEachCourse.getChildren().clear();
 
-        todoTableViewSetup();
-        setupCourseDescription();
+        setupEverythingForCourseTabChange();
 
         List<Course> courseList = new CourseServiceImpl().getAllCourses();
         if(courseList == null) {
@@ -270,18 +282,43 @@ public class MainController {
 
             vbox.setAlignment(vBoxEachCourse.getAlignment());
 
-            Label label1 = new Label();
             String paint = "#cdcdcd";
-            label1.setWrapText(true);
-            label1.setTextFill(Paint.valueOf(paint));
-            label1.setText(course.getName());
-            vbox.getChildren().add(label1);
+
+            TextField textField = new TextField();
+            textField.setStyle("-fx-background-color : transparent; -fx-text-fill : #cdcdcd; -fx-alignment : center;");
+            textField.setText(course.getName());
+            textField.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observableValue, String oldName, String newName) {
+                    new CourseServiceImpl().updateCourseName(newName, selectedCourse);
+                }
+            });
+
+            vbox.getChildren().add(textField);
+
+            Label label3 = new Label();
+            label3.setTextFill(Paint.valueOf(paint));
+            label3.setWrapText(true);
+            Time time = new TimeServiceImpl().getTimeByCourse_id(course.getId());
+            label3.setText(time.getDuration().toHours() + " hours studied");
+            vbox.getChildren().add(label3);
 
             Label label2 = new Label();
             label2.setTextFill(Paint.valueOf(paint));
             label2.setWrapText(true);
             long daysLeft = Duration.between(LocalDate.now().atStartOfDay(), course.getDue().atStartOfDay()).toDays();
-            String daysLeftString = daysLeft <= 0 ? "expired" : daysLeft + " days left";
+            String daysLeftString;
+            if(daysLeft <= 0){
+                daysLeftString = "expired";
+                label2.setTextFill(Paint.valueOf(paint));
+            } else if(daysLeft < 10){
+                daysLeftString = daysLeft + " days left";
+                label2.setTextFill(Paint.valueOf("#bf7878"));
+            }
+            else{
+                daysLeftString = daysLeft + " days left";
+                label2.setTextFill(Paint.valueOf("#8dae72"));
+            }
             label2.setText(daysLeftString);
             vbox.getChildren().add(label2);
 
@@ -289,16 +326,58 @@ public class MainController {
         }
     }
 
+    private void setupEverythingForCourseTabChange() {
+        todoTableViewSetup();
+        setupCourseDescription();
+        pieChartSetup();
+        editPaneSetup();
+        setupTodoButtons();
+    }
+
+    private void setupTodoButtons() {
+        addTodo.disableProperty().bind(
+                Bindings.isEmpty(todoTextField.textProperty())
+        );
+        todoTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            deleteSelectedTodo.setDisable(newSelection == null);
+        });
+    }
+
+    private void pieChartSetup() {
+        coursePieChart.getData().clear();
+
+        final ObservableList<Course> data = new CourseServiceImpl().getAllCourses();
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        for(Course course : data){
+            Time time = new TimeServiceImpl().getTimeByCourse_id(course.getId());
+            long hours;
+            try{
+                hours = time.getDuration().toHours();
+            } catch (NullPointerException e){
+                hours = 0;
+            }
+            pieChartData.add(new PieChart.Data(course.getName(), hours));
+        }
+
+        /*
+        * this fixes the bug in pie chart, where it does not update labels properly
+         */
+        coursesAnchorPane.layout();
+
+        coursePieChart.getData().addAll(pieChartData);
+    }
+
     private void setupCourseDescription() {
-        courseDescription.focusedProperty().addListener(changeListenerForDescription());
+        courseDescription.focusedProperty().addListener(focusChangeListenerForDescription());
         courseDescriptionRefresh();
     }
 
     private void courseDescriptionRefresh(){
-        courseDescription.setText(new CourseServiceImpl().getCourseById(selectedCourse).getDescription());
+        Course course = new CourseServiceImpl().getCourseById(selectedCourse);
+        courseDescription.setText(course == null ? "" : course.getDescription());
     }
 
-    private ChangeListener<Boolean> changeListenerForDescription(){
+    private ChangeListener<Boolean> focusChangeListenerForDescription(){
         return new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
@@ -327,11 +406,29 @@ public class MainController {
         }
     }
 
+    @FXML
+    private void onActionCloseEditPane(){
+        editCoursesPane.getChildren().clear();
+    }
+
     private void loadEditPane() throws IOException {
         GridPane gridPane = FXMLLoader.load(getClass().getResource("/com/studyhelper/ui/editPaneView.fxml"));
         gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
         gridPane.setMaxHeight(editCoursesPane.getMaxHeight());
+
         editCoursesPane.getChildren().setAll(gridPane);
+    }
+
+    private void editPaneSetup(){
+        editCoursesPane.getChildren().addListener(new ListChangeListener<Node>() {
+            @Override
+            public void onChanged(Change<? extends Node> change) {
+                closeEditPaneBtn.setVisible(editCoursesPane.getChildren().size() >= 1);
+            }
+        });
+        addCourseButton.disableProperty().bind(
+                Bindings.selectBoolean(closeEditPaneBtn.visibleProperty())
+        );
     }
 
     @FXML
@@ -342,7 +439,8 @@ public class MainController {
         alert.setContentText("Are you sure?");
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && (result.get() == ButtonType.OK)){
-            new CourseServiceImpl().deleteCourseById(selectedCourse);
+            new CourseServiceImpl().deleteAllDataAboutCourse(selectedCourse);
+            selectedCourse--;
             courseTabChange();
         }
     }
@@ -356,9 +454,14 @@ public class MainController {
     }
 
     @FXML
+    private AnchorPane dashboardTab;
+
+    @FXML
     public void dashboardTabChanged(){
         // clear the chart, because of tab refresh
         stackedBarChart.getData().clear();
+
+        dashboardTab.layout();
 
         // get courses
         List<Course> coursesList = new CourseServiceImpl().getAllCourses();
@@ -379,20 +482,17 @@ public class MainController {
             // for each day A course
 
             for(int j = 0; j< daysToShowInChart; j++) {
-                double hours = 0.0;
+                double minutes = 0.0;
                 LocalDate localDate = LocalDate.now().minusDays(daysToShowInChart -j);
                 List<TimePerDay> timePerDayForDayAndCourseId = new TimePerDayServiceImpl().getTimeByDateAndCourse_id(courses[i].getId(), localDate);
 
                 // for each hour A day
                 if(timePerDayForDayAndCourseId.size() > 0) {
                     for (TimePerDay tpd : timePerDayForDayAndCourseId) {
-                        //hours += tpd.getHours().getHour();
-                        double min = tpd.getHours().getMinute();
-                        double hrs = tpd.getHours().getHour();
-                        hours += hrs * 60 + min;
+                        minutes += tpd.getDuration().toMinutes();
                     }
                 }
-                series.getData().add(new XYChart.Data<>(String.valueOf(LocalDate.now().minusDays(daysToShowInChart -j).getDayOfMonth()), hours));
+                series.getData().add(new XYChart.Data<>(String.valueOf(LocalDate.now().minusDays(daysToShowInChart -j).getDayOfMonth()), minutes));
             }
             stackedBarChart.getData().add(series);
         }

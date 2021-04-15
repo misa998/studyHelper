@@ -17,9 +17,9 @@
         <tabs>
           <Tab onSelectionChanged="#dashboardTabChanged" text="Dashboard">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane fx:id="dashboardTab" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <StackedBarChart fx:id="stackedBarChart" animated="false" layoutX="14.0" layoutY="14.0" title="Hours per day spent on studying each subject">
+                        <StackedBarChart fx:id="stackedBarChart" animated="false" layoutX="14.0" layoutY="14.0" title="Minutes per day spent on studying each course">
                           <xAxis>
                             <CategoryAxis label="Days" side="BOTTOM" fx:id="xAxis" />
                           </xAxis>
@@ -27,44 +27,53 @@
                             <NumberAxis fx:id="yAxis" label="Minutes" side="LEFT" />
                           </yAxis>
                         </StackedBarChart>
-                        <ChoiceBox layoutX="642.0" layoutY="50.0" prefHeight="25.0" prefWidth="95.0" />
-                        <Label layoutX="561.0" layoutY="54.0" text="Type" />
-                        <WebView fx:id="webView" layoutX="561.0" layoutY="192.0" prefHeight="120.0" prefWidth="243.0" />
+                        <WebView fx:id="webView" layoutX="561.0" layoutY="42.0" prefHeight="120.0" prefWidth="243.0" />
                         <Label fx:id="unableToLoadWebViewLabel" layoutX="561.0" layoutY="326.0" text="Unable to load webpage" visible="false" wrapText="true" />
-                        <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="414.0" max="31.0" min="1.0" onMouseReleased="#onScrollFinishedForChart" onScrollFinished="#onScrollFinishedForChart" showTickLabels="true" showTickMarks="true" value="5.0" />
-                        <Button layoutX="730.0" layoutY="322.0" mnemonicParsing="false" onAction="#setupRadio" text="Refresh" textFill="#c3c3c3" wrapText="true">
+                        <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="414.0" max="31.0" min="1.0" onMouseReleased="#onScrollFinishedForChart" onScrollFinished="#onScrollFinishedForChart" showTickLabels="true" showTickMarks="true" value="5.0">
+                            <tooltip><Tooltip text="Choose number of days to show in chart" /></tooltip>
+                        </Slider>
+                        <Button layoutX="772.0" layoutY="14.0" mnemonicParsing="false" onAction="#setupRadio" textFill="#c3c3c3">
+                            <tooltip><Tooltip text="Refresh radio" /></tooltip>
                             <graphic>
                                 <ImageView>
-                                    <Image url="@resources/refresh-black-16.png" />
+                                    <Image url="@resources/refresh-white-16.png" />
                                 </ImageView>
                             </graphic>
                         </Button>
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab onSelectionChanged="#courseTabChange" text="Courses">
+          <Tab fx:id="coursesTab" onSelectionChanged="#courseTabChange" text="Courses">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane fx:id="coursesAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Separator layoutX="570.0" layoutY="25.0" orientation="VERTICAL" prefHeight="200.0" />
-                        <Pane fx:id="editCoursesPane" layoutX="577.0" layoutY="25.0" prefHeight="325.0" prefWidth="249.0" />
-                        <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCourseButtonAction" text="Add" />
+                        <Pane fx:id="editCoursesPane" layoutX="588.0" layoutY="332.0" prefHeight="202.0" prefWidth="238.0" />
+                        <Button fx:id="addCourseButton" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCourseButtonAction">
+                            <tooltip><Tooltip text="Add new course" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@resources/add-course-white-16.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
                         <ScrollPane fx:id="scrollPaneCourses" hbarPolicy="NEVER" layoutX="8.0" layoutY="45.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="502.0" prefWidth="161.0" styleClass="scrollPaneCourses" vbarPolicy="NEVER">
                           <content>
                               <VBox fx:id="vBoxCourses" alignment="CENTER" spacing="10.0">
                                  <children>
                                     <VBox fx:id="vBoxEachCourse" alignment="CENTER" maxHeight="138.0" maxWidth="140.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxCoursesOnAction" prefHeight="138.0" prefWidth="140.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #393351; -fx-background-color: #393351; -fx-border-width: 3; -fx-border-style: solid;" styleClass="vBoxEachCourses" VBox.vgrow="ALWAYS">
                                        <children>
+                                          <TextField fx:id="courseNameTextField" alignment="CENTER" promptText="course name" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: #cdcdcd;" text="ss" />
                                           <Label fx:id="courseNameText" alignment="TOP_CENTER" contentDisplay="CENTER" text="CourseName" textAlignment="CENTER" textFill="#cdcdcd" wrapText="true">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" text="Due" textAlignment="CENTER" textFill="#bcbcbc" wrapText="true">
+                                          <Label alignment="CENTER" contentDisplay="CENTER" text="Hours spent" textAlignment="CENTER" textFill="#bcbcbc" wrapText="true">
                                              <VBox.margin>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </VBox.margin>
                                           </Label>
+                                          <Label text="Due" textFill="#bf7878" />
                                        </children>
                                        <effect>
                                           <DropShadow />
@@ -80,25 +89,43 @@
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </ScrollPane>
-                        <ScrollPane fx:id="todoInProgressScrollPane" hbarPolicy="NEVER" layoutX="210.0" layoutY="54.0" prefHeight="146.0" prefWidth="360.0" styleClass="scrollPaneCourses">
-                          <content>
 
-                              <TableView fx:id="todoTableView" editable="true" layoutX="16.0" layoutY="374.0" prefHeight="146.0" prefWidth="360.0">
-                                  <columns>
-                                      <TableColumn fx:id="selectTableColumn" prefWidth="56.0" text="Done" />
-                                      <TableColumn fx:id="itemTableColumn" onEditCommit="#itemCellOnEditCommit" prefWidth="302.0" text="Item" />
-                                  </columns>
-                              </TableView>
-
-                          </content>
-                        </ScrollPane>
-                        <TextField fx:id="todoTextField" layoutX="346.0" layoutY="13.0" promptText="Enter your todo item" />
-                        <Button fx:id="addTodo" layoutX="503.0" layoutY="13.0" mnemonicParsing="false" onAction="#addTodoOnAction" text="Add todo" />
-                        <Button fx:id="deleteSelectedTodo" layoutX="511.0" layoutY="213.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedTodo" text="Delete" />
-                        <ProgressIndicator fx:id="todoProgressIndicator" layoutX="223.0" layoutY="206.0" progress="0.0" />
-                        <Button fx:id="deleteCourse" layoutX="118.0" layoutY="14.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedCourse" text="Delete" />
-                        <PieChart fx:id="coursePieChart" layoutX="370.0" layoutY="246.0" prefHeight="172.0" prefWidth="0.0" title="Hours spent studying this course in comparesment to other courses" />
-                        <TextArea fx:id="courseDescription" layoutX="169.0" layoutY="256.0" prefHeight="55.0" prefWidth="200.0" promptText="Course description" wrapText="true" />
+                        <TableView fx:id="todoTableView" editable="true" layoutX="459.0" layoutY="58.0" prefHeight="148.0" prefWidth="353.0">
+                            <columns>
+                                <TableColumn fx:id="selectTableColumn" prefWidth="53.0" />
+                                <TableColumn fx:id="itemTableColumn" onEditCommit="#itemCellOnEditCommit" prefWidth="270.0" text="Todo list for a course" />
+                            </columns>
+                        </TableView>
+                        <TextField fx:id="todoTextField" layoutX="582.0" layoutY="14.0" promptText="Enter your todo item" />
+                        <Button fx:id="addTodo" alignment="CENTER" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#618cb0">
+                            <tooltip><Tooltip text="Add new todo item" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@resources/todo-add-white-16.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="deleteSelectedTodo" disable="true" layoutX="745.0" layoutY="215.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedTodo">
+                            <tooltip><Tooltip text="Delete todo item" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@resources/todo-delete-white-16.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <ProgressIndicator fx:id="todoProgressIndicator" layoutX="482.0" layoutY="207.0" progress="0.0" />
+                        <Button fx:id="deleteCourse" layoutX="133.0" layoutY="14.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedCourse">
+                            <tooltip><Tooltip text="Delete course" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="@resources/delete-white-16.png" />
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <PieChart fx:id="coursePieChart" animated="false" layoutX="200.0" layoutY="156.0" legendSide="TOP" legendVisible="false" prefHeight="234.0" prefWidth="237.0" title="Hours spent" />
+                        <TextArea fx:id="courseDescription" layoutX="200.0" layoutY="58.0" prefHeight="72.0" prefWidth="179.0" promptText="Course description" style="-fx-background-color: transparent;" wrapText="true" />
+                        <Label layoutX="200.0" layoutY="37.0" text="Description" />
+                        <Button fx:id="closeEditPaneBtn" cancelButton="true" layoutX="801.0" layoutY="305.0" mnemonicParsing="false" onAction="#onActionCloseEditPane" text="&gt;" visible="false" />
 
                      </children></AnchorPane>
             </content>
@@ -116,9 +143,30 @@
                          <TextField fx:id="miniPauseTimeTextField" layoutX="130.0" layoutY="50.0" prefHeight="25.0" prefWidth="38.0" promptText="5" />
                          <TextField fx:id="largePauseTimeTextField" layoutX="130.0" layoutY="90.0" prefHeight="25.0" prefWidth="39.0" promptText="20" />
                          <ChoiceBox fx:id="courseChoiceBox" layoutX="130.0" layoutY="127.0" prefHeight="25.0" prefWidth="109.0" />
-                         <Button fx:id="startTimerBtn" defaultButton="true" layoutX="197.0" layoutY="90.0" mnemonicParsing="false" onAction="#startTimer" text="Start studying" />
-                         <Button fx:id="pauseTimerBtn" disable="true" layoutX="298.0" layoutY="90.0" mnemonicParsing="false" onAction="#onPauseTimer" text="Pause studying" />
-                         <Button fx:id="endTimerBtn" cancelButton="true" contentDisplay="CENTER" disable="true" layoutX="406.0" layoutY="90.0" mnemonicParsing="false" onAction="#onEndTimer" text="End studying session" />
+                         <Button fx:id="startTimerBtn" defaultButton="true" layoutX="197.0" layoutY="90.0" mnemonicParsing="false" onAction="#startTimer">
+                             <tooltip><Tooltip text="Start study session" /></tooltip>
+                             <graphic>
+                                 <ImageView>
+                                     <Image url="@resources/play-button-white-16.png" />
+                                 </ImageView>
+                             </graphic>
+                         </Button>
+                         <Button fx:id="pauseTimerBtn" disable="true" layoutX="239.0" layoutY="90.0" mnemonicParsing="false" onAction="#onPauseTimer">
+                             <tooltip><Tooltip text="Pause timer" /></tooltip>
+                             <graphic>
+                                 <ImageView>
+                                     <Image url="@resources/pause-white-16.png" />
+                                 </ImageView>
+                             </graphic>
+                         </Button>
+                         <Button fx:id="endTimerBtn" cancelButton="true" contentDisplay="CENTER" disable="true" layoutX="282.0" layoutY="90.0" mnemonicParsing="false" onAction="#onEndTimer">
+                             <tooltip><Tooltip text="End study session" /></tooltip>
+                             <graphic>
+                                 <ImageView>
+                                     <Image url="@resources/stop-button-white-16.png" />
+                                 </ImageView>
+                             </graphic>
+                         </Button>
                          <Button fx:id="skipPauseBtn" cancelButton="true" layoutX="383.0" layoutY="387.0" mnemonicParsing="false" onAction="#onSkipPauseButtonAction" text="Skip pause" visible="false" />
                          <ProgressBar fx:id="timerProgress" layoutX="320.0" layoutY="326.0" prefWidth="200.0" progress="0.0" />
                          <Label fx:id="studySessionLabel" layoutX="14.0" layoutY="17.0" text="Study session" textFill="#0d6300" />
@@ -130,7 +178,7 @@
                      </children></AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Motivacija">
+            <Tab disable="true" text="Motivation">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -179,54 +227,25 @@
                      </children></AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Data">
-                <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="courseTable" layoutX="14.0" layoutY="14.0" prefHeight="106.0" prefWidth="572.0">
-                          <columns>
-                            <TableColumn prefWidth="32.0" text="id" />
-                            <TableColumn prefWidth="107.0" text="name" />
-                              <TableColumn prefWidth="130.0" text="description" />
-                              <TableColumn prefWidth="104.0" text="due" />
-                              <TableColumn prefWidth="67.0" text="student_id" />
-                          </columns>
-                        </TableView>
-                        <TableView fx:id="timeTable" layoutX="14.0" layoutY="130.0" prefHeight="107.0" prefWidth="572.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
-                        <TableView fx:id="studentTable" layoutX="14.0" layoutY="247.0" prefHeight="116.0" prefWidth="571.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
-
-                     </children></AnchorPane>
-                </content>
-            </Tab>
         </tabs>
       </TabPane>
    </center>
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="_File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem disable="true" mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="_Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem disable="true" mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="_Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem disable="true" mnemonicParsing="false" text="About" />
             </items>
           </Menu>
         </menus>

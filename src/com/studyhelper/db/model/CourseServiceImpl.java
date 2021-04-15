@@ -2,6 +2,8 @@ package com.studyhelper.db.model;
 
 import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.source.DataSource;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,8 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,12 +20,12 @@ public class CourseServiceImpl implements CourseService{
     private Connection connection = null;
 
     @Override
-    public List<Course> getAllCourses() {
+    public ObservableList<Course> getAllCourses() {
         connection = DataSource.getInstance().openConnection();
         if(connection == null)
             return null;
 
-        List<Course> courseArrayList = new ArrayList<>();
+        ObservableList<Course> courseArrayList = FXCollections.observableArrayList();
 
         try(Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM COURSE");
@@ -52,7 +52,44 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
+    public void updateCourseName(String name, int id) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("UPDATE course SET name=\"");
+        stringBuilder.append(name);
+        stringBuilder.append("\" ");
+        stringBuilder.append("WHERE id=");
+        stringBuilder.append(id);
+
+        connection = DataSource.getInstance().openConnection();
+        if(connection == null)
+            return;
+
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(stringBuilder.toString());
+            logger.log(Level.INFO, stringBuilder.toString());
+
+            return;
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+            return;
+        } finally {
+            connection = null;
+            DataSource.getInstance().closeConnection();
+        }
+    }
+
+    @Override
     public void insertCourse(Course course) {
+        insertNewCourse(course);
+        Course courseNew = getCourseByName(course.getName());
+        new TimeServiceImpl().insertNewTime(courseNew.getId());
+    }
+
+    private void insertNewCourse(Course course) {
+        connection = DataSource.getInstance().openConnection();
+        if(connection == null)
+            return;
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("INSERT INTO course (\"name\", \"description\", \"due\") VALUES (\"");
         stringBuilder.append(course.getName());
@@ -61,17 +98,17 @@ public class CourseServiceImpl implements CourseService{
         stringBuilder.append("\", \"");
         stringBuilder.append(course.getDue().toString());
         stringBuilder.append("\")");
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return;
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(stringBuilder.toString());
-            DataSource.getInstance().closeConnection();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
+        } finally {
+            connection = null;
+            DataSource.getInstance().closeConnection();
         }
     }
+
 
     @Override
     public Course getCourseByName(String courseName) {
@@ -181,5 +218,13 @@ public class CourseServiceImpl implements CourseService{
             connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    @Override
+    public void deleteAllDataAboutCourse(int id) {
+        deleteCourseById(id);
+        new TodoServiceImpl().deleteAllTodoByCourseId(id);
+        new TimePerDayServiceImpl().deleteAllTimePerDayByCourseId(id);
+        new TimeServiceImpl().deleteAllTimeByCourseId(id);
     }
 }

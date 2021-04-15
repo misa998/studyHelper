@@ -1,11 +1,8 @@
 package com.studyhelper.db.model;
 
-import com.studyhelper.controller.TrayIconController;
 import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.entity.TimePerDay;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.paint.Paint;
+import java.time.Duration;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -72,7 +69,7 @@ public class PomodoroServiceImpl implements PomodoroService{
 
     public void endStudySession(){
         if(pomodoro != null)
-            new TimePerDayServiceImpl().addTimePerDay(new TimePerDay(LocalDate.now(), studyTime, pomodoro.getCourse_id()));
+            new TimePerDayServiceImpl().addTimePerDay(new TimePerDay(LocalDate.now(), Duration.ofHours(studyTime.getHour()).plusMinutes(studyTime.getMinute()), pomodoro.getCourse_id()));
     }
 
     @Override
@@ -81,7 +78,7 @@ public class PomodoroServiceImpl implements PomodoroService{
     }
 
     private LocalTime studyTime = LocalTime.parse("00:00:00");
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     /*
      * code that will be execute every 1 second by timeline
