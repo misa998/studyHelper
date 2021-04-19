@@ -1,7 +1,15 @@
 package com.studyhelper.db.model;
 
+import com.studyhelper.controller.TrayIconController;
 import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.entity.TimePerDay;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
+import javax.script.SimpleBindings;
 import java.time.Duration;
 
 import java.time.LocalDate;
@@ -17,38 +25,15 @@ public class PomodoroServiceImpl implements PomodoroService{
     }
 
     private Pomodoro pomodoro = null;
-    //private int sessionsCounter = 0;
-    public enum StudyState {
-        MINIPAUSE("On mini pause"),
-        LARGEPAUSE("On large pause"),
-        STUDY("Studying"),
-        STOPPED("Not studying");
+    private PomodoroStudyStates studyStates = new PomodoroStudyStates();
 
-        private String description;
-
-        private StudyState(String description) {
-            this.description = description;
-        }
-
-        @Override
-        public String toString() {
-            return description;
-        }
-    }
-    public static StudyState studyState = StudyState.STOPPED;
+    private IntegerProperty studySessionCounter = new SimpleIntegerProperty(0);
+    TrayIconController trayIconController = new TrayIconController();
 
     @Override
     public Pomodoro setup(Pomodoro pomodoro){
         this.pomodoro = pomodoro;
         return pomodoro;
-    }
-
-    public StudyState getStudyState(){
-        return studyState;
-    }
-
-    public void setStudyState(StudyState studyState){
-        PomodoroServiceImpl.studyState = studyState;
     }
 
     public boolean isStudyTimerOver(){
@@ -63,13 +48,13 @@ public class PomodoroServiceImpl implements PomodoroService{
         return studyTime.compareTo(pomodoro.getLargePause()) == 0;
     }
 
-    public void changeStateToStudy(){
-        studyState = StudyState.STUDY;
-    }
-
     public void endStudySession(){
         if(pomodoro != null)
-            new TimePerDayServiceImpl().addTimePerDay(new TimePerDay(LocalDate.now(), Duration.ofHours(studyTime.getHour()).plusMinutes(studyTime.getMinute()), pomodoro.getCourse_id()));
+            new TimePerDayServiceImpl().addTimePerDay(
+                    new TimePerDay(LocalDate.now(),
+                            Duration.ofHours(studyTime.getHour()).plusMinutes(studyTime.getMinute()),
+                            pomodoro.getCourse_id())
+            );
     }
 
     @Override
@@ -80,11 +65,26 @@ public class PomodoroServiceImpl implements PomodoroService{
     private LocalTime studyTime = LocalTime.parse("00:00:00");
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    /*
-     * code that will be execute every 1 second by timeline
-     */
     public void incrementTime() {
         studyTime = studyTime.plusSeconds(1);
+        trayIconNotificationForTimePassed();
+    }
+
+    private void trayIconNotificationForTimePassed() {
+        switch (PomodoroStudyStates.studyStateProperty.get()) {
+            case STUDY:
+                if (isStudyTimerOver())
+                    trayIconController.displayMessage(getCurrentStudyTime().getMinute() + " minutes passed in study session. " + getStudySessionCounter() + " session over.");
+                break;
+            case MINIPAUSE:
+                if (isMiniPauseTimerOver())
+                    trayIconController.displayMessage(getCurrentStudyTime().getMinute() + " minutes passed in mini pause.");
+                break;
+            case LARGEPAUSE:
+                if (isLargePauseTimerOver())
+                    trayIconController.displayMessage(getCurrentStudyTime().getMinute() + " minutes passed in large pause.");
+                break;
+        }
     }
 
     public String getCurrentStudyTimeString(){
@@ -99,25 +99,30 @@ public class PomodoroServiceImpl implements PomodoroService{
         studyTime = LocalTime.parse("00:00:00");
     }
 
-    public void startTimer() {
-        if (getStudyState() == StudyState.STOPPED) {
-            studySessionCounter++;
+    public void setStartState() {
+        if (studyStates.getStudyState() == PomodoroStudyStates.StudyState.STOPPED) {
+            studySessionCounter.setValue(studySessionCounter.add(1).getValue());
         }
 
-        setStudyState(StudyState.STUDY);
+        studyStates.setStudyState(PomodoroStudyStates.StudyState.STUDY);
+
+        trayIconController.displayMessage("studying session started");
     }
 
-    private static int studySessionCounter = 0;
-
     public void studySessionCounterReset(){
-        studySessionCounter = 0;
+        studySessionCounter.setValue(0);
+
+        trayIconController.displayMessage("Study sessions over. Big pause!");
     }
 
     public boolean isStudySessionOver(){
-        return studySessionCounter == 4;
+        return studySessionCounter.get() == 4;
     }
 
     public int getStudySessionCounter(){
+        return studySessionCounter.get();
+    }
+    public IntegerProperty getStudySessionCounterProperty(){
         return studySessionCounter;
     }
 }

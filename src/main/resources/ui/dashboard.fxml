@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.DashboardController">
+   <children>
+      <StackedBarChart fx:id="stackedBarChart" animated="false" layoutX="14.0" layoutY="14.0" title="Minutes per day spent on studying each course">
+         <xAxis>
+            <CategoryAxis label="Days" side="BOTTOM" fx:id="xAxis" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis fx:id="yAxis" label="Minutes" side="LEFT" />
+         </yAxis>
+      </StackedBarChart>
+
+      <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="414.0" max="31.0" min="1.0" showTickLabels="true" showTickMarks="true" value="5.0">
+         <tooltip><Tooltip text="Choose number of days to show in chart" /></tooltip>
+      </Slider>
+
+      <WebView fx:id="webView" layoutX="561.0" layoutY="42.0" prefHeight="120.0" prefWidth="243.0" />
+
+      <Label fx:id="unableToLoadWebViewLabel" layoutX="561.0" layoutY="326.0" text="Unable to load webpage" visible="false" wrapText="true" />
+
+      <Button layoutX="772.0" layoutY="14.0" mnemonicParsing="false" onAction="#setupRadio" textFill="#c3c3c3">
+         <tooltip><Tooltip text="Refresh radio" /></tooltip>
+         <graphic>
+            <ImageView>
+               <Image url="@icons/refresh-white-16.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+
+      <PieChart fx:id="coursePieChart" animated="false" layoutX="553.0" layoutY="187.0" legendSide="TOP" legendVisible="false" prefHeight="234.0" prefWidth="237.0" title="Hours spent on each course" />
+
+   </children>
+</AnchorPane>

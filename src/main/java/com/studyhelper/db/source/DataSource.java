@@ -1,8 +1,5 @@
 package com.studyhelper.db.source;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.sql.*;
 
 import java.util.logging.Level;
@@ -16,12 +13,12 @@ public class DataSource {
     public static DataSource getInstance(){
         return instance;
     }
-
-    /* setup for a database to be created outside of .exe
+/*
 
     public static final String DB_FILE_NAME = "studyHelperDatabase.db";
     public static final String URL = "jdbc:sqlite:" + DB_FILE_NAME;
-     */
+*/
+
     public static final String DB_FILE_NAME = "studyHelperDatabase.db";
     public static final String URL = "jdbc:sqlite::resource:" + DB_FILE_NAME;
 

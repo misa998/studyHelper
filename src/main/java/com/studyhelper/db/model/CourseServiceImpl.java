@@ -45,7 +45,7 @@ public class CourseServiceImpl implements CourseService{
             return courseArrayList;
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
-            return null;
+            return FXCollections.emptyObservableList();
         } finally {
             connection = null;
             DataSource.getInstance().closeConnection();
