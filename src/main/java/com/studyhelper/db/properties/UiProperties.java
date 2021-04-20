@@ -15,6 +15,7 @@ public class UiProperties {
     private String pomodoroFXMLPath = "";
     private String mainFXMLPath = "";
     private String editPaneFXMLPath = "";
+    private String motivationFXMLPath = "";
     private int resolutionX = 0;
     private int resolutionY = 0;
     private String trayIconCaption = "";
@@ -54,12 +55,17 @@ public class UiProperties {
         pomodoroFXMLPath = properties.getProperty("pomodoroFXMLPath");
         mainFXMLPath = properties.getProperty("mainFXMLPath");
         editPaneFXMLPath = properties.getProperty("editPaneFXMLPath");
+        motivationFXMLPath = properties.getProperty("motivationFXMLPath");
         resolutionX = Integer.parseInt(properties.getProperty("resolutionX"));
         resolutionY = Integer.parseInt(properties.getProperty("resolutionY"));
         trayIconCaption = properties.getProperty("trayIconCaption");
         trayIconToolTip = properties.getProperty("trayIconToolTip");
         mainIconPath = properties.getProperty("mainIconPath");
 
+    }
+
+    public URL getMotivationFXMLPath() {
+        return getClass().getResource(motivationFXMLPath);
     }
 
     public String getMainIconPath() {

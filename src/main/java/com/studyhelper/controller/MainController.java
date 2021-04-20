@@ -19,16 +19,21 @@ public class MainController {
     private AnchorPane coursesTabAnchorPane;
     @FXML
     private AnchorPane pomodoroTabAnchorPane;
+    @FXML
+    private AnchorPane motivationTabAnchorPane;
 
     private final Logger logger = Logger.getLogger(MainController.class.getName());
 
     private final URL dashboardFXMLPath = new UiProperties().getDashboardFXMLPath();
     private final URL courseOverviewFXMLPath = new UiProperties().getCourseOverviewFXMLPath();
     private final URL pomodoroFXMLPath = new UiProperties().getPomodoroFXMLPath();
+    private final URL motivationFXMLPath = new UiProperties().getMotivationFXMLPath();
+
 
     private AnchorPane dashboardAnchorPane = null;
     private AnchorPane coursesAnchorPane = null;
     private AnchorPane pomodoroAnchorPane = null;
+    private AnchorPane motivationAnchorPane = null;
 
     public void initialize(){
 
@@ -79,5 +84,21 @@ public class MainController {
         }
 
         pomodoroTabAnchorPane.getChildren().setAll(pomodoroAnchorPane);
+    }
+
+    @FXML
+    public void motivationTabChanged() {
+        if(motivationAnchorPane == null)
+            loadMotivationTab();
+    }
+
+    private void loadMotivationTab() {
+        try {
+            motivationAnchorPane = FXMLLoader.load(motivationFXMLPath);
+        } catch (IOException e){
+            logger.log(Level.WARNING, e.getMessage());
+        }
+
+        motivationTabAnchorPane.getChildren().setAll(motivationAnchorPane);
     }
 }
