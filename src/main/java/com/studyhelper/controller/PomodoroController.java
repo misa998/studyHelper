@@ -20,6 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Paint;
 
 import java.time.LocalTime;
+import java.util.Comparator;
 
 import static com.studyhelper.db.model.PomodoroStudyStates.StudyState.*;
 
@@ -82,6 +83,7 @@ public class PomodoroController {
 
     private void getCoursesForChoiceBox() {
         ObservableList<Course> courseList = new CourseServiceImpl().getAllCourses();
+        courseList.sort(Comparator.comparing((Course c) -> c.getName()));
         for(Course course : courseList) courseChoiceBox.getItems().add(course.getName());
     }
 

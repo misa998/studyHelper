@@ -71,9 +71,6 @@ public class CourseOverviewController {
     private static final Logger logger = Logger.getLogger(CourseOverviewController.class.getName());
 
     public void initialize(){
-        vBoxCourses.getChildren().clear();
-        vBoxEachCourse.getChildren().clear();
-
         setupEverythingForCourseTabChange();
     }
 
@@ -156,11 +153,6 @@ public class CourseOverviewController {
         }
     }
 
-    @FXML
-    private void onActionCloseEditPane(){
-        editCoursesPane.getChildren().clear();
-    }
-
     private void loadEditPane() throws IOException {
         GridPane gridPane = FXMLLoader.load(new UiProperties().getEditPaneFXMLPath());
         gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
@@ -182,6 +174,13 @@ public class CourseOverviewController {
     }
 
     @FXML
+    private void onActionCloseEditPane(){
+        editCoursesPane.getChildren().clear();
+        fillTheListOfCourses();
+        //new DashboardController().initialize();
+    }
+
+    @FXML
     private void onActionDeleteSelectedCourse(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Todo item");
@@ -194,11 +193,13 @@ public class CourseOverviewController {
         if(result.isPresent() && (result.get() == ButtonType.OK)){
             new CourseServiceImpl().deleteAllDataAboutCourse(selectedCourse.get());
             selectedCourse.setValue(0);
-            //courseTabChange();
+            fillTheListOfCourses();
         }
     }
 
     private void fillTheListOfCourses(){
+        cleanOldDataForCourseList();
+
         ObservableList<Course> courseList = new CourseServiceImpl().getAllCourses();
         courseList.sort(compareCoursesByDue());
 
@@ -214,8 +215,17 @@ public class CourseOverviewController {
         }
     }
 
+    private void cleanOldDataForCourseList(){
+        vBoxCourses.getChildren().clear();
+        vBoxEachCourse.getChildren().clear();
+    }
+
     private Comparator<Course> compareCoursesByDue(){
-        return (o1, o2) -> o2.getDue().compareTo(o1.getDue());
+        return Comparator.comparing((Course c) -> c.getDue().isAfter(LocalDate.now()))
+                .thenComparing(c -> c.getDue().isBefore(LocalDate.now()))
+                .thenComparing(c -> c.getDue().isBefore(LocalDate.now().plusDays(10)))
+                .reversed()
+                ;
     }
 
     private TextField setCourseListTextField(String courseName){
