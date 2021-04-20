@@ -6,17 +6,16 @@ import com.studyhelper.db.entity.Todo;
 import com.studyhelper.db.model.CourseServiceImpl;
 import com.studyhelper.db.model.TimeServiceImpl;
 import com.studyhelper.db.model.TodoServiceImpl;
+import com.studyhelper.db.properties.UiProperties;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -76,10 +75,10 @@ public class CourseOverviewController {
         vBoxEachCourse.getChildren().clear();
 
         setupEverythingForCourseTabChange();
-        fillTheListOfCourses();
     }
 
     private void setupEverythingForCourseTabChange() {
+        fillTheListOfCourses();
         todoTableViewSetup();
         setupCourseDescription();
         editPaneSetup();
@@ -163,7 +162,7 @@ public class CourseOverviewController {
     }
 
     private void loadEditPane() throws IOException {
-        GridPane gridPane = FXMLLoader.load(getClass().getResource("/ui/editPaneView.fxml"));
+        GridPane gridPane = FXMLLoader.load(new UiProperties().getEditPaneFXMLPath());
         gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
         gridPane.setMaxHeight(editCoursesPane.getMaxHeight());
 

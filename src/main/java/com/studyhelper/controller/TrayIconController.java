@@ -1,6 +1,7 @@
 package com.studyhelper.controller;
 
 import com.studyhelper.Main;
+import com.studyhelper.db.properties.UiProperties;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
@@ -8,19 +9,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Objects;
 
 public class TrayIconController {
     public static TrayIcon trayIcon;
     static SystemTray systemTray = null;
-    private final String trayIconCaption = "Your study helper";
-    private final String trayIconToolTip = "Your study helper";
-    private final String IMAGE_URL = "/ui/icons/main-icon-black-white-128.png";
+    private final String trayIconCaption = new UiProperties().getTrayIconCaption();
+    private final String trayIconToolTip = new UiProperties().getTrayIconToolTip();
+    private final URL IMAGE_URL = new UiProperties().getMainIconURL();
 
     public void showTray(){
         if(!isSupported())
             return;
 
-        trayIcon = new TrayIcon(loadAndScaleImage());
+        trayIcon = new TrayIcon(Objects.requireNonNull(loadAndScaleImage()));
         systemTray = SystemTray.getSystemTray();
         trayIcon.setToolTip(trayIconToolTip);
         trayIcon.setPopupMenu(configurePopupMenu());
@@ -124,7 +127,7 @@ public class TrayIconController {
     }
 
     private Image createImageForSystemTray() throws MalformedURLException {
-        return Toolkit.getDefaultToolkit().getImage(getClass().getResource(IMAGE_URL));
+        return Toolkit.getDefaultToolkit().getImage(IMAGE_URL);
     }
 
     private boolean isSupported(){

@@ -1,5 +1,7 @@
 package com.studyhelper.db.source;
 
+import com.studyhelper.db.properties.DatabaseProperties;
+
 import java.sql.*;
 
 import java.util.logging.Level;
@@ -14,13 +16,16 @@ public class DataSource {
         return instance;
     }
 /*
-
     public static final String DB_FILE_NAME = "studyHelperDatabase.db";
     public static final String URL = "jdbc:sqlite:" + DB_FILE_NAME;
 */
+/*
+    public final String DB_FILE_NAME = "studyHelperDatabase.db";
+    public final String URL = "jdbc:sqlite::resource:" + DB_FILE_NAME;
+*/
 
-    public static final String DB_FILE_NAME = "studyHelperDatabase.db";
-    public static final String URL = "jdbc:sqlite::resource:" + DB_FILE_NAME;
+    public final String DB_FILE_NAME = new DatabaseProperties().getDB_FILE_NAME();
+    public final String URL = new DatabaseProperties().getURL() + DB_FILE_NAME;
 
     private Connection connection;
 

@@ -3,13 +3,7 @@ package com.studyhelper.db.model;
 import com.studyhelper.controller.TrayIconController;
 import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.entity.TimePerDay;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-
-import javax.script.SimpleBindings;
 import java.time.Duration;
 
 import java.time.LocalDate;

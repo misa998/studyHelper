@@ -1,5 +1,6 @@
 package com.studyhelper.controller;
 
+import com.studyhelper.db.properties.UiProperties;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.*;
@@ -21,9 +22,9 @@ public class MainController {
 
     private final Logger logger = Logger.getLogger(MainController.class.getName());
 
-    private final URL dashboardFXMLPath = getClass().getResource("/ui/dashboard.fxml");
-    private final URL courseOverviewFXMLPath = getClass().getResource("/ui/courseOverview.fxml");
-    private final URL pomodoroFXMLPath = getClass().getResource("/ui/pomodoro.fxml");
+    private final URL dashboardFXMLPath = new UiProperties().getDashboardFXMLPath();
+    private final URL courseOverviewFXMLPath = new UiProperties().getCourseOverviewFXMLPath();
+    private final URL pomodoroFXMLPath = new UiProperties().getPomodoroFXMLPath();
 
     private AnchorPane dashboardAnchorPane = null;
     private AnchorPane coursesAnchorPane = null;
