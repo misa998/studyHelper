@@ -3,9 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="840.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.MainController">
+<BorderPane prefHeight="600.0" prefWidth="840.0"
+            stylesheets="@css/style.css"
+            xmlns="http://javafx.com/javafx/9.0.4"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.studyhelper.controller.MainController">
    <center>
-      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab onSelectionChanged="#dashboardTabChanged" text="Dashboard">
             <content>

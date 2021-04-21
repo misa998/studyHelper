@@ -39,19 +39,18 @@ public class DataSource {
             return connection;
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
+            System.exit(-1);
             return null;
         }
     }
 
-    public boolean closeConnection(){
+    public void closeConnection(){
         try{
             if(connection != null)
                 connection.close();
 
-            return true;
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
-            return false;
         }
     }
 }

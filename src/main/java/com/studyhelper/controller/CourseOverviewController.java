@@ -145,42 +145,6 @@ public class CourseOverviewController {
     }
 
     @FXML
-    public void addCourseButtonAction() {
-        try {
-            loadEditPane();
-        } catch (IOException e){
-            logger.log(Level.WARNING, e.getMessage());
-        }
-    }
-
-    private void loadEditPane() throws IOException {
-        GridPane gridPane = FXMLLoader.load(new UiProperties().getEditPaneFXMLPath());
-        gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
-        gridPane.setMaxHeight(editCoursesPane.getMaxHeight());
-
-        editCoursesPane.getChildren().setAll(gridPane);
-    }
-
-    private void editPaneSetup(){
-        editCoursesPane.getChildren().addListener(new ListChangeListener<Node>() {
-            @Override
-            public void onChanged(Change<? extends Node> change) {
-                closeEditPaneBtn.setVisible(editCoursesPane.getChildren().size() >= 1);
-            }
-        });
-        addCourseButton.disableProperty().bind(
-                Bindings.selectBoolean(closeEditPaneBtn.visibleProperty())
-        );
-    }
-
-    @FXML
-    private void onActionCloseEditPane(){
-        editCoursesPane.getChildren().clear();
-        fillTheListOfCourses();
-        //new DashboardController().initialize();
-    }
-
-    @FXML
     private void onActionDeleteSelectedCourse(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Todo item");
@@ -237,6 +201,7 @@ public class CourseOverviewController {
             public void changed(ObservableValue<? extends String> observableValue, String oldName, String newName) {
                 selectedCourse.setValue(new CourseServiceImpl().getCourseByName(oldName).getId());
                 new CourseServiceImpl().updateCourseName(newName, selectedCourse.get());
+                fillTheListOfCourses();
             }
         });
 
@@ -344,6 +309,7 @@ public class CourseOverviewController {
     /*
      * how checkbox cell will be setup
      */
+
     private Callback<TableColumn<Todo, Boolean>, TableCell<Todo, Boolean>> checkboxCellSetup() {
         return new Callback<TableColumn<Todo, Boolean>, TableCell<Todo, Boolean>>() {
             @Override
@@ -360,10 +326,10 @@ public class CourseOverviewController {
             }
         };
     }
-
     /*
      * what will happen on checkbox select
      */
+
     private ObservableValue<Boolean> onCheckBoxActionSelectTableColumn(Integer index){
         BooleanProperty selected = new SimpleBooleanProperty(todoTableView.getItems().get(index).getCompletedProperty().get());
         selected.addListener(new ChangeListener<Boolean>() {
@@ -375,7 +341,6 @@ public class CourseOverviewController {
         });
         return selected;
     }
-
     private void onActionCheckBoxUpdate(boolean isSelected, int rowIndex){
         Todo todoSelected = todoTableView.getItems().get(rowIndex);
         todoSelected.setCompleted(isSelected);
@@ -403,5 +368,40 @@ public class CourseOverviewController {
             new TodoServiceImpl().deleteTodo(todoTableView.getSelectionModel().getSelectedItem());
 
         todoTableViewRefresh();
+    }
+
+    @FXML
+    public void addCourseButtonAction() {
+        try {
+            loadEditPane();
+        } catch (IOException e){
+            logger.log(Level.WARNING, e.getMessage());
+        }
+    }
+
+    private void loadEditPane() throws IOException {
+        GridPane gridPane = FXMLLoader.load(new UiProperties().getEditPaneFXMLPath());
+        gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
+        gridPane.setMaxHeight(editCoursesPane.getMaxHeight());
+
+        editCoursesPane.getChildren().setAll(gridPane);
+    }
+
+    private void editPaneSetup(){
+        editCoursesPane.getChildren().addListener(new ListChangeListener<Node>() {
+            @Override
+            public void onChanged(Change<? extends Node> change) {
+                closeEditPaneBtn.setVisible(editCoursesPane.getChildren().size() >= 1);
+            }
+        });
+        addCourseButton.disableProperty().bind(
+                Bindings.selectBoolean(closeEditPaneBtn.visibleProperty())
+        );
+    }
+
+    @FXML
+    private void onActionCloseEditPane(){
+        editCoursesPane.getChildren().clear();
+        fillTheListOfCourses();
     }
 }

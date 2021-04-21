@@ -1,5 +1,6 @@
 package com.studyhelper.db.source;
 
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,8 +9,13 @@ import java.util.logging.Logger;
 
 public class CreateNewSchema {
 
-    private final Logger logger = Logger.getLogger(CreateNewSchema.class.getName());
+    private final Logger logger;
     private Connection connection;
+
+    public CreateNewSchema() {
+        this.connection = DataSource.getInstance().openConnection();
+        this.logger = Logger.getLogger(CreateNewSchema.class.getName());
+    }
 
     protected void createDatabaseSchema() {
         try{
@@ -18,38 +24,22 @@ public class CreateNewSchema {
             createTimePerDayTable();
             createTodoTable();
             createMotivationTable();
+
+            logger.log(Level.INFO, "Creating schemas successfully finished.");
         }catch (Exception e){
             logger.log(Level.SEVERE, e.getMessage());
-        }
-    }
-
-    private void getConnection(){
-        connection = DataSource.getInstance().openConnection();
-    }
-
-    private void logRequest(String request){
-        logger.log(Level.INFO, request);
-    }
-
-    private void execute(StringBuilder stringBuilder){
-        logRequest(stringBuilder.toString());
-
-        getConnection();
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-
-            return;
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            return;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
     }
 
-    private void createMotivationTable() {
+    private void execute(StringBuilder stringBuilder) throws SQLException{
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(stringBuilder.toString());
+        }
+    }
+
+    private void createMotivationTable() throws SQLException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("CREATE TABLE IF NOT EXISTS \"motivation\" (\n" +
                 "        \"id\"    INTEGER NOT NULL,\n" +
@@ -61,7 +51,7 @@ public class CreateNewSchema {
         execute(stringBuilder);
     }
 
-    private void createTodoTable() {
+    private void createTodoTable() throws SQLException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("CREATE TABLE IF NOT EXISTS \"todo\" (\n" +
                 "        \"id\"    INTEGER,\n" +
@@ -74,7 +64,7 @@ public class CreateNewSchema {
         execute(stringBuilder);
     }
 
-    private void createTimePerDayTable() {
+    private void createTimePerDayTable() throws SQLException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("CREATE TABLE IF NOT EXISTS \"timePerDay\" (\n" +
                 "        \"id\"    INTEGER NOT NULL,\n" +
@@ -87,7 +77,7 @@ public class CreateNewSchema {
         execute(stringBuilder);
     }
 
-    private void createTimeTable() {
+    private void createTimeTable() throws SQLException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("CREATE TABLE IF NOT EXISTS \"time\" (\n" +
                 "        \"id\"    INTEGER NOT NULL,\n" +
@@ -99,19 +89,8 @@ public class CreateNewSchema {
         execute(stringBuilder);
     }
 
-    private void createCourseTable() {
+    private void createCourseTable() throws SQLException {
         StringBuilder stringBuilder = new StringBuilder();
-        /*stringBuilder.append("CREATE TABLE \"course\" (" +
-                "\"id\" int NOT NULL AUTO_INCREMENT, " +
-                "\"name\" varchar(45) NOT NULL, " +
-                "\"description\" tinytext, " +
-                "\"due\" time NOT NULL, " +
-                "\"student_id\" int NOT NULL, " +
-                "PRIMARY KEY (\"id\"), " +
-                "UNIQUE KEY \"name_UNIQUE\" (\"name\"), " +
-                "KEY \"id_idx\" (\"student_id\"), " +
-                "CONSTRAINT \"id\" FOREIGN KEY (\"student_id\") REFERENCES \"student\" (\"id\") " +
-                ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci");*/
         stringBuilder.append("CREATE TABLE IF NOT EXISTS \"course\" (\n" +
                 "        \"id\"    INTEGER NOT NULL,\n" +
                 "        \"name\"  TEXT NOT NULL UNIQUE,\n" +

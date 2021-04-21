@@ -10,7 +10,7 @@ public interface MotivationService {
     Motivation getMotivationByBody(String body);
     void updateMotivationTitle(String title, int id);
     void updateMotivationBody(String body, int id);
-    void insertMotivation(Motivation motivation);
+    int insertMotivation(Motivation motivation);
     void deleteMotivationById(int id);
 
 }

@@ -24,6 +24,10 @@ public class PomodoroServiceImpl implements PomodoroService{
     private IntegerProperty studySessionCounter = new SimpleIntegerProperty(0);
     TrayIconController trayIconController = new TrayIconController();
 
+    private LocalTime studyTime = LocalTime.parse("00:00:00");
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private StringProperty studyTimeProperty = new SimpleStringProperty("00:00:00");
+
     @Override
     public Pomodoro setup(Pomodoro pomodoro){
         this.pomodoro = pomodoro;
@@ -56,11 +60,9 @@ public class PomodoroServiceImpl implements PomodoroService{
         return false;
     }
 
-    private LocalTime studyTime = LocalTime.parse("00:00:00");
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
     public void incrementTime() {
         studyTime = studyTime.plusSeconds(1);
+        studyTimeProperty.setValue(getCurrentStudyTimeString());
         trayIconNotificationForTimePassed();
     }
 
@@ -91,6 +93,7 @@ public class PomodoroServiceImpl implements PomodoroService{
 
     public void timerReset(){
         studyTime = LocalTime.parse("00:00:00");
+        studyTimeProperty.setValue(getCurrentStudyTimeString());
     }
 
     public void setStartState() {
@@ -118,5 +121,9 @@ public class PomodoroServiceImpl implements PomodoroService{
     }
     public IntegerProperty getStudySessionCounterProperty(){
         return studySessionCounter;
+    }
+
+    public Property<String> getCurrentStudyTimeStringProperty() {
+        return studyTimeProperty;
     }
 }

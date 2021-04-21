@@ -6,10 +6,7 @@ import com.studyhelper.db.source.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,202 +15,210 @@ import java.util.logging.Logger;
 
 public class TimePerDayServiceImpl implements TimePerDayService{
 
-    private final Logger logger = Logger.getLogger(CourseServiceImpl.class.getName());
-    private Connection connection = null;
+    private final Logger logger;
+    private Connection connection;
+
+    public TimePerDayServiceImpl() {
+        this.connection = DataSource.getInstance().openConnection();
+        this.logger =  Logger.getLogger(CourseServiceImpl.class.getName());
+    }
 
     @Override
     public ObservableList<TimePerDay> getAllTimePerDayInstances() {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null) {
-            return null;
+        try{
+            return getAllTimePerDayInstancesExecute();
+        } catch (SQLException e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return FXCollections.emptyObservableList();
+        } finally {
+            DataSource.getInstance().closeConnection();
         }
+    }
 
+    private ObservableList<TimePerDay> getAllTimePerDayInstancesExecute() throws SQLException {
         ObservableList<TimePerDay> tpdList = FXCollections.observableArrayList();
 
         try(Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM timePerDay");
-            while (resultSet.next()) {
-                TimePerDay time = new TimePerDay();
-                time.setId(resultSet.getInt("id"));
-                LocalDate dateOfStudy = LocalDate.parse(resultSet.getString("date"));
-                dateOfStudy.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-                time.setDate(dateOfStudy);
-                time.setCourse_id(resultSet.getInt("course_id"));
-                time.setDuration(Duration.parse(resultSet.getString("duration")));
-                //time.setDuration(LocalTime.parse(resultSet.getString("duration"), DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-                tpdList.add(time);
-            }
+            while (resultSet.next())
+                tpdList.add(getTimePerDayFromResultSet(resultSet));
+
             return tpdList;
-        } catch (SQLException e){
-            logger.log(Level.SEVERE, e.getMessage());
-            return null;
-        } finally {
-            DataSource.getInstance().closeConnection();
         }
+    }
+
+    private TimePerDay getTimePerDayFromResultSet(ResultSet resultSet) throws SQLException {
+        TimePerDay timePerDay = new TimePerDay();
+        timePerDay.setId(resultSet.getInt("id"));
+        LocalDate dateOfStudy = LocalDate.parse(resultSet.getString("date"));
+        dateOfStudy.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
+        timePerDay.setDate(dateOfStudy);
+        timePerDay.setCourse_id(resultSet.getInt("course_id"));
+        timePerDay.setDuration(Duration.parse(resultSet.getString("duration")));
+
+        return timePerDay;
     }
 
     @Override
     public ObservableList<TimePerDay> getByCourse_id(int course_id) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null) {
-            return null;
-        }
-
-        ObservableList<TimePerDay> timePerDaysList = FXCollections.observableArrayList();
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT * FROM timePerDay WHERE course_id=");
-        stringBuilder.append(course_id);
-
-        try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
-            while (resultSet.next()) {
-                TimePerDay time = new TimePerDay();
-                time.setId(resultSet.getInt("id"));
-                LocalDate lclDt = LocalDate.parse(resultSet.getString("date"));
-                lclDt.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-                time.setDate(lclDt);
-                time.setCourse_id(resultSet.getInt("course_id"));
-                time.setDuration(Duration.parse(resultSet.getString("duration")));
-
-                timePerDaysList.add(time);
-            }
-            return timePerDaysList;
+        try{
+            return getByCourse_idExecute(course_id);
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
-            return null;
+            return FXCollections.emptyObservableList();
         } finally {
             DataSource.getInstance().closeConnection();
         }
     }
 
+    private ObservableList<TimePerDay> getByCourse_idExecute(int course_id) throws SQLException {
+        ObservableList<TimePerDay> timePerDaysList = FXCollections.observableArrayList();
+
+        PreparedStatement getAllByCourseId = connection.prepareStatement(
+                "SELECT * FROM timePerDay WHERE course_id= ?");
+        getAllByCourseId.setInt(1, course_id);
+        ResultSet resultSet = getAllByCourseId.executeQuery();
+
+        while (resultSet.next())
+            timePerDaysList.add(getTimePerDayFromResultSet(resultSet));
+
+        return timePerDaysList;
+    }
+
     @Override
     public ObservableList<TimePerDay> getByDate(LocalDate localDate) {
-        return null;
+        try{
+            return getByDateExecute(localDate);
+        } catch (SQLException e){
+            logger.log(Level.SEVERE, e.getMessage());
+            return FXCollections.emptyObservableList();
+        } finally {
+            DataSource.getInstance().closeConnection();
+        }
+    }
+
+    private ObservableList<TimePerDay> getByDateExecute(LocalDate localDate) throws SQLException {
+        ObservableList<TimePerDay> timePerDaysList = FXCollections.observableArrayList();
+
+        PreparedStatement getTPDByDate = connection.prepareStatement(
+                "SELECT * FROM timePerDay WHERE date= ?");
+        getTPDByDate.setString(1, localDate.toString());
+        ResultSet resultSet = getTPDByDate.executeQuery();
+
+        while (resultSet.next())
+            timePerDaysList.add(getTimePerDayFromResultSet(resultSet));
+
+        return timePerDaysList;
     }
 
     @Override
     public void addTimePerDay(TimePerDay timePerDay) {
         if(timePerDay.getDuration().toMinutes() < 1)
             return;
-        addNewTimePerDay(timePerDay);
-        new TimeServiceImpl().updateSumOfTimeForCourse(new Time(0, timePerDay.getDuration(), timePerDay.getCourse_id()));
+        new TimePerDayServiceImpl().addNewTimePerDay(timePerDay);
+        new TimeServiceImpl().updateSumOfTimeForCourse(
+                new Time(0, timePerDay.getDuration(), timePerDay.getCourse_id())
+        );
     }
 
-    private boolean addNewTimePerDay(TimePerDay timePerDay) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null) {
-            return false;
-        }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("INSERT INTO timePerDay (\"date\", \"duration\", \"course_id\") VALUES (\"");
-        stringBuilder.append(LocalDate.now());
-        stringBuilder.append("\", \"");
-        stringBuilder.append(timePerDay.getDuration());
-        stringBuilder.append("\", \"");
-        stringBuilder.append(timePerDay.getCourse_id());
-        stringBuilder.append("\")");
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-            logger.log(Level.INFO, stringBuilder.toString());
-
-            return true;
+    private void addNewTimePerDay(TimePerDay timePerDay) {
+        try{
+            addNewTimePerDayExecute(timePerDay);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return false;
         } finally {
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void addNewTimePerDayExecute(TimePerDay timePerDay) throws SQLException {
+        PreparedStatement addNew = connection.prepareStatement(
+                "INSERT INTO timePerDay (date, duration, course_id) VALUES " +
+                        "(?, ?, ?)");
+        addNew.setString(1, timePerDay.getDate().toString());
+        addNew.setString(2, timePerDay.getDuration().toString());
+        addNew.setInt(3, timePerDay.getCourse_id());
+
+        int affectedRows = addNew.executeUpdate();
+        isUpdated(affectedRows);
+    }
+
+    private void isUpdated(int affectedRows) throws SQLException {
+        if(affectedRows != 1)
+            throw new SQLException("Non affected");
     }
 
     @Override
-    public ObservableList<TimePerDay> getTimeByDateAndCourse_id(int course_id, LocalDate dateOfStudy) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null) {
-            return null;
-        }
-
-        ObservableList<TimePerDay> timePerDaysList = FXCollections.observableArrayList();
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT * FROM timePerDay WHERE course_id=");
-        stringBuilder.append(course_id);
-        stringBuilder.append(" AND date=\"");
-        stringBuilder.append(dateOfStudy.toString());
-        stringBuilder.append("\"");
-        try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
-            while (resultSet.next()) {
-                TimePerDay time = new TimePerDay();
-                time.setId(resultSet.getInt("id"));
-                LocalDate lclDt = LocalDate.parse(resultSet.getString("date"));
-                lclDt.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-                time.setDate(lclDt);
-                time.setCourse_id(resultSet.getInt("course_id"));
-                time.setDuration(Duration.parse(resultSet.getString("duration")));
-
-                timePerDaysList.add(time);
-            }
-            return timePerDaysList;
+    public ObservableList<TimePerDay> getTimeByDateAndCourse_id
+            (int course_id, LocalDate dateOfStudy) {
+        try{
+            return getTimeByDateAndCourseIdExecute(course_id, dateOfStudy);
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
-            return null;
+            return FXCollections.emptyObservableList();
         } finally {
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private ObservableList<TimePerDay> getTimeByDateAndCourseIdExecute
+            (int course_id, LocalDate dateOfStudy) throws SQLException {
+        ObservableList<TimePerDay> timePerDaysList = FXCollections.observableArrayList();
+
+        PreparedStatement getTimeByDateAndCourseId = connection.prepareStatement(
+                "SELECT * FROM timePerDay WHERE course_id= ? AND date= ?");
+        getTimeByDateAndCourseId.setInt(1, course_id);
+        getTimeByDateAndCourseId.setString(1, dateOfStudy.toString());
+        ResultSet resultSet = getTimeByDateAndCourseId.executeQuery();
+
+        while (resultSet.next())
+            timePerDaysList.add(getTimePerDayFromResultSet(resultSet));
+
+        return timePerDaysList;
     }
 
     @Override
     public void updateDurationForTimePerDay(TimePerDay timePerDay) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("UPDATE timePerDay SET duration=");
-        stringBuilder.append("\"");
-        stringBuilder.append(timePerDay.getDuration());
-        stringBuilder.append("\"");
-        stringBuilder.append(" WHERE id=");
-        stringBuilder.append(timePerDay.getId());
+        try{
 
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return ;
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-            logger.log(Level.INFO, stringBuilder.toString());
-
-            return;
+            updateDurationForTimePerDayExecute(timePerDay);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
     }
 
+    private void updateDurationForTimePerDayExecute(TimePerDay timePerDay)
+            throws SQLException {
+        PreparedStatement updateDuration = connection.prepareStatement(
+                "UPDATE timePerDay SET duration= ? WHERE id= ?");
+        updateDuration.setString(1, timePerDay.getDuration().toString());
+        updateDuration.setInt(2, timePerDay.getId());
+
+        int affectedRows = updateDuration.executeUpdate();
+        isUpdated(affectedRows);
+    }
+
     @Override
     public void deleteAllTimePerDayByCourseId(int id) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return;
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("DELETE FROM timePerDay WHERE course_id=");
-        stringBuilder.append(id);
-        logger.log(Level.INFO, stringBuilder.toString());
-
-        try(Statement statement = connection.createStatement()) {
-            statement.executeQuery(stringBuilder.toString());
-
-        } catch (SQLException e){
+        try {
+            deleteAllTimePerDayByCourseIdExecute(id);
+        }
+        catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void deleteAllTimePerDayByCourseIdExecute(int id) throws SQLException {
+        PreparedStatement deleteAllByCourseId = connection.prepareStatement(
+                "DELETE FROM timePerDay WHERE course_id= ?"
+        );
+        deleteAllByCourseId.setInt(1, id);
+        int affectedRows = deleteAllByCourseId.executeUpdate();
+        isUpdated(affectedRows);
     }
 }

@@ -5,10 +5,7 @@ import com.studyhelper.db.source.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
@@ -16,67 +13,75 @@ import java.util.logging.Logger;
 
 public class CourseServiceImpl implements CourseService{
 
-    private final Logger logger = Logger.getLogger(CourseServiceImpl.class.getName());
-    private Connection connection = null;
+    private final Logger logger;
+    private Connection connection;
+
+    public CourseServiceImpl() {
+        this.connection = DataSource.getInstance().openConnection();
+        this.logger = Logger.getLogger(CourseServiceImpl.class.getName());
+    }
 
     @Override
     public ObservableList<Course> getAllCourses() {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return null;
-
-        ObservableList<Course> courseArrayList = FXCollections.observableArrayList();
-
-        try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM COURSE");
-
-            while (resultSet.next()) {
-                Course course = new Course();
-                course.setId(resultSet.getInt("id"));
-                course.setName(resultSet.getString("name"));
-                course.setDescription(resultSet.getString("description"));
-                LocalDate dueDate = LocalDate.parse(resultSet.getString("due"));
-                dueDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-                course.setDue(dueDate);
-
-                courseArrayList.add(course);
-            }
-
-            return courseArrayList;
+        try{
+          return getAllCoursesExecute();
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
             return FXCollections.emptyObservableList();
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
     }
 
+    private ObservableList<Course> getAllCoursesExecute() throws SQLException {
+        ObservableList<Course> courses = FXCollections.observableArrayList();
+
+        try(Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM COURSE");
+
+            while (resultSet.next())
+                courses.add(getCourseFromResultSet(resultSet));
+
+            return courses;
+        }
+    }
+
+    private Course getCourseFromResultSet(ResultSet resultSet) throws SQLException {
+        Course course = new Course();
+        course.setId(resultSet.getInt("id"));
+        course.setName(resultSet.getString("name"));
+        course.setDescription(resultSet.getString("description"));
+        LocalDate dueDate = LocalDate.parse(resultSet.getString("due"));
+        dueDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
+        course.setDue(dueDate);
+
+        return course;
+    }
+
     @Override
     public void updateCourseName(String name, int id) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("UPDATE course SET name=\"");
-        stringBuilder.append(name);
-        stringBuilder.append("\" ");
-        stringBuilder.append("WHERE id=");
-        stringBuilder.append(id);
-
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return;
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-            logger.log(Level.INFO, stringBuilder.toString());
-
-            return;
+        try{
+            updateCourseNameExecute(name, id);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void updateCourseNameExecute(String name, int id) throws SQLException {
+        PreparedStatement updateCourseName = connection.prepareStatement(
+                "UPDATE course SET name= ? WHERE id= ?");
+        updateCourseName.setString(1, name);
+        updateCourseName.setInt(2, id);
+
+        int affectedRows = updateCourseName.executeUpdate();
+        isUpdated(affectedRows);
+    }
+
+    private void isUpdated(int affectedRows) throws SQLException {
+        if(affectedRows != 1)
+            throw new SQLException("Non affected");
     }
 
     @Override
@@ -90,144 +95,113 @@ public class CourseServiceImpl implements CourseService{
     }
 
     private Course insertNewCourse(Course course) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return null;
+        Course course1 = new CourseServiceImpl().getCourseByName(course.getName());
+        if(course1 != null)
+            return course1;
 
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("INSERT INTO course (\"name\", \"description\", \"due\") VALUES (\"");
-        stringBuilder.append(course.getName());
-        stringBuilder.append("\", \"");
-        stringBuilder.append(course.getDescription());
-        stringBuilder.append("\", \"");
-        stringBuilder.append(course.getDue().toString());
-        stringBuilder.append("\")");
-
-        logger.log(Level.INFO, stringBuilder.toString());
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-
-            return getCourseByName(course.getName());
+        try{
+            insertNewCourseExecute(course);
+            return new CourseServiceImpl().getCourseByName(course.getName());
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
             return null;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void insertNewCourseExecute(Course course) throws SQLException {
+        PreparedStatement insertNewCourse = connection.prepareStatement(
+                "INSERT INTO course (name, description, due) VALUES (?, ?, ?)");
+        insertNewCourse.setString(1, course.getName());
+        insertNewCourse.setString(2, course.getDescription());
+        insertNewCourse.setString(3, course.getDue().toString());
+
+        int affectedRows = insertNewCourse.executeUpdate();
+        isUpdated(affectedRows);
     }
 
 
     @Override
     public Course getCourseByName(String courseName) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT * FROM course WHERE \"name\"= ");
-        stringBuilder.append("\"");
-        stringBuilder.append(courseName);
-        stringBuilder.append("\"");
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return null;
-
-        try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
-            Course course = new Course();
-            course.setId(resultSet.getInt("id"));
-            course.setName(resultSet.getString("name"));
-            course.setDescription(resultSet.getString("description"));
-            LocalDate dueDate = LocalDate.parse(resultSet.getString("due"));
-            dueDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-            course.setDue(dueDate);
-
-            return course;
+        try{
+            return getCourseByNameExecute(courseName);
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
             return null;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private Course getCourseByNameExecute(String courseName) throws SQLException{
+        PreparedStatement getCourseByName = connection.prepareStatement(
+                "SELECT * FROM course WHERE name= ?");
+        getCourseByName.setString(1, courseName);
+        ResultSet resultSet = getCourseByName.executeQuery();
+
+        return getCourseFromResultSet(resultSet);
     }
 
     @Override
     public void deleteCourseById(int id) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return;
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("DELETE FROM course WHERE id=");
-        stringBuilder.append(id);
-        logger.log(Level.INFO, stringBuilder.toString());
-
-        try(Statement statement = connection.createStatement()) {
-            statement.executeQuery(stringBuilder.toString());
-
-        } catch (SQLException e){
-            logger.log(Level.SEVERE, e.getMessage());
-            return;
+        try {
+            deleteCourseByIdExecute(id);
+        }
+        catch (SQLException e) {
+            logger.log(Level.SEVERE, "Failed to delete course with that id.");
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void deleteCourseByIdExecute(int id) throws SQLException {
+        PreparedStatement deleteCourseById = connection.prepareStatement("DELETE FROM course WHERE id= ?");
+        deleteCourseById.setInt(1, id);
+        int affectedRows = deleteCourseById.executeUpdate();
+        isUpdated(affectedRows);
     }
 
     @Override
     public Course getCourseById(int id) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT * FROM course WHERE id=");
-        stringBuilder.append(id);
-
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return null;
-
-        try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
-            Course course = new Course();
-            course.setId(resultSet.getInt("id"));
-            course.setName(resultSet.getString("name"));
-            course.setDescription(resultSet.getString("description"));
-            LocalDate dueDate = LocalDate.parse(resultSet.getString("due"));
-            dueDate.format(DateTimeFormatter.ofPattern("yy-MM-dd"));
-            course.setDue(dueDate);
-
-            return course;
+        try{
+            return getCourseByIdExecute(id);
         } catch (SQLException e){
-            logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, "Course with that id does not exist. Returning null.");
             return null;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
     }
 
+    private Course getCourseByIdExecute(int id) throws SQLException {
+        PreparedStatement getCourseById = connection.prepareStatement(
+                "SELECT * FROM course WHERE id= ?");
+        getCourseById.setInt(1, id);
+        ResultSet resultSet = getCourseById.executeQuery();
+
+        return getCourseFromResultSet(resultSet);
+    }
+
     @Override
     public void updateCourseDescription(String description, int id) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("UPDATE course SET description=\"");
-        stringBuilder.append(description);
-        stringBuilder.append("\" ");
-        stringBuilder.append("WHERE id=");
-        stringBuilder.append(id);
-
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return;
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-            logger.log(Level.INFO, stringBuilder.toString());
-
-            return;
+        try{
+            updateCourseDescriptionExecute(description, id);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void updateCourseDescriptionExecute(String description, int id) throws SQLException {
+        PreparedStatement updateCourseDesc = connection.prepareStatement(
+                "UPDATE course SET description= ? WHERE id= ?");
+        updateCourseDesc.setString(1, description);
+        updateCourseDesc.setInt(2, id);
+
+        int affectedRows = updateCourseDesc.executeUpdate();
+        isUpdated(affectedRows);
     }
 
     @Override

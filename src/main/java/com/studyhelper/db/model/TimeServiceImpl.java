@@ -5,67 +5,59 @@ import com.studyhelper.db.source.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.*;
 import java.time.Duration;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TimeServiceImpl implements TimeService{
 
-    private final Logger logger = Logger.getLogger(TimeServiceImpl.class.getName());
-    private Connection connection = null;
+    private final Logger logger;
+    private Connection connection;
+
+    public TimeServiceImpl() {
+        this.connection = DataSource.getInstance().openConnection();
+        this.logger = Logger.getLogger(TimeServiceImpl.class.getName());
+    }
 
     @Override
     public ObservableList<Time> getAllTime() {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null) {
-            return null;
-        }
-
-        ObservableList<Time> timePeriodList = FXCollections.observableArrayList();
-
-        try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM time");
-            while (resultSet.next()) {
-                Time time = new Time();
-                time.setId(resultSet.getInt("id"));
-                time.setCourse_id(resultSet.getInt("course_id"));
-                time.setDuration(Duration.parse(resultSet.getString("duration")));
-
-                timePeriodList.add(time);
-            }
-            return timePeriodList;
+        try{
+            return getAllTimeExecute();
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
-            return null;
+            return FXCollections.emptyObservableList();
         } finally {
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private ObservableList<Time> getAllTimeExecute() throws SQLException {
+        ObservableList<Time> timePeriodList = FXCollections.observableArrayList();
+        PreparedStatement getAllTime = connection.prepareStatement(
+                "SELECT * FROM time");
+        ResultSet resultSet = getAllTime.executeQuery();
+        while (resultSet.next())
+            timePeriodList.add(getTimeFromResultSet(resultSet));
+
+        return timePeriodList;
+    }
+
+    private Time getTimeFromResultSet(ResultSet resultSet) throws SQLException {
+        Time time = new Time();
+        time.setId(resultSet.getInt("id"));
+        time.setCourse_id(resultSet.getInt("course_id"));
+        time.setDuration(Duration.parse(resultSet.getString("duration")));
+
+        return time;
     }
 
     @Override
     public Time getTimeByCourse_id(int course_id) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null) {
-            return null;
-        }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT * FROM time WHERE course_id=");
-        stringBuilder.append(course_id);
-        try(Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(stringBuilder.toString());
-
-            Time time = new Time();
-            time.setId(resultSet.getInt("id"));
-            time.setCourse_id(resultSet.getInt("course_id"));
-            time.setDuration(Duration.parse(resultSet.getString("duration")));
-
-            return time;
+        try{
+            return getTimeByCourse_idExecute(course_id);
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
             return null;
@@ -74,86 +66,93 @@ public class TimeServiceImpl implements TimeService{
         }
     }
 
+    private Time getTimeByCourse_idExecute(int course_id) throws SQLException {
+        PreparedStatement getTimeByCourseId = connection.prepareStatement(
+                "SELECT * FROM time WHERE course_id= ?"
+        );
+        getTimeByCourseId.setInt(1, course_id);
+        ResultSet resultSet = getTimeByCourseId.executeQuery();
+        return getTimeFromResultSet(resultSet);
+    }
+
     @Override
-    public boolean updateSumOfTimeForCourse(Time timeToAdd) {
-        Time oldTimeValue = getTimeByCourse_id(timeToAdd.getCourse_id());
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("UPDATE time SET duration=");
-        stringBuilder.append("\"");
-        Duration newTimeValue = oldTimeValue.getDuration().plusHours(timeToAdd.getDuration().toHoursPart()).plusMinutes(timeToAdd.getDuration().toMinutesPart());
-        stringBuilder.append(newTimeValue);
-        stringBuilder.append("\"");
-        stringBuilder.append(" WHERE course_id=");
-        stringBuilder.append(timeToAdd.getCourse_id());
-        logger.log(Level.INFO, stringBuilder.toString());
-
+    public void updateSumOfTimeForCourse(Time timeToAdd) {
+        Time oldTimeValue = getOldTimeValue(timeToAdd);
         connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return false;
 
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-            logger.log(Level.INFO, stringBuilder.toString());
-
-            return true;
+        try{
+            updateSumOfTimeForCourseExecute(timeToAdd, oldTimeValue);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return false;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
     }
 
+    private Time getOldTimeValue(Time timeToAdd){
+        return getTimeByCourse_id(timeToAdd.getCourse_id());
+    }
+
+    private void updateSumOfTimeForCourseExecute(Time timeToAdd, Time oldTimeValue)
+            throws SQLException {
+        PreparedStatement updateTimeForCourse = connection.prepareStatement(
+                "UPDATE time SET duration= ? WHERE course_id= ?"
+        );
+        Duration newTimeValue = oldTimeValue.getDuration()
+                .plusHours(timeToAdd.getDuration().toHoursPart())
+                .plusMinutes(timeToAdd.getDuration().toMinutesPart());
+        updateTimeForCourse.setString(1, newTimeValue.toString());
+        updateTimeForCourse.setInt(2, timeToAdd.getCourse_id());
+
+        int affectedRows = updateTimeForCourse.executeUpdate();
+        isUpdated(affectedRows);
+    }
+
+    private void isUpdated(int affectedRows) throws SQLException {
+        if(affectedRows != 1)
+            throw new SQLException("Non affected");
+    }
+
     @Override
-    public boolean insertNewTime(int course_id) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("INSERT INTO time (\"duration\", \"course_id\") VALUES (\"");
-        stringBuilder.append(Duration.of(0, ChronoUnit.SECONDS));
-        stringBuilder.append("\", ");
-        stringBuilder.append(course_id);
-        stringBuilder.append(")");
-        logger.log(Level.INFO, stringBuilder.toString());
-
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null)
-            return false;
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(stringBuilder.toString());
-
-            return true;
+    public void insertNewTime(int course_id) {
+        try{
+            insertNewTimeExecute(course_id);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return false;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void insertNewTimeExecute(int course_id) throws SQLException {
+        PreparedStatement insertNewTime = connection.prepareStatement(
+                "INSERT INTO time (duration, course_id) VALUES (?, ?)"
+        );
+        insertNewTime.setString(1, String.valueOf(Duration.of(0, ChronoUnit.SECONDS)));
+        insertNewTime.setInt(2, course_id);
+
+        int affectedRow = insertNewTime.executeUpdate();
+        isUpdated(affectedRow);
     }
 
     @Override
     public void deleteAllTimeByCourseId(int course_id) {
-        connection = DataSource.getInstance().openConnection();
-        if(connection == null) {
-            return;
+        try {
+            deleteAllTimeByCourseIdExecute(course_id);
         }
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("DELETE FROM time WHERE course_id=");
-        stringBuilder.append(course_id);
-        logger.log(Level.INFO, stringBuilder.toString());
-
-        try(Statement statement = connection.createStatement()) {
-            statement.executeQuery(stringBuilder.toString());
-
-            return;
-        } catch (SQLException e){
+        catch (SQLException e) {
             logger.log(Level.SEVERE, e.getMessage());
-            return;
         } finally {
-            connection = null;
             DataSource.getInstance().closeConnection();
         }
+    }
+
+    private void deleteAllTimeByCourseIdExecute(int course_id) throws SQLException {
+        PreparedStatement deleteTimeById = connection.prepareStatement(
+                "DELETE FROM time WHERE course_id= ?"
+        );
+        deleteTimeById.setInt(1, course_id);
+        int affectedRows = deleteTimeById.executeUpdate();
+        isUpdated(affectedRows);
     }
 }

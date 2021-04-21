@@ -59,6 +59,7 @@ public class PomodoroController {
 
         if(timelineForStudyTime == null)
             setupTimelineForStudying();
+        setupStudyTimerLabelBinding();
         studyStateLabelSetup();
         setupPomodoroTimerButtonBindings();
     }
@@ -87,14 +88,20 @@ public class PomodoroController {
         for(Course course : courseList) courseChoiceBox.getItems().add(course.getName());
     }
 
-    private void studyStateLabelSetup() {
-        studyStateObjectProperty.bindBidirectional(PomodoroStudyStates.studyStateProperty);
-        studyStateLabel.textProperty().bind(studyStateObjectProperty.asString());
-    }
-
     private void progressBarSetup() {
         studySessionsProperty.bindBidirectional(PomodoroServiceImpl.getInstance().getStudySessionCounterProperty());
         timerProgress.progressProperty().bind(studySessionsProperty.divide(4));
+    }
+
+    private void setupStudyTimerLabelBinding() {
+        studyTimerLabel.textProperty().bindBidirectional(
+                PomodoroServiceImpl.getInstance().getCurrentStudyTimeStringProperty()
+        );
+    }
+
+    private void studyStateLabelSetup() {
+        studyStateObjectProperty.bindBidirectional(PomodoroStudyStates.studyStateProperty);
+        studyStateLabel.textProperty().bind(studyStateObjectProperty.asString());
     }
 
     private void setupPomodoroTimerButtonBindings() {
@@ -120,39 +127,38 @@ public class PomodoroController {
 
     private void incrementTimeForStudyTimeline() {
         PomodoroServiceImpl.getInstance().incrementTime();
-        studyTimerLabel.setText(PomodoroServiceImpl.getInstance().getCurrentStudyTimeString());
     }
 
-    private void setupPomodoro(){
-        try {
-            LocalTime studySessionTime = LocalTime.of(0, Integer.parseInt(studySessionTimeTextField.getText()), 1);
-            LocalTime miniPauseTime = LocalTime.of(0, Integer.parseInt(miniPauseTimeTextField.getText()), 1);
-            LocalTime largePauseTime = LocalTime.of(0, Integer.parseInt(largePauseTimeTextField.getText()), 1);
+    private void setupPomodoro() throws IllegalArgumentException{
+        LocalTime studySessionTime = LocalTime.of(0, Integer.parseInt(studySessionTimeTextField.getText()), 1);
+        LocalTime miniPauseTime = LocalTime.of(0, Integer.parseInt(miniPauseTimeTextField.getText()), 1);
+        LocalTime largePauseTime = LocalTime.of(0, Integer.parseInt(largePauseTimeTextField.getText()), 1);
 
-            PomodoroServiceImpl.getInstance().setup(new Pomodoro(studySessionTime, miniPauseTime, largePauseTime, new CourseServiceImpl().getCourseByName(courseChoiceBox.getValue()).getId()));
-        } catch (IllegalArgumentException e){
-            studySessionTimeTextField.requestFocus();
-        }
+        PomodoroServiceImpl.getInstance().setup(new Pomodoro(studySessionTime, miniPauseTime, largePauseTime, new CourseServiceImpl().getCourseByName(courseChoiceBox.getValue()).getId()));
     }
 
 
 
     private void timerLabelCleanUp(){
         PomodoroServiceImpl.getInstance().timerReset();
-        studyTimerLabel.setText(PomodoroServiceImpl.getInstance().getCurrentStudyTimeString());
+//        studyTimerLabel.setText(PomodoroServiceImpl.getInstance().getCurrentStudyTimeString());
         studyTimerLabel.setTextFill(Paint.valueOf("#404040"));
     }
 
     @FXML
     private void startTimer(ActionEvent event) {
-        pauseTimerBtn.setDisable(false);
-
         if(timelineForStudyTime.getStatus().equals(Animation.Status.STOPPED)) {
             timerLabelCleanUp();
+            try {
+                setupPomodoro();
+            } catch (IllegalArgumentException e){
+                e.printStackTrace();
+                return;
+            }
             studyTimerLabel.setTextFill(Paint.valueOf("#0d6300"));
-            setupPomodoro();
             PomodoroServiceImpl.getInstance().setStartState();
         }
+        pauseTimerBtn.setDisable(false);
 
         timelineForStudyTime.play();
         progressBarSetup();
