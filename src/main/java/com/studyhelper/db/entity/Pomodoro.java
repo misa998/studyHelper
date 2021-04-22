@@ -1,7 +1,6 @@
 package com.studyhelper.db.entity;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class Pomodoro {
     private LocalTime studySession;
@@ -14,7 +13,6 @@ public class Pomodoro {
         this.miniPause = miniPause;
         this.largePause = largePause;
         this.course_id = course_id;
-
     }
 
     public Pomodoro() {

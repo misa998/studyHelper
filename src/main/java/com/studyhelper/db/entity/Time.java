@@ -12,7 +12,12 @@ public class Time {
         this.duration = duration;
         this.course_id = course_id;
     }
-    public Time(){}
+
+    public Time(){
+        this.id = 0;
+        this.duration = Duration.ZERO;
+        this.course_id = 0;
+    }
 
     public int getId() {
         return id;

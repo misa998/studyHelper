@@ -356,7 +356,7 @@ public class CourseOverviewController {
 
     @FXML
     private void addTodoOnAction(){
-        new TodoServiceImpl().insertTodo(new Todo(false, todoTextField.getText(), selectedCourse.get()));
+        new TodoServiceImpl().insertTodo(new Todo(0, false, todoTextField.getText(), selectedCourse.get()));
         todoTextField.setText("");
 
         todoTableViewRefresh();

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="840.0"
+            stylesheets="@css/style.css"
+            xmlns="http://javafx.com/javafx/9.0.4"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.studyhelper.controller.MainController">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab onSelectionChanged="#dashboardTabChanged" text="Dashboard">
+            <content>
+              <AnchorPane fx:id="dashboardTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="coursesTab" onSelectionChanged="#courseTabChange" text="Courses">
+            <content>
+              <AnchorPane fx:id="coursesTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+
+                  </children>
+             </AnchorPane>
+            </content>
+          </Tab>
+            <Tab onSelectionChanged="#pomodoroTabChange" text="Pomodoro">
+                <content>
+                    <AnchorPane fx:id="pomodoroTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+
+                     </children></AnchorPane>
+                </content>
+            </Tab>
+            <Tab onSelectionChanged="#motivationTabChanged" text="Motivation">
+                <content>
+                    <AnchorPane fx:id="motivationTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+
+                     </children>
+                    </AnchorPane>
+                </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="_File">
+            <items>
+              <MenuItem disable="true" mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="_Edit">
+            <items>
+              <MenuItem disable="true" mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="_Help">
+            <items>
+              <MenuItem disable="true" mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

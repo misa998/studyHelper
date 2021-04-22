@@ -24,8 +24,8 @@ public class Todo {
         this.course_id = new SimpleIntegerProperty(0);
     }
 
-    public Todo(boolean selected, String item, int course_id) {
-        this.id = 0;
+    public Todo(int id, boolean selected, String item, int course_id) {
+        this.id = id;
         this.completed = new CheckBox();
         this.completed.setSelected(selected);
         this.completedSBP.setValue(selected);

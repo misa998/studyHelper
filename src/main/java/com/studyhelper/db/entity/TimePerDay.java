@@ -9,12 +9,18 @@ public class TimePerDay {
     private Duration duration;
     private int course_id;
 
-    public TimePerDay(LocalDate date, Duration duration, int course_id) {
+    public TimePerDay(int id, LocalDate date, Duration duration, int course_id) {
+        this.id = id;
         this.date = date;
         this.duration = duration;
         this.course_id = course_id;
     }
-    public TimePerDay(){}
+    public TimePerDay(){
+        this.id = 0;
+        this.date = LocalDate.now();
+        this.duration = Duration.ZERO;
+        this.course_id = 0;
+    }
 
     public int getId() {
         return id;

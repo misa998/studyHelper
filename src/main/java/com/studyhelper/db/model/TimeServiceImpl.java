@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.Duration;
 
-import java.time.temporal.ChronoUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,8 +77,8 @@ public class TimeServiceImpl implements TimeService{
     @Override
     public void updateSumOfTimeForCourse(Time timeToAdd) {
         Time oldTimeValue = getOldTimeValue(timeToAdd);
-        connection = DataSource.getInstance().openConnection();
 
+        connection = DataSource.getInstance().openConnection();
         try{
             updateSumOfTimeForCourseExecute(timeToAdd, oldTimeValue);
         } catch (SQLException e) {
@@ -99,8 +98,7 @@ public class TimeServiceImpl implements TimeService{
                 "UPDATE time SET duration= ? WHERE course_id= ?"
         );
         Duration newTimeValue = oldTimeValue.getDuration()
-                .plusHours(timeToAdd.getDuration().toHoursPart())
-                .plusMinutes(timeToAdd.getDuration().toMinutesPart());
+                .plusMinutes(timeToAdd.getDuration().toMinutes());
         updateTimeForCourse.setString(1, newTimeValue.toString());
         updateTimeForCourse.setInt(2, timeToAdd.getCourse_id());
 
@@ -128,7 +126,7 @@ public class TimeServiceImpl implements TimeService{
         PreparedStatement insertNewTime = connection.prepareStatement(
                 "INSERT INTO time (duration, course_id) VALUES (?, ?)"
         );
-        insertNewTime.setString(1, String.valueOf(Duration.of(0, ChronoUnit.SECONDS)));
+        insertNewTime.setString(1, String.valueOf(Duration.ZERO));
         insertNewTime.setInt(2, course_id);
 
         int affectedRow = insertNewTime.executeUpdate();

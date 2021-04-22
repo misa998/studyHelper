@@ -2,7 +2,7 @@ package com.studyhelper.db.entity;
 
 import java.time.LocalDate;
 
-public class Course {
+public class Course{
 
     private int id;
     private String name;

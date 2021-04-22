@@ -49,7 +49,7 @@ public class PomodoroServiceImpl implements PomodoroService{
     public void endStudySession(){
         if(pomodoro != null)
             new TimePerDayServiceImpl().addTimePerDay(
-                    new TimePerDay(LocalDate.now(),
+                    new TimePerDay(0, LocalDate.now(),
                             Duration.ofHours(studyTime.getHour()).plusMinutes(studyTime.getMinute()),
                             pomodoro.getCourse_id())
             );
