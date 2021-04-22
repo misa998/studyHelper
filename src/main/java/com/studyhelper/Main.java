@@ -21,7 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends Application {
-    private final String LOG_FILE = "log" + "-" + LocalDate.now() + ".xml";
+    private final String LOG_FILE = "log/log" + "-" + LocalDate.now() + ".xml";
     private Logger logger = Logger.getLogger(Main.class.getName());
 
     private static Stage stage = null;

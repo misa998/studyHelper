@@ -16,11 +16,15 @@ public class UiProperties {
     private String mainFXMLPath = "";
     private String editPaneFXMLPath = "";
     private String motivationFXMLPath = "";
+    private String aboutFXMLPath;
     private int resolutionX = 0;
     private int resolutionY = 0;
     private String trayIconCaption = "";
     private String trayIconToolTip = "";
     private String mainIconPath = "";
+    private String gitHubProfileURL;
+    private String linkedInProfileURL;
+    private String aboutText;
 
     private final Logger logger = Logger.getLogger(UiProperties.class.getName());
 
@@ -56,12 +60,27 @@ public class UiProperties {
         mainFXMLPath = properties.getProperty("mainFXMLPath");
         editPaneFXMLPath = properties.getProperty("editPaneFXMLPath");
         motivationFXMLPath = properties.getProperty("motivationFXMLPath");
+        aboutFXMLPath = properties.getProperty("aboutFXMLPath");
         resolutionX = Integer.parseInt(properties.getProperty("resolutionX"));
         resolutionY = Integer.parseInt(properties.getProperty("resolutionY"));
         trayIconCaption = properties.getProperty("trayIconCaption");
         trayIconToolTip = properties.getProperty("trayIconToolTip");
         mainIconPath = properties.getProperty("mainIconPath");
+        gitHubProfileURL = properties.getProperty("gitHubProfileURL");
+        aboutText = properties.getProperty("aboutText");
+        linkedInProfileURL = properties.getProperty("linkedInProfileURL");
+    }
 
+    public String getLinkedInProfileURL() {
+        return linkedInProfileURL;
+    }
+
+    public String getGitHubProfileURL() {
+        return gitHubProfileURL;
+    }
+
+    public URL getAboutFXMLPath() {
+        return getClass().getResource(aboutFXMLPath);
     }
 
     public URL getMotivationFXMLPath() {
@@ -116,4 +135,7 @@ public class UiProperties {
     }
 
 
+    public String getAboutText() {
+        return aboutText;
+    }
 }

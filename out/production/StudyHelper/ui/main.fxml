@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="840.0"
-            stylesheets="@css/style.css"
+<BorderPane prefHeight="600.0" prefWidth="840.0" stylesheets="@css/style.css"
+            fx:id="mainBorderPane"
             xmlns="http://javafx.com/javafx/9.0.4"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.studyhelper.controller.MainController">
@@ -63,7 +63,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="_Help">
             <items>
-              <MenuItem disable="true" mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#onActionAboutMenuItem" text="About" />
             </items>
           </Menu>
         </menus>

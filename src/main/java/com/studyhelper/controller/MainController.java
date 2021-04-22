@@ -3,10 +3,14 @@ package com.studyhelper.controller;
 import com.studyhelper.db.properties.UiProperties;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,6 +25,8 @@ public class MainController {
     private AnchorPane pomodoroTabAnchorPane;
     @FXML
     private AnchorPane motivationTabAnchorPane;
+    @FXML
+    private BorderPane mainBorderPane;
 
     private final Logger logger = Logger.getLogger(MainController.class.getName());
 
@@ -100,5 +106,21 @@ public class MainController {
         }
 
         motivationTabAnchorPane.getChildren().setAll(motivationAnchorPane);
+    }
+
+    @FXML
+    public void onActionAboutMenuItem(){
+        Dialog<ButtonType> aboutDialog = new Dialog<>();
+//        aboutDialog.initOwner(mainBorderPane.getScene().getWindow());
+        aboutDialog.setTitle("About");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new UiProperties().getAboutFXMLPath());
+        try{
+            aboutDialog.getDialogPane().setContent(fxmlLoader.load());
+        }catch (IOException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        aboutDialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        aboutDialog.showAndWait();
     }
 }

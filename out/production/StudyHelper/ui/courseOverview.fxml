@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.geometry.Insets?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@css/style.css"
-            xmlns="http://javafx.com/javafx/9.0.4"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.studyhelper.controller.CourseOverviewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.CourseOverviewController">
       <children>
 
          <Pane fx:id="editCoursesPane" layoutX="588.0" layoutY="332.0" prefHeight="202.0" prefWidth="238.0" />
@@ -88,7 +83,7 @@
             </graphic>
          </Button>
 
-         <TextArea fx:id="courseDescription" layoutX="200.0" layoutY="58.0" prefHeight="72.0" prefWidth="179.0" promptText="Course description" style="-fx-background-color: transparent;" wrapText="true" />
+         <TextArea fx:id="courseDescription" layoutX="200.0" layoutY="58.0" prefHeight="72.0" prefWidth="179.0" promptText="Course description" style="-fx-background-color: transparent;" styleClass="text-area" wrapText="true" />
 
          <Label layoutX="200.0" layoutY="37.0" text="Description" />
 
