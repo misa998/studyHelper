@@ -6,11 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@css/style.css"
-            xmlns="http://javafx.com/javafx/9.0.4"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.studyhelper.controller.DashboardController">
+<AnchorPane prefHeight="542.0" prefWidth="840.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.DashboardController">
    <children>
 
       <StackedBarChart fx:id="stackedBarChart" animated="false" layoutX="14.0" layoutY="14.0" title="Minutes per day spent on studying each course">
@@ -39,7 +35,7 @@
          </graphic>
       </Button>
 
-      <PieChart fx:id="coursePieChart" animated="false" layoutX="553.0" layoutY="187.0" legendSide="TOP" legendVisible="false" prefHeight="234.0" prefWidth="237.0" title="Hours spent on each course" />
+      <PieChart fx:id="coursePieChart" animated="false" layoutX="553.0" layoutY="187.0" legendSide="TOP" prefHeight="234.0" prefWidth="237.0" title="Hours spent on each course" />
 
    </children>
 </AnchorPane>

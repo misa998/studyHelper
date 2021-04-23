@@ -11,7 +11,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,10 +24,8 @@ import javafx.scene.effect.Effect;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -42,7 +39,6 @@ import java.util.logging.Logger;
 public class CourseOverviewController {
     @FXML
     private VBox vBoxCourses;
-
     @FXML
     private VBox vBoxEachCourse;
     @FXML
@@ -155,15 +151,13 @@ public class CourseOverviewController {
         alert.setHeaderText("Delete item: " + name);
         alert.setContentText("Are you sure?");
         alert.initOwner(courseOverviewAnchorPane.getScene().getWindow());
-        alert.initStyle(StageStyle.UNDECORATED);
-        updateBlurEffect();
+        alert.showingProperty().addListener(e -> updateBlurEffect());
 
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && (result.get() == ButtonType.OK)){
             new CourseServiceImpl().deleteAllDataAboutCourse(selectedCourse.get());
             fillTheListOfCourses();
         }
-        updateBlurEffect();
     }
 
     private void updateBlurEffect(){
@@ -227,7 +221,6 @@ public class CourseOverviewController {
             public void changed(ObservableValue<? extends String> observableValue, String oldName, String newName) {
                 selectedCourse.setValue(new CourseServiceImpl().getCourseByName(oldName).getId());
                 new CourseServiceImpl().updateCourseName(newName, selectedCourse.get());
-                fillTheListOfCourses();
             }
         });
 
@@ -406,31 +399,35 @@ public class CourseOverviewController {
     }
 
     private void loadEditPane() throws IOException {
-        /*GridPane gridPane = FXMLLoader.load(new UiProperties().getEditPaneFXMLPath());
-        gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
-        gridPane.setMaxHeight(editCoursesPane.getMaxHeight());
+        Dialog<Course> addCourseDialog = configureDialog();
+        addCourseDialog.showAndWait();
+    }
 
-        editCoursesPane.getChildren().setAll(gridPane);*/
-        Dialog<ButtonType> addCourseDialog = new Dialog<>();
+    private Dialog<Course> configureDialog() throws IOException {
+        Dialog<Course> addCourseDialog = new Dialog<>();
         addCourseDialog.initOwner(courseOverviewAnchorPane.getScene().getWindow());
+        addCourseDialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+        Node close = addCourseDialog.getDialogPane().lookupButton(ButtonType.CLOSE);
+        close.managedProperty().bind(close.visibleProperty());
+        close.setVisible(false);
+        addCourseDialog.showingProperty().addListener(dialogShowingProperty());
         addCourseDialog.setTitle("Add new course");
-        updateBlurEffect();
+        addCourseDialog.getDialogPane().setContent(getLoader().load());
 
+        return addCourseDialog;
+    }
+
+    private ChangeListener<? super Boolean> dialogShowingProperty() {
+        return (ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+            updateBlurEffect();
+            if (oldValue)
+                fillTheListOfCourses();
+        };
+    }
+
+    private FXMLLoader getLoader(){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(new UiProperties().getAddCourseFXMLPath());
-
-        addCourseDialog.getDialogPane().setContent(fxmlLoader.load());
-
-        addCourseDialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-
-        Optional<ButtonType> result = addCourseDialog.showAndWait();
-        if(result.isPresent() && (result.get() == ButtonType.OK)){
-            ControllerAddCourseDialog controllerAddCourseDialog = fxmlLoader.getController();
-            Course course = controllerAddCourseDialog.getData();
-            if(course != null)
-                new CourseServiceImpl().insertCourse(course);
-            fillTheListOfCourses();
-        }
-        updateBlurEffect();
+        return fxmlLoader;
     }
 }

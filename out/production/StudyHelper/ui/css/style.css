@@ -14,14 +14,39 @@
     -fx-background-color : #2F2B43;
     -fx-background-radius : 20;
 }
-.scrollPaneCourses{
+.scrollPane{
     -fx-background-color : transparent;
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
 
-.scrollPaneCourses:focused {
-    -fx-background-insets: 0;
+.scrollPane {
+    -fx-background-color: transparent;
+}
+.scrollPane .viewport{
+    -fx-background-color: transparent;
+}
+.scrollPane .content{
+    -fx-background-color: transparent;
+}
+.scrollPane .scroll-bar:vertical .thumb{
+    -fx-background-color:  #393351;
+}
+.scrollPane .scroll-bar:horizontal .thumb {
+    -fx-background-color:  #393351;
+}
+.scrollPane .scroll-bar:vertical,
+.scrollPane .scroll-bar:vertical .track,
+.scrollPane .scroll-bar:vertical .track-background,
+.scrollPane .scroll-bar:horizontal,
+.scrollPane .scroll-bar:horizontal .track,
+.scrollPane .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+.scrollPane .scroll-bar .increment-button,
+.scrollPane .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
 }
 
 .vBoxEachCourses{

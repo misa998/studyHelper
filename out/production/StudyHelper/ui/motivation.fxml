@@ -6,34 +6,27 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="moitvationAnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.MotivationController">
+<AnchorPane fx:id="moitvationAnchorPane" prefHeight="546.0" prefWidth="840.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.MotivationController">
     <children>
-        <ScrollPane fx:id="scrollPaneMotivation" hbarPolicy="NEVER" layoutX="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="521.0" prefWidth="547.0" styleClass="scrollPaneCourses" vbarPolicy="NEVER">
-            <content>
-                <VBox fx:id="vBoxMotivation" alignment="CENTER" spacing="10.0">
-                    <children>
-                        <VBox fx:id="vBoxEachMotivation" alignment="CENTER" maxHeight="269.0" maxWidth="493.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxMotivationOnAction" prefHeight="262.0" prefWidth="493.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #ffcda1; -fx-background-color: #ffcda1;" VBox.vgrow="ALWAYS">
-                            <children>
-                                <TextField alignment="CENTER" prefHeight="37.0" prefWidth="487.0" promptText="Title" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: #cdcdcd;">
-                                   <font>
-                                      <Font name="System Bold" size="19.0" />
-                                   </font>
-                                        </TextField>
-                                <TextArea prefHeight="202.0" prefWidth="457.0" promptText="Content" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 20; -fx-border-radius: 20;" text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" wrapText="true" />
-                            </children>
-                     <padding>
-                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                     </padding>
-                        </VBox>
-                    </children>
-                    <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </padding>
-                </VBox>
-            </content>
+        <ScrollPane fx:id="scrollPaneMotivation" layoutX="14.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="133.0" prefWidth="754.0" styleClass="scrollPane" vbarPolicy="NEVER">
+            <HBox fx:id="hBoxMotivations" layoutX="14.0" layoutY="128.0" spacing="10.0">
+                <children>
+                    <VBox fx:id="vBoxEachMotivation" alignment="CENTER" maxHeight="269.0" maxWidth="493.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxMotivationOnAction" prefHeight="100.0" prefWidth="161.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #eba694; -fx-background-color: #eba694;" HBox.hgrow="NEVER" VBox.vgrow="ALWAYS">
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                  <children>
+                     <Label fx:id="titleLabelForList" alignment="CENTER" contentDisplay="CENTER" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" textAlignment="CENTER" textFill="#515151" wrapText="true" />
+                  </children>
+                    </VBox>
+                </children>
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            </HBox>
         </ScrollPane>
 
-        <Button fx:id="addMotivation" layoutX="568.0" layoutY="26.0" mnemonicParsing="false" onAction="#onActionAddMotivation">
+        <Button fx:id="addMotivation" layoutX="783.0" layoutY="22.0" mnemonicParsing="false" onAction="#onActionAddMotivation">
               <tooltip>
             <Tooltip text="Add new motivation" />
          </tooltip>
@@ -43,7 +36,7 @@
                   </ImageView>
               </graphic>
         </Button>
-        <Button fx:id="deleteSelectedMotivation" layoutX="568.0" layoutY="65.0" mnemonicParsing="false" onAction="#onActionDeleteMotivation">
+        <Button fx:id="deleteSelectedMotivation" layoutX="783.0" layoutY="61.0" mnemonicParsing="false" onAction="#onActionDeleteMotivation">
             <tooltip><Tooltip text="Delete motivation" /></tooltip>
             <graphic>
                 <ImageView>
@@ -51,6 +44,23 @@
                 </ImageView>
             </graphic>
         </Button>
+        <VBox fx:id="vBoxSelectedMotivation" alignment="CENTER" layoutY="141.0" maxHeight="254.0" maxWidth="590.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="579.0" spacing="5.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid;               -fx-border-color: #ffcda1; -fx-background-color: #ffcda1;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" VBox.vgrow="ALWAYS">
+            <children>
+                <TextField fx:id="titleTextField" promptText="Title" style="-fx-background-color: transparent;">
+                    <font>
+                        <Font name="System Bold" size="19.0" />
+                    </font>
+                </TextField>
+                <TextArea fx:id="bodyTextArea" prefHeight="230.0" prefWidth="554.0" promptText="Content" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 20; -fx-border-radius: 20;" wrapText="true" />
+            </children>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <padding>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+            </padding>
+        </VBox>
+
 
     </children>
 
