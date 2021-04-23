@@ -6,25 +6,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@css/style.css"
-            xmlns="http://javafx.com/javafx/9.0.4"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.studyhelper.controller.MotivationController">
+<AnchorPane fx:id="moitvationAnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.MotivationController">
     <children>
         <ScrollPane fx:id="scrollPaneMotivation" hbarPolicy="NEVER" layoutX="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="521.0" prefWidth="547.0" styleClass="scrollPaneCourses" vbarPolicy="NEVER">
             <content>
                 <VBox fx:id="vBoxMotivation" alignment="CENTER" spacing="10.0">
                     <children>
-                        <VBox fx:id="vBoxEachMotivation" alignment="CENTER" maxHeight="138.0" maxWidth="493.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="493.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #ffcda1; -fx-background-color: #ffcda1;" VBox.vgrow="ALWAYS">
+                        <VBox fx:id="vBoxEachMotivation" alignment="CENTER" maxHeight="269.0" maxWidth="493.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxMotivationOnAction" prefHeight="262.0" prefWidth="493.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #ffcda1; -fx-background-color: #ffcda1;" VBox.vgrow="ALWAYS">
                             <children>
-                                <TextField fx:id="courseNameTextField" alignment="CENTER" prefHeight="37.0" prefWidth="487.0" promptText="Title" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: #cdcdcd;">
+                                <TextField alignment="CENTER" prefHeight="37.0" prefWidth="487.0" promptText="Title" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: #cdcdcd;">
                                    <font>
                                       <Font name="System Bold" size="19.0" />
                                    </font>
                                         </TextField>
-                                <TextArea prefHeight="50.0" prefWidth="487.0" promptText="Content" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 20; -fx-border-radius: 20;" text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" wrapText="true" />
+                                <TextArea prefHeight="202.0" prefWidth="457.0" promptText="Content" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 20; -fx-border-radius: 20;" text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" wrapText="true" />
                             </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
                         </VBox>
                     </children>
                     <padding>
@@ -34,7 +33,7 @@
             </content>
         </ScrollPane>
 
-        <Button fx:id="addMotivation" layoutX="568.0" layoutY="26.0" mnemonicParsing="false">
+        <Button fx:id="addMotivation" layoutX="568.0" layoutY="26.0" mnemonicParsing="false" onAction="#onActionAddMotivation">
               <tooltip>
             <Tooltip text="Add new motivation" />
          </tooltip>
@@ -44,7 +43,7 @@
                   </ImageView>
               </graphic>
         </Button>
-        <Button fx:id="deleteSelectedMotivation" disable="true" layoutX="568.0" layoutY="65.0" mnemonicParsing="false">
+        <Button fx:id="deleteSelectedMotivation" layoutX="568.0" layoutY="65.0" mnemonicParsing="false" onAction="#onActionDeleteMotivation">
             <tooltip><Tooltip text="Delete motivation" /></tooltip>
             <graphic>
                 <ImageView>

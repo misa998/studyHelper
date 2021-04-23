@@ -14,8 +14,9 @@ public class UiProperties {
     private String courseOverviewFXMLPath = "";
     private String pomodoroFXMLPath = "";
     private String mainFXMLPath = "";
-    private String editPaneFXMLPath = "";
+    private String addCourseFXMLPath = "";
     private String motivationFXMLPath = "";
+    private String addMotivationFXMLPath;
     private String aboutFXMLPath;
     private int resolutionX = 0;
     private int resolutionY = 0;
@@ -58,9 +59,10 @@ public class UiProperties {
         courseOverviewFXMLPath = properties.getProperty("courseOverviewFXMLPath");
         pomodoroFXMLPath = properties.getProperty("pomodoroFXMLPath");
         mainFXMLPath = properties.getProperty("mainFXMLPath");
-        editPaneFXMLPath = properties.getProperty("editPaneFXMLPath");
+        addCourseFXMLPath = properties.getProperty("addCourseFXMLPath");
         motivationFXMLPath = properties.getProperty("motivationFXMLPath");
         aboutFXMLPath = properties.getProperty("aboutFXMLPath");
+        addMotivationFXMLPath = properties.getProperty("addMotivationFXMLPath");
         resolutionX = Integer.parseInt(properties.getProperty("resolutionX"));
         resolutionY = Integer.parseInt(properties.getProperty("resolutionY"));
         trayIconCaption = properties.getProperty("trayIconCaption");
@@ -69,6 +71,10 @@ public class UiProperties {
         gitHubProfileURL = properties.getProperty("gitHubProfileURL");
         aboutText = properties.getProperty("aboutText");
         linkedInProfileURL = properties.getProperty("linkedInProfileURL");
+    }
+
+    public URL getAddMotivationFXMLPath() {
+        return getClass().getResource(addMotivationFXMLPath);
     }
 
     public String getLinkedInProfileURL() {
@@ -114,8 +120,8 @@ public class UiProperties {
         return getClass().getResource(mainFXMLPath);
     }
 
-    public URL getEditPaneFXMLPath() {
-        return getClass().getResource(editPaneFXMLPath);
+    public URL getAddCourseFXMLPath() {
+        return getClass().getResource(addCourseFXMLPath);
     }
 
     public int getResolutionX() {

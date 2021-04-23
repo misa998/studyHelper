@@ -20,11 +20,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -36,9 +40,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CourseOverviewController {
-
     @FXML
     private VBox vBoxCourses;
+
     @FXML
     private VBox vBoxEachCourse;
     @FXML
@@ -54,8 +58,6 @@ public class CourseOverviewController {
     @FXML
     private TextArea courseDescription;
     @FXML
-    private Button closeEditPaneBtn;
-    @FXML
     private Button addCourseButton;
     @FXML
     private Button addTodo;
@@ -64,7 +66,7 @@ public class CourseOverviewController {
     @FXML
     private Button deleteCourse;
     @FXML
-    private Pane editCoursesPane;
+    private AnchorPane courseOverviewAnchorPane;
 
     private IntegerProperty selectedCourse = new SimpleIntegerProperty(0);
 
@@ -78,7 +80,6 @@ public class CourseOverviewController {
         fillTheListOfCourses();
         todoTableViewSetup();
         setupCourseDescription();
-        editPaneSetup();
         setupTodoButtons();
         setupSelectedCourseHandler();
         setupDeleteCourseButton();
@@ -153,12 +154,31 @@ public class CourseOverviewController {
             return;
         alert.setHeaderText("Delete item: " + name);
         alert.setContentText("Are you sure?");
+        alert.initOwner(courseOverviewAnchorPane.getScene().getWindow());
+        alert.initStyle(StageStyle.UNDECORATED);
+        updateBlurEffect();
+
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && (result.get() == ButtonType.OK)){
             new CourseServiceImpl().deleteAllDataAboutCourse(selectedCourse.get());
-            selectedCourse.setValue(0);
             fillTheListOfCourses();
         }
+        updateBlurEffect();
+    }
+
+    private void updateBlurEffect(){
+        if(courseOverviewAnchorPane.getEffect() != null)
+            courseOverviewAnchorPane.setEffect(null);
+        else
+            courseOverviewAnchorPane.setEffect(getBlurEffect());
+    }
+
+    private Effect getBlurEffect(){
+        ColorAdjust adj = new ColorAdjust(0, 0, 0, 0);
+        GaussianBlur blur = new GaussianBlur(55);
+        adj.setInput(blur);
+
+        return adj;
     }
 
     private void fillTheListOfCourses(){
@@ -168,12 +188,7 @@ public class CourseOverviewController {
         courseList.sort(compareCoursesByDue());
 
         for (Course course : courseList) {
-            VBox vbox = setCourseListVBox(course.getName());
-            TextField textField = setCourseListTextField(course.getName());
-            Label labelForHours = setCourseListLabelHours(course.getId());
-            Label labelForDue = setCourseListLabelDue(course);
-
-            vbox.getChildren().addAll(textField, labelForHours, labelForDue);
+            VBox vbox = createVBox(course);
 
             vBoxCourses.getChildren().add(vbox);
         }
@@ -182,6 +197,17 @@ public class CourseOverviewController {
     private void cleanOldDataForCourseList(){
         vBoxCourses.getChildren().clear();
         vBoxEachCourse.getChildren().clear();
+        selectedCourse.setValue(0);
+    }
+
+    private VBox createVBox(Course course) {
+        VBox vbox = setCourseListVBox(course.getName());
+        TextField textField = setCourseListTextField(course.getName());
+        Label labelForHours = setCourseListLabelHours(course.getId());
+        Label labelForDue = setCourseListLabelDue(course);
+
+        vbox.getChildren().addAll(textField, labelForHours, labelForDue);
+        return vbox;
     }
 
     private Comparator<Course> compareCoursesByDue(){
@@ -309,7 +335,6 @@ public class CourseOverviewController {
     /*
      * how checkbox cell will be setup
      */
-
     private Callback<TableColumn<Todo, Boolean>, TableCell<Todo, Boolean>> checkboxCellSetup() {
         return new Callback<TableColumn<Todo, Boolean>, TableCell<Todo, Boolean>>() {
             @Override
@@ -326,10 +351,10 @@ public class CourseOverviewController {
             }
         };
     }
+
     /*
      * what will happen on checkbox select
      */
-
     private ObservableValue<Boolean> onCheckBoxActionSelectTableColumn(Integer index){
         BooleanProperty selected = new SimpleBooleanProperty(todoTableView.getItems().get(index).getCompletedProperty().get());
         selected.addListener(new ChangeListener<Boolean>() {
@@ -341,6 +366,7 @@ public class CourseOverviewController {
         });
         return selected;
     }
+
     private void onActionCheckBoxUpdate(boolean isSelected, int rowIndex){
         Todo todoSelected = todoTableView.getItems().get(rowIndex);
         todoSelected.setCompleted(isSelected);
@@ -380,28 +406,31 @@ public class CourseOverviewController {
     }
 
     private void loadEditPane() throws IOException {
-        GridPane gridPane = FXMLLoader.load(new UiProperties().getEditPaneFXMLPath());
+        /*GridPane gridPane = FXMLLoader.load(new UiProperties().getEditPaneFXMLPath());
         gridPane.setMaxWidth(editCoursesPane.getMaxWidth());
         gridPane.setMaxHeight(editCoursesPane.getMaxHeight());
 
-        editCoursesPane.getChildren().setAll(gridPane);
-    }
+        editCoursesPane.getChildren().setAll(gridPane);*/
+        Dialog<ButtonType> addCourseDialog = new Dialog<>();
+        addCourseDialog.initOwner(courseOverviewAnchorPane.getScene().getWindow());
+        addCourseDialog.setTitle("Add new course");
+        updateBlurEffect();
 
-    private void editPaneSetup(){
-        editCoursesPane.getChildren().addListener(new ListChangeListener<Node>() {
-            @Override
-            public void onChanged(Change<? extends Node> change) {
-                closeEditPaneBtn.setVisible(editCoursesPane.getChildren().size() >= 1);
-            }
-        });
-        addCourseButton.disableProperty().bind(
-                Bindings.selectBoolean(closeEditPaneBtn.visibleProperty())
-        );
-    }
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new UiProperties().getAddCourseFXMLPath());
 
-    @FXML
-    private void onActionCloseEditPane(){
-        editCoursesPane.getChildren().clear();
-        fillTheListOfCourses();
+        addCourseDialog.getDialogPane().setContent(fxmlLoader.load());
+
+        addCourseDialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+        Optional<ButtonType> result = addCourseDialog.showAndWait();
+        if(result.isPresent() && (result.get() == ButtonType.OK)){
+            ControllerAddCourseDialog controllerAddCourseDialog = fxmlLoader.getController();
+            Course course = controllerAddCourseDialog.getData();
+            if(course != null)
+                new CourseServiceImpl().insertCourse(course);
+            fillTheListOfCourses();
+        }
+        updateBlurEffect();
     }
 }

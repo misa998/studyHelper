@@ -9,7 +9,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class ControllerEditPane {
+public class ControllerAddCourseDialog {
     @FXML
     private TextField editName;
     @FXML
@@ -20,6 +20,7 @@ public class ControllerEditPane {
     private Button addCourse;
 
     public void initialize(){
+        addCourse.setVisible(false);
         buttonBindings();
     }
 
@@ -31,8 +32,10 @@ public class ControllerEditPane {
         );
     }
 
-    @FXML
-    private void addNewCourse(){
-        new CourseServiceImpl().insertCourse(new Course(0, editName.getText(), editDesc.getText(), editDue.getValue()));
+    public Course getData(){
+        if(addCourse.isDisabled())
+            return null;
+
+        return new Course(0, editName.getText(), editDesc.getText(), editDue.getValue());
     }
 }

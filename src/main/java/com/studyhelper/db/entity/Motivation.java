@@ -11,7 +11,11 @@ public class Motivation {
         this.title = title;
         this.body = body;
     }
-    public Motivation(){}
+    public Motivation(){
+        this.id = 0;
+        this.title = "";
+        this.body = "";
+    }
 
     public int getId() {
         return id;
