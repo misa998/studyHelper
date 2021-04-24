@@ -5,15 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,17 +108,26 @@ public class MainController {
 
     @FXML
     public void onActionAboutMenuItem(){
+        try {
+            getDialogConfig().showAndWait();
+        } catch (IOException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    private Dialog<ButtonType> getDialogConfig() throws IOException {
         Dialog<ButtonType> aboutDialog = new Dialog<>();
 //        aboutDialog.initOwner(mainBorderPane.getScene().getWindow());
         aboutDialog.setTitle("About");
+        aboutDialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        aboutDialog.getDialogPane().setContent(getFXMLLoader().load());
+
+        return aboutDialog;
+    }
+
+    private FXMLLoader getFXMLLoader(){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(new UiProperties().getAboutFXMLPath());
-        try{
-            aboutDialog.getDialogPane().setContent(fxmlLoader.load());
-        }catch (IOException e){
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-        aboutDialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        aboutDialog.showAndWait();
+        return fxmlLoader;
     }
 }

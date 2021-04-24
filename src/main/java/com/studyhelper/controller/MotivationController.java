@@ -9,9 +9,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,8 +26,6 @@ import javafx.stage.Modality;
 import java.io.IOException;
 
 public class MotivationController {
-    @FXML
-    private Button addMotivation;
     @FXML
     private Button deleteSelectedMotivation;
     @FXML
@@ -95,13 +90,6 @@ public class MotivationController {
     }
 
     private void fillTheFields(Motivation motivation) {
-        titleTextField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> ob, String o,
-                                String n) {
-                titleTextField.setPrefHeight(titleTextField.getText().length() * 7);
-            }
-        });
         titleTextField.setText(motivation.getTitle());
         bodyTextArea.setText(motivation.getBody());
     }
@@ -122,6 +110,7 @@ public class MotivationController {
         cleanOldDataForMotivationList();
 
         ObservableList<Motivation> motivations = new MotivationServiceImpl().getAllMotivation();
+        motivations.sort((c1, c2) -> Integer.compare(c2.getId(), c1.getId()));
 
         for (Motivation motivation : motivations) {
             VBox vbox = createVBox(motivation);
@@ -133,7 +122,6 @@ public class MotivationController {
     private VBox createVBox(Motivation motivation){
         VBox vbox = setMotivationListVBox(motivation.getId());
         Label titleLabelForList = setMotivationListLabel(motivation.getTitle());
-//        TextField textField = setMotivationListTextField(motivation.getTitle(), motivation.getId());
 
         vbox.getChildren().add(titleLabelForList);
         return vbox;
@@ -144,57 +132,6 @@ public class MotivationController {
         label.setWrapText(true);
         label.setTextAlignment(TextAlignment.CENTER);
         return label;
-    }
-
-    private TextArea setMotivationListTextArea(String body, int id) {
-        TextArea textArea = new TextArea();
-        textArea.setStyle("-fx-background-color : transparent; " +
-                "-fx-border-color : transparent;" +
-                "-fx-background-radius : 20;" +
-                "-fx-border-radius : 20;");
-        textArea.setWrapText(true);
-        textArea.setText(body);
-        textArea.setPromptText("Content");
-        textArea.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue) {
-                    selectedMotivation.setValue(id);
-//                    vBoxEachMotivation.setStyle("-fx-pref-height : 300;");
-                }else{
-                }
-            }
-        });
-        textArea.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                new MotivationServiceImpl().updateMotivationBody(newValue, selectedMotivation.get());
-            }
-        });
-
-        return textArea;
-    }
-
-    private TextField setMotivationListTextField(String title, int id) {
-        TextField textField = new TextField();
-        textField.setStyle("-fx-background-color : transparent; " +
-                "-fx-font-weight: bold; " +
-                "-fx-font-size: 15; " +
-                "-fx-alignment : center;");
-        textField.setText(title);
-        textField.setPromptText("Title");
-        textField.focusedProperty().addListener(e -> {
-            selectedMotivation.setValue(id);
-            System.out.println("textField");
-        });
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldTitle, String newTitle) {
-                new MotivationServiceImpl().updateMotivationTitle(newTitle, id);
-            }
-        });
-
-        return textField;
     }
 
     private VBox setMotivationListVBox(int id) {
@@ -229,17 +166,11 @@ public class MotivationController {
     @FXML
     private void onActionAddMotivation(){
         try {
-            loadDialogToInsert();
+            configureDialog().showAndWait();
         } catch (IOException e){
             e.getMessage();
         }
     }
-
-    private void loadDialogToInsert() throws IOException {
-        Dialog<Motivation> addDialog = configureDialog();
-        addDialog.showAndWait();
-    }
-
     private Dialog<Motivation> configureDialog() throws IOException {
         Dialog<Motivation> addDialog = new Dialog<>();
         addDialog.showingProperty().addListener(dialogShowingProperty());
@@ -248,11 +179,14 @@ public class MotivationController {
         addDialog.setTitle("Add new motivation");
         addDialog.getDialogPane().setContent(getLoader().load());
         addDialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        Node close = addDialog.getDialogPane().lookupButton(ButtonType.CLOSE);
-        close.managedProperty().bind(close.visibleProperty());
-        close.setVisible(false);
+        closeButtonConfig(addDialog.getDialogPane().lookupButton(ButtonType.CLOSE));
 
         return addDialog;
+    }
+
+    private void closeButtonConfig(Node close){
+        close.managedProperty().bind(close.visibleProperty());
+        close.setVisible(false);
     }
 
     private ChangeListener<? super Boolean> dialogShowingProperty() {

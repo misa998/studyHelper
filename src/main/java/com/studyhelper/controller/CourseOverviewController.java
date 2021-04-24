@@ -143,21 +143,26 @@ public class CourseOverviewController {
 
     @FXML
     private void onActionDeleteSelectedCourse(){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Todo item");
-        String name = new CourseServiceImpl().getCourseById(selectedCourse.get()).getName();
-        if(name == null)
-            return;
-        alert.setHeaderText("Delete item: " + name);
-        alert.setContentText("Are you sure?");
-        alert.initOwner(courseOverviewAnchorPane.getScene().getWindow());
-        alert.showingProperty().addListener(e -> updateBlurEffect());
-
+        Alert alert = deleteCourseAlertDialogConfig();
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && (result.get() == ButtonType.OK)){
             new CourseServiceImpl().deleteAllDataAboutCourse(selectedCourse.get());
             fillTheListOfCourses();
         }
+    }
+
+    private Alert deleteCourseAlertDialogConfig() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Todo item");
+        String name = new CourseServiceImpl().getCourseById(selectedCourse.get()).getName();
+        if(name == null)
+            return alert;
+        alert.setHeaderText("Delete item: " + name);
+        alert.setContentText("Are you sure?");
+        alert.initOwner(courseOverviewAnchorPane.getScene().getWindow());
+        alert.showingProperty().addListener(e -> updateBlurEffect());
+
+        return alert;
     }
 
     private void updateBlurEffect(){
@@ -194,6 +199,15 @@ public class CourseOverviewController {
         selectedCourse.setValue(0);
     }
 
+    private Comparator<Course> compareCoursesByDue(){
+        return Comparator.comparing((Course c) -> c.getDue().isAfter(LocalDate.now()))
+                .thenComparing(c -> c.getDue().isBefore(LocalDate.now()))
+                .thenComparing(c -> c.getDue().isBefore(LocalDate.now().plusDays(10)))
+                .reversed()
+                .thenComparing(c -> c.getDue())
+                ;
+    }
+
     private VBox createVBox(Course course) {
         VBox vbox = setCourseListVBox(course.getName());
         TextField textField = setCourseListTextField(course.getName());
@@ -202,14 +216,6 @@ public class CourseOverviewController {
 
         vbox.getChildren().addAll(textField, labelForHours, labelForDue);
         return vbox;
-    }
-
-    private Comparator<Course> compareCoursesByDue(){
-        return Comparator.comparing((Course c) -> c.getDue().isAfter(LocalDate.now()))
-                .thenComparing(c -> c.getDue().isBefore(LocalDate.now()))
-                .thenComparing(c -> c.getDue().isBefore(LocalDate.now().plusDays(10)))
-                .reversed()
-                ;
     }
 
     private TextField setCourseListTextField(String courseName){
@@ -392,29 +398,27 @@ public class CourseOverviewController {
     @FXML
     public void addCourseButtonAction() {
         try {
-            loadEditPane();
+            configureDialog().showAndWait();
         } catch (IOException e){
             logger.log(Level.WARNING, e.getMessage());
         }
     }
 
-    private void loadEditPane() throws IOException {
-        Dialog<Course> addCourseDialog = configureDialog();
-        addCourseDialog.showAndWait();
-    }
-
     private Dialog<Course> configureDialog() throws IOException {
         Dialog<Course> addCourseDialog = new Dialog<>();
+        addCourseDialog.setTitle("Add new course");
+        addCourseDialog.getDialogPane().setContent(getLoaderForAddCourse().load());
+        addCourseDialog.showingProperty().addListener(dialogShowingProperty());
         addCourseDialog.initOwner(courseOverviewAnchorPane.getScene().getWindow());
         addCourseDialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        Node close = addCourseDialog.getDialogPane().lookupButton(ButtonType.CLOSE);
-        close.managedProperty().bind(close.visibleProperty());
-        close.setVisible(false);
-        addCourseDialog.showingProperty().addListener(dialogShowingProperty());
-        addCourseDialog.setTitle("Add new course");
-        addCourseDialog.getDialogPane().setContent(getLoader().load());
+        closeButtonConfig(addCourseDialog.getDialogPane().lookupButton(ButtonType.CLOSE));
 
         return addCourseDialog;
+    }
+
+    private void closeButtonConfig(Node close){
+        close.managedProperty().bind(close.visibleProperty());
+        close.setVisible(false);
     }
 
     private ChangeListener<? super Boolean> dialogShowingProperty() {
@@ -425,7 +429,7 @@ public class CourseOverviewController {
         };
     }
 
-    private FXMLLoader getLoader(){
+    private FXMLLoader getLoaderForAddCourse(){
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(new UiProperties().getAddCourseFXMLPath());
         return fxmlLoader;

@@ -1,0 +1,1582 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:30:46.549905Z</date>
+  <millis>1619249446549</millis>
+  <nanos>905000</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:30:46.763901600Z</date>
+  <millis>1619249446763</millis>
+  <nanos>901600</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:30:49.332497600Z</date>
+  <millis>1619249449332</millis>
+  <nanos>497600</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:30:50.502024Z</date>
+  <millis>1619249450502</millis>
+  <nanos>24000</nanos>
+  <sequence>3</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:30:53.659339600Z</date>
+  <millis>1619249453659</millis>
+  <nanos>339600</nanos>
+  <sequence>4</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:30:56.391430100Z</date>
+  <millis>1619249456391</millis>
+  <nanos>430100</nanos>
+  <sequence>5</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:30:56.444491600Z</date>
+  <millis>1619249456444</millis>
+  <nanos>491600</nanos>
+  <sequence>6</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<record>
+  <date>2021-04-24T07:30:57.479511Z</date>
+  <millis>1619249457479</millis>
+  <nanos>511000</nanos>
+  <sequence>7</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:38:10.944026700Z</date>
+  <millis>1619249890944</millis>
+  <nanos>26700</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:38:11.160073600Z</date>
+  <millis>1619249891160</millis>
+  <nanos>73600</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:38:13.460405600Z</date>
+  <millis>1619249893460</millis>
+  <nanos>405600</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:38:18.335301900Z</date>
+  <millis>1619249898335</millis>
+  <nanos>301900</nanos>
+  <sequence>3</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:45:33.240145500Z</date>
+  <millis>1619250333240</millis>
+  <nanos>145500</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:45:33.457194600Z</date>
+  <millis>1619250333457</millis>
+  <nanos>194600</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:45:35.100414300Z</date>
+  <millis>1619250335100</millis>
+  <nanos>414300</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:45:35.168429500Z</date>
+  <millis>1619250335168</millis>
+  <nanos>429500</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:46:09.517481500Z</date>
+  <millis>1619250369517</millis>
+  <nanos>481500</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:46:09.726528300Z</date>
+  <millis>1619250369726</millis>
+  <nanos>528300</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:46:11.137770Z</date>
+  <millis>1619250371137</millis>
+  <nanos>770000</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:46:11.202784300Z</date>
+  <millis>1619250371202</millis>
+  <nanos>784300</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:47:48.726977600Z</date>
+  <millis>1619250468726</millis>
+  <nanos>977600</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:47:48.987035800Z</date>
+  <millis>1619250468987</millis>
+  <nanos>35800</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:47:50.546534500Z</date>
+  <millis>1619250470546</millis>
+  <nanos>534500</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:47:50.628553700Z</date>
+  <millis>1619250470628</millis>
+  <nanos>553700</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:48:15.908339100Z</date>
+  <millis>1619250495908</millis>
+  <nanos>339100</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:48:16.116385500Z</date>
+  <millis>1619250496116</millis>
+  <nanos>385500</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:48:17.685169500Z</date>
+  <millis>1619250497685</millis>
+  <nanos>169500</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:48:17.759185300Z</date>
+  <millis>1619250497759</millis>
+  <nanos>185300</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:49:15.867417700Z</date>
+  <millis>1619250555867</millis>
+  <nanos>417700</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:49:16.071463500Z</date>
+  <millis>1619250556071</millis>
+  <nanos>463500</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:49:17.663436800Z</date>
+  <millis>1619250557663</millis>
+  <nanos>436800</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:49:17.735452700Z</date>
+  <millis>1619250557735</millis>
+  <nanos>452700</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:49:37.195219600Z</date>
+  <millis>1619250577195</millis>
+  <nanos>219600</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:49:37.437274100Z</date>
+  <millis>1619250577437</millis>
+  <nanos>274100</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:49:39.273579100Z</date>
+  <millis>1619250579273</millis>
+  <nanos>579100</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:49:39.341594400Z</date>
+  <millis>1619250579341</millis>
+  <nanos>594400</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:51:44.202362800Z</date>
+  <millis>1619250704202</millis>
+  <nanos>362800</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:51:44.424412900Z</date>
+  <millis>1619250704424</millis>
+  <nanos>412900</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:51:45.789242400Z</date>
+  <millis>1619250705789</millis>
+  <nanos>242400</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:51:45.857258Z</date>
+  <millis>1619250705857</millis>
+  <nanos>258000</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:52:07.122070200Z</date>
+  <millis>1619250727122</millis>
+  <nanos>70200</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:52:07.346119Z</date>
+  <millis>1619250727346</millis>
+  <nanos>119000</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:52:08.777340Z</date>
+  <millis>1619250728777</millis>
+  <nanos>340000</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:52:08.841355Z</date>
+  <millis>1619250728841</millis>
+  <nanos>355000</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:53:19.462425300Z</date>
+  <millis>1619250799462</millis>
+  <nanos>425300</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:19.668471Z</date>
+  <millis>1619250799668</millis>
+  <nanos>471000</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:21.058454200Z</date>
+  <millis>1619250801058</millis>
+  <nanos>454200</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:21.127471100Z</date>
+  <millis>1619250801127</millis>
+  <nanos>471100</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:53:33.554900200Z</date>
+  <millis>1619250813554</millis>
+  <nanos>900200</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:33.764947200Z</date>
+  <millis>1619250813764</millis>
+  <nanos>947200</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:35.592236400Z</date>
+  <millis>1619250815592</millis>
+  <nanos>236400</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:35.672253800Z</date>
+  <millis>1619250815672</millis>
+  <nanos>253800</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T07:53:46.680913300Z</date>
+  <millis>1619250826680</millis>
+  <nanos>913300</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:46.885958400Z</date>
+  <millis>1619250826885</millis>
+  <nanos>958400</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:48.740836200Z</date>
+  <millis>1619250828740</millis>
+  <nanos>836200</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T07:53:48.812851800Z</date>
+  <millis>1619250828812</millis>
+  <nanos>851800</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T08:42:49.018453700Z</date>
+  <millis>1619253769018</millis>
+  <nanos>453700</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T08:42:49.223499900Z</date>
+  <millis>1619253769223</millis>
+  <nanos>499900</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:42:53.029692400Z</date>
+  <millis>1619253773029</millis>
+  <nanos>692400</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:42:53.097708Z</date>
+  <millis>1619253773097</millis>
+  <nanos>708000</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T08:43:54.602871800Z</date>
+  <millis>1619253834602</millis>
+  <nanos>871800</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T08:43:54.827921800Z</date>
+  <millis>1619253834827</millis>
+  <nanos>921800</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:44:26.905580100Z</date>
+  <millis>1619253866905</millis>
+  <nanos>580100</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:44:26.975595900Z</date>
+  <millis>1619253866975</millis>
+  <nanos>595900</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T08:44:48.327691600Z</date>
+  <millis>1619253888327</millis>
+  <nanos>691600</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T08:44:48.563561500Z</date>
+  <millis>1619253888563</millis>
+  <nanos>561500</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:44:50.199563800Z</date>
+  <millis>1619253890199</millis>
+  <nanos>563800</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:44:50.265579400Z</date>
+  <millis>1619253890265</millis>
+  <nanos>579400</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T08:45:48.407193900Z</date>
+  <millis>1619253948407</millis>
+  <nanos>193900</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T08:45:48.623242100Z</date>
+  <millis>1619253948623</millis>
+  <nanos>242100</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:45:49.995413600Z</date>
+  <millis>1619253949995</millis>
+  <nanos>413600</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:45:50.061428500Z</date>
+  <millis>1619253950061</millis>
+  <nanos>428500</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T08:46:25.570640Z</date>
+  <millis>1619253985570</millis>
+  <nanos>640000</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T08:46:25.784686Z</date>
+  <millis>1619253985784</millis>
+  <nanos>686000</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:46:27.613100700Z</date>
+  <millis>1619253987613</millis>
+  <nanos>100700</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:46:27.690531800Z</date>
+  <millis>1619253987690</millis>
+  <nanos>531800</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T08:54:30.093588200Z</date>
+  <millis>1619254470093</millis>
+  <nanos>588200</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T08:54:30.304635Z</date>
+  <millis>1619254470304</millis>
+  <nanos>635000</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:54:32.151239700Z</date>
+  <millis>1619254472151</millis>
+  <nanos>239700</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:54:32.224256400Z</date>
+  <millis>1619254472224</millis>
+  <nanos>256400</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T08:54:49.302298800Z</date>
+  <millis>1619254489302</millis>
+  <nanos>298800</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>16</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T08:54:49.497343400Z</date>
+  <millis>1619254489497</millis>
+  <nanos>343400</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>20</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:54:51.337446200Z</date>
+  <millis>1619254491337</millis>
+  <nanos>446200</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>20</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T08:54:51.418464300Z</date>
+  <millis>1619254491418</millis>
+  <nanos>464300</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>20</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+</log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T09:28:08.510387100Z</date>
+  <millis>1619256488510</millis>
+  <nanos>387100</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:08.721480500Z</date>
+  <millis>1619256488721</millis>
+  <nanos>480500</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:12.440958800Z</date>
+  <millis>1619256492440</millis>
+  <nanos>958800</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:12.506974200Z</date>
+  <millis>1619256492506</millis>
+  <nanos>974200</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:21.942687Z</date>
+  <millis>1619256501942</millis>
+  <nanos>687000</nanos>
+  <sequence>4</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:32.930353600Z</date>
+  <millis>1619256512930</millis>
+  <nanos>353600</nanos>
+  <sequence>5</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseByName</method>
+  <thread>18</thread>
+  <message>ResultSet closed</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:32.952974100Z</date>
+  <millis>1619256512952</millis>
+  <nanos>974100</nanos>
+  <sequence>6</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T09:28:41.393045200Z</date>
+  <millis>1619256521393</millis>
+  <nanos>45200</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:41.604090800Z</date>
+  <millis>1619256521604</millis>
+  <nanos>90800</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:43.429452500Z</date>
+  <millis>1619256523429</millis>
+  <nanos>452500</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:43.503475200Z</date>
+  <millis>1619256523503</millis>
+  <nanos>475200</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T09:28:58.568653200Z</date>
+  <millis>1619256538568</millis>
+  <nanos>653200</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T09:28:58.777707500Z</date>
+  <millis>1619256538777</millis>
+  <nanos>707500</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:29:00.266366600Z</date>
+  <millis>1619256540266</millis>
+  <nanos>366600</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:29:00.331381Z</date>
+  <millis>1619256540331</millis>
+  <nanos>381000</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T09:32:10.969317900Z</date>
+  <millis>1619256730969</millis>
+  <nanos>317900</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T09:32:11.197367100Z</date>
+  <millis>1619256731197</millis>
+  <nanos>367100</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:32:12.744134700Z</date>
+  <millis>1619256732744</millis>
+  <nanos>134700</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:32:12.810151300Z</date>
+  <millis>1619256732810</millis>
+  <nanos>151300</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<record>
+  <date>2021-04-24T09:32:23.951175500Z</date>
+  <millis>1619256743951</millis>
+  <nanos>175500</nanos>
+  <sequence>4</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:32:35.411108700Z</date>
+  <millis>1619256755411</millis>
+  <nanos>108700</nanos>
+  <sequence>5</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseByName</method>
+  <thread>18</thread>
+  <message>ResultSet closed</message>
+</record>
+<record>
+  <date>2021-04-24T09:32:55.084226500Z</date>
+  <millis>1619256775084</millis>
+  <nanos>226500</nanos>
+  <sequence>6</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:33:07.571855200Z</date>
+  <millis>1619256787571</millis>
+  <nanos>855200</nanos>
+  <sequence>7</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseByName</method>
+  <thread>18</thread>
+  <message>ResultSet closed</message>
+</record>
+<record>
+  <date>2021-04-24T09:33:07.592723300Z</date>
+  <millis>1619256787592</millis>
+  <nanos>723300</nanos>
+  <sequence>8</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T09:46:17.046373500Z</date>
+  <millis>1619257577046</millis>
+  <nanos>373500</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T09:46:17.253420Z</date>
+  <millis>1619257577253</millis>
+  <nanos>420000</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:46:20.616016500Z</date>
+  <millis>1619257580616</millis>
+  <nanos>16500</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:46:24.250269500Z</date>
+  <millis>1619257584250</millis>
+  <nanos>269500</nanos>
+  <sequence>3</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:46:26.679114600Z</date>
+  <millis>1619257586679</millis>
+  <nanos>114600</nanos>
+  <sequence>4</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T09:47:02.744693Z</date>
+  <millis>1619257622744</millis>
+  <nanos>693000</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T09:47:02.973744200Z</date>
+  <millis>1619257622973</millis>
+  <nanos>744200</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:47:04.669580300Z</date>
+  <millis>1619257624669</millis>
+  <nanos>580300</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:47:06.032298300Z</date>
+  <millis>1619257626032</millis>
+  <nanos>298300</nanos>
+  <sequence>3</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:47:19.312969300Z</date>
+  <millis>1619257639312</millis>
+  <nanos>969300</nanos>
+  <sequence>4</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-04-24T09:53:47.261796700Z</date>
+  <millis>1619258027261</millis>
+  <nanos>796700</nanos>
+  <sequence>0</sequence>
+  <logger>com.studyhelper.db.source.CreateNewSchema</logger>
+  <level>INFO</level>
+  <class>com.studyhelper.db.source.CreateNewSchema</class>
+  <method>createDatabaseSchema</method>
+  <thread>14</thread>
+  <message>Creating schemas successfully finished.</message>
+</record>
+<record>
+  <date>2021-04-24T09:53:47.466851Z</date>
+  <millis>1619258027466</millis>
+  <nanos>851000</nanos>
+  <sequence>1</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:53:49.681457Z</date>
+  <millis>1619258029681</millis>
+  <nanos>457000</nanos>
+  <sequence>2</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:53:49.758473400Z</date>
+  <millis>1619258029758</millis>
+  <nanos>473400</nanos>
+  <sequence>3</sequence>
+  <logger>com.studyhelper.db.model.CourseServiceImpl</logger>
+  <level>SEVERE</level>
+  <class>com.studyhelper.db.model.CourseServiceImpl</class>
+  <method>getCourseById</method>
+  <thread>18</thread>
+  <message>Course with that id does not exist. Returning null.</message>
+</record>
+<record>
+  <date>2021-04-24T09:53:50.924613600Z</date>
+  <millis>1619258030924</millis>
+  <nanos>613600</nanos>
+  <sequence>4</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:53:55.641589400Z</date>
+  <millis>1619258035641</millis>
+  <nanos>589400</nanos>
+  <sequence>5</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>
+<record>
+  <date>2021-04-24T09:53:56.575652600Z</date>
+  <millis>1619258036575</millis>
+  <nanos>652600</nanos>
+  <sequence>6</sequence>
+  <logger>javafx</logger>
+  <level>WARNING</level>
+  <class>javafx.fxml.FXMLLoader$ValueElement</class>
+  <method>processValue</method>
+  <thread>18</thread>
+  <message>Loading FXML document with JavaFX API of version 11.0.1 by JavaFX runtime of version 9.0.4</message>
+</record>

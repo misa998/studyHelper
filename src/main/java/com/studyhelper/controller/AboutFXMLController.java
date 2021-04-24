@@ -24,7 +24,7 @@ public class AboutFXMLController extends Application {
     }
 
     private void setupGitHubLink() {
-        githubLink.setText("My github profile");
+        githubLink.setText("Github profile");
         githubLink.setTooltip(new Tooltip(new UiProperties().getGitHubProfileURL()));
     }
 
@@ -43,7 +43,7 @@ public class AboutFXMLController extends Application {
     }
 
     private void setupLinkedInLink() {
-        linkedInLink.setText("My linkedIn profile");
+        linkedInLink.setText("LinkedIn profile");
         linkedInLink.setTooltip(new Tooltip(new UiProperties().getLinkedInProfileURL()));
     }
 
