@@ -72,7 +72,19 @@ public class UiProperties {
         aboutText = properties.getProperty("aboutText");
         linkedInProfileURL = properties.getProperty("linkedInProfileURL");
     }
-
+/*
+	// ova klasa da bude koriscena samo za fxml a get da vraca URL
+	private Properties properties;
+	
+	private void getProperties(InputStream in) throws IOException{
+		properties = new Properties();
+		properties.load(in);
+	}
+	
+	public String get(String name){
+		return properties.getProperty(name);	
+	}
+*/
     public URL getAddMotivationFXMLPath() {
         return getClass().getResource(addMotivationFXMLPath);
     }

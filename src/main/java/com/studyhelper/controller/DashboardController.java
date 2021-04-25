@@ -3,7 +3,7 @@ package com.studyhelper.controller;
 import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.entity.Time;
 import com.studyhelper.db.entity.TimePerDay;
-import com.studyhelper.db.model.CourseServiceImpl;
+import com.studyhelper.db.model.Course.CourseServiceImpl;
 import com.studyhelper.db.model.TimePerDayServiceImpl;
 import com.studyhelper.db.model.TimeServiceImpl;
 import javafx.beans.property.IntegerProperty;
@@ -56,7 +56,7 @@ public class DashboardController {
 
     private void refreshStackedBarChart(){
         stackedBarChart.getData().clear();
-        ObservableList<Course> courses = new CourseServiceImpl().getAllCourses();
+        ObservableList<Course> courses = new CourseServiceImpl().getList().all();
 
         for(int i=0; i<courses.size(); i++){
             XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
@@ -96,7 +96,7 @@ public class DashboardController {
     }
 
     private ObservableList<PieChart.Data> getCourseDataForPieChart(){
-        final ObservableList<Course> data = new CourseServiceImpl().getAllCourses();
+        final ObservableList<Course> data = new CourseServiceImpl().getList().all();
 
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         for(Course course : data){

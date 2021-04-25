@@ -1,7 +1,7 @@
 package com.studyhelper.controller;
 
 import com.studyhelper.db.entity.Course;
-import com.studyhelper.db.model.CourseServiceImpl;
+import com.studyhelper.db.model.Course.CourseServiceImpl;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +47,7 @@ public class ControllerAddCourseDialog {
     }
 
     private void insertData() {
-        new CourseServiceImpl().insertCourse(getData());
+        new CourseServiceImpl().insert().add(getData());
     }
 
     public Course getData(){

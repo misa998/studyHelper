@@ -2,6 +2,7 @@ package com.studyhelper.db.model;
 
 import com.studyhelper.db.entity.Time;
 import com.studyhelper.db.entity.TimePerDay;
+import com.studyhelper.db.model.Course.CourseServiceImpl;
 import com.studyhelper.db.source.DataSource;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -80,7 +80,7 @@ public class CreateNewSchema {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("CREATE TABLE IF NOT EXISTS \"time\" (\n" +
                 "        \"id\"    INTEGER NOT NULL,\n" +
-                "        \"duration\"      TEXT NOT NULL DEFAULT 'time(\"00:00\")',\n" +
+                "        \"duration\"      TEXT NOT NULL DEFAULT 'time(\"PT0S\")',\n" +
                 "        \"course_id\"     INTEGER NOT NULL,\n" +
                 "        FOREIGN KEY(\"course_id\") REFERENCES \"course\"(\"id\"),\n" +
                 "        PRIMARY KEY(\"id\" AUTOINCREMENT)\n" +

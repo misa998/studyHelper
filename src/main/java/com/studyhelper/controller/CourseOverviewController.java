@@ -3,7 +3,7 @@ package com.studyhelper.controller;
 import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.entity.Time;
 import com.studyhelper.db.entity.Todo;
-import com.studyhelper.db.model.CourseServiceImpl;
+import com.studyhelper.db.model.Course.CourseServiceImpl;
 import com.studyhelper.db.model.TimeServiceImpl;
 import com.studyhelper.db.model.TodoServiceImpl;
 import com.studyhelper.db.properties.UiProperties;
@@ -118,7 +118,7 @@ public class CourseOverviewController {
     }
 
     private void courseDescriptionRefresh(){
-        Course course = new CourseServiceImpl().getCourseById(selectedCourse.get());
+        Course course = new CourseServiceImpl().get().byId(selectedCourse.get());
         courseDescription.setText(course == null ? "" : course.getDescription());
     }
 
@@ -127,7 +127,7 @@ public class CourseOverviewController {
             @Override
             public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
                 if(oldValue)
-                    new CourseServiceImpl().updateCourseDescription(courseDescription.getText(), selectedCourse.get());
+                    new CourseServiceImpl().update().description(courseDescription.getText(), selectedCourse.get());
             }
         };
     }
@@ -135,7 +135,7 @@ public class CourseOverviewController {
     @FXML
     private void vboxCoursesOnAction(MouseEvent mouseEvent){
         VBox vbox = (VBox) mouseEvent.getSource();
-        Course course = new CourseServiceImpl().getCourseByName(vbox.getId());
+        Course course = new CourseServiceImpl().get().byName(vbox.getId());
         if(course == null)
             return;
         selectedCourse.setValue(course.getId());
@@ -146,7 +146,7 @@ public class CourseOverviewController {
         Alert alert = deleteCourseAlertDialogConfig();
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && (result.get() == ButtonType.OK)){
-            new CourseServiceImpl().deleteAllDataAboutCourse(selectedCourse.get());
+            new CourseServiceImpl().delete().byId(selectedCourse.get());
             fillTheListOfCourses();
         }
     }
@@ -154,7 +154,7 @@ public class CourseOverviewController {
     private Alert deleteCourseAlertDialogConfig() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Todo item");
-        String name = new CourseServiceImpl().getCourseById(selectedCourse.get()).getName();
+        String name = new CourseServiceImpl().get().byId(selectedCourse.get()).getName();
         if(name == null)
             return alert;
         alert.setHeaderText("Delete item: " + name);
@@ -183,7 +183,7 @@ public class CourseOverviewController {
     private void fillTheListOfCourses(){
         cleanOldDataForCourseList();
 
-        ObservableList<Course> courseList = new CourseServiceImpl().getAllCourses();
+        ObservableList<Course> courseList = new CourseServiceImpl().getList().all();
         courseList.sort(compareCoursesByDue());
 
         for (Course course : courseList) {
@@ -225,8 +225,8 @@ public class CourseOverviewController {
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String oldName, String newName) {
-                selectedCourse.setValue(new CourseServiceImpl().getCourseByName(oldName).getId());
-                new CourseServiceImpl().updateCourseName(newName, selectedCourse.get());
+                selectedCourse.setValue(new CourseServiceImpl().get().byName(oldName).getId());
+                new CourseServiceImpl().update().name(newName, selectedCourse.get());
             }
         });
 

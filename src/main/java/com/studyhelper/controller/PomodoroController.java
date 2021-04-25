@@ -2,7 +2,7 @@ package com.studyhelper.controller;
 
 import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.entity.Pomodoro;
-import com.studyhelper.db.model.CourseServiceImpl;
+import com.studyhelper.db.model.Course.CourseServiceImpl;
 import com.studyhelper.db.model.PomodoroServiceImpl;
 import com.studyhelper.db.model.PomodoroStudyStates;
 import javafx.animation.Animation;
@@ -83,7 +83,7 @@ public class PomodoroController {
     }
 
     private void getCoursesForChoiceBox() {
-        ObservableList<Course> courseList = new CourseServiceImpl().getAllCourses();
+        ObservableList<Course> courseList = new CourseServiceImpl().getList().all();
         courseList.sort(Comparator.comparing((Course c) -> c.getName()));
         for(Course course : courseList) courseChoiceBox.getItems().add(course.getName());
     }
@@ -134,7 +134,7 @@ public class PomodoroController {
         LocalTime miniPauseTime = LocalTime.of(0, Integer.parseInt(miniPauseTimeTextField.getText()), 1);
         LocalTime largePauseTime = LocalTime.of(0, Integer.parseInt(largePauseTimeTextField.getText()), 1);
 
-        PomodoroServiceImpl.getInstance().setup(new Pomodoro(studySessionTime, miniPauseTime, largePauseTime, new CourseServiceImpl().getCourseByName(courseChoiceBox.getValue()).getId()));
+        PomodoroServiceImpl.getInstance().setup(new Pomodoro(studySessionTime, miniPauseTime, largePauseTime, new CourseServiceImpl().get().byName(courseChoiceBox.getValue()).getId()));
     }
 
 
