@@ -1,6 +1,6 @@
 package com.studyhelper.controller;
 
-import com.studyhelper.db.properties.UiProperties;
+import com.studyhelper.db.properties.I18N;
 
 import java.awt.*;
 
@@ -32,7 +32,7 @@ public class TrayIconController {
 
     public void displayMessage(String message){
         if(trayIcon != null) {
-            String caption = new UiProperties().getTrayIconCaption();
+            String caption = I18N.getString("trayIcon.caption");
             trayIcon.displayMessage(caption, message, TrayIcon.MessageType.INFO);
         }
     }

@@ -9,7 +9,7 @@
       <children>
 
          <Button fx:id="addCourseButton" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCourseButtonAction">
-            <tooltip><Tooltip text="Add new course" /></tooltip>
+            <tooltip><Tooltip text="%course.add.course.tooltip" /></tooltip>
             <graphic>
                <ImageView>
                   <Image url="@icons/add-course-white-16.png" />
@@ -46,14 +46,14 @@
          <TableView fx:id="todoTableView" editable="true" layoutX="459.0" layoutY="58.0" prefHeight="148.0" prefWidth="353.0">
             <columns>
                <TableColumn fx:id="selectTableColumn" prefWidth="53.0" />
-               <TableColumn fx:id="itemTableColumn" onEditCommit="#itemCellOnEditCommit" prefWidth="270.0" text="Todo list for a course" />
+               <TableColumn fx:id="itemTableColumn" onEditCommit="#itemCellOnEditCommit" prefWidth="270.0" text="%course.tableColumn" />
             </columns>
          </TableView>
 
-         <TextField fx:id="todoTextField" layoutX="582.0" layoutY="14.0" promptText="Enter your todo item" />
+         <TextField fx:id="todoTextField" layoutX="582.0" layoutY="14.0" promptText="%course.enter.todo.prompt" />
 
          <Button fx:id="addTodo" alignment="CENTER" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#618cb0">
-            <tooltip><Tooltip text="Add new todo item" /></tooltip>
+            <tooltip><Tooltip text="%course.add.todo.tooltip" /></tooltip>
             <graphic>
                <ImageView>
                   <Image url="@icons/todo-add-white-16.png" />
@@ -62,7 +62,7 @@
          </Button>
 
          <Button fx:id="deleteSelectedTodo" disable="true" layoutX="745.0" layoutY="215.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedTodo">
-            <tooltip><Tooltip text="Delete todo item" /></tooltip>
+            <tooltip><Tooltip text="%course.delete.todo.tooltip" /></tooltip>
             <graphic>
                <ImageView>
                   <Image url="@icons/todo-delete-white-16.png" />
@@ -73,7 +73,7 @@
          <ProgressIndicator fx:id="todoProgressIndicator" layoutX="482.0" layoutY="207.0" progress="0.0" />
 
          <Button fx:id="deleteCourse" layoutX="101.0" layoutY="15.0" mnemonicParsing="false" onAction="#onActionDeleteSelectedCourse">
-            <tooltip><Tooltip text="Delete course" /></tooltip>
+            <tooltip><Tooltip text="%course.delete.tooltip" /></tooltip>
             <graphic>
                <ImageView>
                   <Image url="@icons/delete-white-16.png" />
@@ -81,9 +81,9 @@
             </graphic>
          </Button>
 
-         <TextArea fx:id="courseDescription" layoutX="200.0" layoutY="58.0" prefHeight="72.0" prefWidth="179.0" promptText="Course description" style="-fx-background-color: transparent;" styleClass="text-area" wrapText="true" />
+         <TextArea fx:id="courseDescription" layoutX="200.0" layoutY="58.0" prefHeight="72.0" prefWidth="179.0" promptText="%course.description.prompt" style="-fx-background-color: transparent;" styleClass="text-area" wrapText="true" />
 
-         <Label layoutX="200.0" layoutY="37.0" text="Description" />
+         <Label layoutX="200.0" layoutY="37.0" text="%course.description" />
 
    </children>
 </AnchorPane>

@@ -15,14 +15,6 @@ public class DataSource {
     public static DataSource getInstance(){
         return instance;
     }
-/*
-    public static final String DB_FILE_NAME = "studyHelperDatabase.db";
-    public static final String URL = "jdbc:sqlite:" + DB_FILE_NAME;
-*/
-/*
-    public final String DB_FILE_NAME = "studyHelperDatabase.db";
-    public final String URL = "jdbc:sqlite::resource:" + DB_FILE_NAME;
-*/
 
     public final String DB_FILE_NAME = new DatabaseProperties().getDB_FILE_NAME();
     public final String URL = new DatabaseProperties().getURL() + DB_FILE_NAME;

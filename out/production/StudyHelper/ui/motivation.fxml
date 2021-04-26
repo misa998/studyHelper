@@ -28,7 +28,7 @@
 
         <Button fx:id="addMotivation" layoutX="783.0" layoutY="22.0" mnemonicParsing="false" onAction="#onActionAddMotivation">
               <tooltip>
-            <Tooltip text="Add new motivation" />
+            <Tooltip text="%motivation.addMotivation.label" />
          </tooltip>
               <graphic>
                   <ImageView>
@@ -37,7 +37,7 @@
               </graphic>
         </Button>
         <Button fx:id="deleteSelectedMotivation" layoutX="783.0" layoutY="61.0" mnemonicParsing="false" onAction="#onActionDeleteMotivation">
-            <tooltip><Tooltip text="Delete motivation" /></tooltip>
+            <tooltip><Tooltip text="%motivation.deleteMotivation.label" /></tooltip>
             <graphic>
                 <ImageView>
                     <Image url="@icons/delete-white-16.png" />

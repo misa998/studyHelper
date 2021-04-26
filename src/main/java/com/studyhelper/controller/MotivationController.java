@@ -2,6 +2,7 @@ package com.studyhelper.controller;
 
 import com.studyhelper.db.entity.Motivation;
 import com.studyhelper.db.model.MotivationServiceImpl;
+import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.UiProperties;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -151,7 +152,8 @@ public class MotivationController {
     @FXML
     private void vboxMotivationOnAction(MouseEvent mouseEvent){
         VBox vbox = (VBox) mouseEvent.getSource();
-        Motivation motivation = new MotivationServiceImpl().getMotivationById(Integer.parseInt(vbox.getId()));
+        Motivation motivation = new MotivationServiceImpl()
+                .getMotivationById(Integer.parseInt(vbox.getId()));
         if(motivation == null)
             return;
         selectedMotivation.setValue(motivation.getId());
@@ -166,6 +168,7 @@ public class MotivationController {
     @FXML
     private void onActionAddMotivation(){
         try {
+
             configureDialog().showAndWait();
         } catch (IOException e){
             e.getMessage();
@@ -176,7 +179,7 @@ public class MotivationController {
         addDialog.showingProperty().addListener(dialogShowingProperty());
         addDialog.initOwner(moitvationAnchorPane.getScene().getWindow());
         addDialog.initModality(Modality.WINDOW_MODAL);
-        addDialog.setTitle("Add new motivation");
+        addDialog.setTitle(I18N.getString("addMotivation.dialog.title"));
         addDialog.getDialogPane().setContent(getLoader().load());
         addDialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
         closeButtonConfig(addDialog.getDialogPane().lookupButton(ButtonType.CLOSE));
@@ -199,11 +202,10 @@ public class MotivationController {
 
     private FXMLLoader getLoader(){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new UiProperties().getAddMotivationFXMLPath());
-
+        fxmlLoader.setLocation(new UiProperties().getResourceURL("addMotivationFXMLPath"));
+        fxmlLoader.setResources(I18N.getResourceBundle());
         return fxmlLoader;
     }
-
 
     private void updateBlurEffect(){
         if(moitvationAnchorPane.getEffect() != null)

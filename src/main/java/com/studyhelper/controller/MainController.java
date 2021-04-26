@@ -1,5 +1,6 @@
 package com.studyhelper.controller;
 
+import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.UiProperties;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +9,8 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
-import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,12 +29,7 @@ public class MainController {
     private BorderPane mainBorderPane;
 
     private final Logger logger = Logger.getLogger(MainController.class.getName());
-
-    private final URL dashboardFXMLPath = new UiProperties().getDashboardFXMLPath();
-    private final URL courseOverviewFXMLPath = new UiProperties().getCourseOverviewFXMLPath();
-    private final URL pomodoroFXMLPath = new UiProperties().getPomodoroFXMLPath();
-    private final URL motivationFXMLPath = new UiProperties().getMotivationFXMLPath();
-
+    private UiProperties uiProperties = new UiProperties();
 
     private AnchorPane dashboardAnchorPane = null;
     private AnchorPane coursesAnchorPane = null;
@@ -51,7 +48,7 @@ public class MainController {
 
     private void loadCourseTab() {
         try {
-            coursesAnchorPane = FXMLLoader.load(courseOverviewFXMLPath);
+            coursesAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("courseOverviewFXMLPath"), I18N.getResourceBundle());
         } catch (IOException e){
             logger.log(Level.WARNING, e.getMessage());
         }
@@ -66,7 +63,7 @@ public class MainController {
 
     private void loadDashboardTab() {
         try {
-            dashboardAnchorPane = FXMLLoader.load(dashboardFXMLPath);
+            dashboardAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("dashboardFXMLPath"), I18N.getResourceBundle());
         } catch (IOException e){
             logger.log(Level.WARNING, e.getMessage());
         }
@@ -82,7 +79,7 @@ public class MainController {
 
     private void loadPomodoroTab() {
         try {
-            pomodoroAnchorPane = FXMLLoader.load(pomodoroFXMLPath);
+            pomodoroAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("pomodoroFXMLPath"), I18N.getResourceBundle());
         } catch (IOException e){
             logger.log(Level.WARNING, e.getMessage());
         }
@@ -98,7 +95,7 @@ public class MainController {
 
     private void loadMotivationTab() {
         try {
-            motivationAnchorPane = FXMLLoader.load(motivationFXMLPath);
+            motivationAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("motivationFXMLPath"), I18N.getResourceBundle());
         } catch (IOException e){
             logger.log(Level.WARNING, e.getMessage());
         }
@@ -127,7 +124,7 @@ public class MainController {
 
     private FXMLLoader getFXMLLoader(){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new UiProperties().getAboutFXMLPath());
+        fxmlLoader.setLocation(uiProperties.getResourceURL("aboutFXMLPath"));
         return fxmlLoader;
     }
 }

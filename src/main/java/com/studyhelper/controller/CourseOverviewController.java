@@ -6,6 +6,7 @@ import com.studyhelper.db.entity.Todo;
 import com.studyhelper.db.model.Course.CourseServiceImpl;
 import com.studyhelper.db.model.TimeServiceImpl;
 import com.studyhelper.db.model.TodoServiceImpl;
+import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.UiProperties;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
@@ -153,12 +154,12 @@ public class CourseOverviewController {
 
     private Alert deleteCourseAlertDialogConfig() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete Todo item");
+        alert.setTitle(I18N.getString("alert.title"));
         String name = new CourseServiceImpl().get().byId(selectedCourse.get()).getName();
         if(name == null)
             return alert;
-        alert.setHeaderText("Delete item: " + name);
-        alert.setContentText("Are you sure?");
+        alert.setHeaderText(I18N.getString("alert.header") + name);
+        alert.setContentText(I18N.getString("alert.message"));
         alert.initOwner(courseOverviewAnchorPane.getScene().getWindow());
         alert.showingProperty().addListener(e -> updateBlurEffect());
 
@@ -220,7 +221,8 @@ public class CourseOverviewController {
 
     private TextField setCourseListTextField(String courseName){
         TextField textField = new TextField();
-        textField.setStyle("-fx-background-color : transparent; -fx-text-fill : #cdcdcd; -fx-alignment : center;");
+        textField.setStyle("-fx-background-color : transparent; " +
+                "-fx-text-fill : #cdcdcd; -fx-alignment : center;");
         textField.setText(courseName);
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -241,7 +243,7 @@ public class CourseOverviewController {
         if(time == null)
             label3.setText("N/A");
         else
-            label3.setText(time.getDuration().toHours() + " hours studied");
+            label3.setText(time.getDuration().toHours() + " " + I18N.getString("courseList.hours.label"));
 
         return label3;
     }
@@ -265,14 +267,14 @@ public class CourseOverviewController {
         long daysLeft = Duration.between(LocalDate.now().atStartOfDay(), course.getDue().atStartOfDay()).toDays();
         String daysLeftString;
         if(daysLeft <= 0){
-            daysLeftString = "expired";
+            daysLeftString = " " + I18N.getString("courseList.due.label.expired");
             label2.setTextFill(Paint.valueOf("#cdcdcd"));
         } else if(daysLeft < 10){
-            daysLeftString = daysLeft + " days left";
+            daysLeftString = daysLeft + " " + I18N.getString("courseList.due.label.left");
             label2.setTextFill(Paint.valueOf("#bf7878"));
         }
         else{
-            daysLeftString = daysLeft + " days left";
+            daysLeftString = daysLeft + " " + I18N.getString("courseList.due.label.left");
             label2.setTextFill(Paint.valueOf("#8dae72"));
         }
         label2.setText(daysLeftString);
@@ -289,7 +291,8 @@ public class CourseOverviewController {
     private void todoTableViewRefresh(){
         todoTableView.getItems().clear();
 
-        final ObservableList<Todo> data = new TodoServiceImpl().getAllTodoByCourseId(selectedCourse.get());
+        final ObservableList<Todo> data = new TodoServiceImpl()
+                .getAllTodoByCourseId(selectedCourse.get());
         if(data == null)
             return;
         todoTableView.setItems(data);
@@ -355,10 +358,12 @@ public class CourseOverviewController {
      * what will happen on checkbox select
      */
     private ObservableValue<Boolean> onCheckBoxActionSelectTableColumn(Integer index){
-        BooleanProperty selected = new SimpleBooleanProperty(todoTableView.getItems().get(index).getCompletedProperty().get());
+        BooleanProperty selected = new SimpleBooleanProperty(
+                todoTableView.getItems().get(index).getCompletedProperty().get());
         selected.addListener(new ChangeListener<Boolean>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+            public void changed(ObservableValue<? extends Boolean> observableValue,
+                                Boolean aBoolean, Boolean t1) {
                 onActionCheckBoxUpdate(selected.get(), index);
                 todoTableViewRefresh();
             }
@@ -390,7 +395,8 @@ public class CourseOverviewController {
     @FXML
     private void onActionDeleteSelectedTodo(){
         if(todoTableView.getSelectionModel().getSelectedItem() != null)
-            new TodoServiceImpl().deleteTodo(todoTableView.getSelectionModel().getSelectedItem());
+            new TodoServiceImpl().deleteTodo(
+                    todoTableView.getSelectionModel().getSelectedItem());
 
         todoTableViewRefresh();
     }
@@ -406,7 +412,8 @@ public class CourseOverviewController {
 
     private Dialog<Course> configureDialog() throws IOException {
         Dialog<Course> addCourseDialog = new Dialog<>();
-        addCourseDialog.setTitle("Add new course");
+        String title = I18N.getString("addCourse.dialog.title");
+        addCourseDialog.setTitle(title);
         addCourseDialog.getDialogPane().setContent(getLoaderForAddCourse().load());
         addCourseDialog.showingProperty().addListener(dialogShowingProperty());
         addCourseDialog.initOwner(courseOverviewAnchorPane.getScene().getWindow());
@@ -431,7 +438,9 @@ public class CourseOverviewController {
 
     private FXMLLoader getLoaderForAddCourse(){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new UiProperties().getAddCourseFXMLPath());
+        fxmlLoader.setLocation(new UiProperties().getResourceURL("addCourseFXMLPath"));
+        fxmlLoader.setResources(I18N.getResourceBundle());
         return fxmlLoader;
     }
+
 }

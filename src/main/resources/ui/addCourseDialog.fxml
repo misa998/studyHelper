@@ -21,11 +21,11 @@
       <TextField fx:id="editName" prefHeight="25.0" prefWidth="262.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextArea fx:id="editDesc" prefHeight="200.0" prefWidth="154.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <DatePicker fx:id="editDue" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Label text="Name" GridPane.rowIndex="1" />
-      <Label text="Description" GridPane.rowIndex="2" />
-      <Label text="Due" GridPane.rowIndex="3" />
+      <Label text="%addCourse.name.label" GridPane.rowIndex="1" />
+      <Label text="%addCourse.desc.label" GridPane.rowIndex="2" />
+      <Label text="%addCourse.due.label" GridPane.rowIndex="3" />
        <Button fx:id="addCourse" defaultButton="true" onAction="#onActionAdd" GridPane.columnIndex="1" GridPane.rowIndex="4">
-           <tooltip><Tooltip text="Add new course" /></tooltip>
+           <tooltip><Tooltip text="%addCourse.add.tooltip" /></tooltip>
            <graphic>
                <ImageView>
                    <Image url="@icons/add-course-white-16.png" />

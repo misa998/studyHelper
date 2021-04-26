@@ -1,6 +1,6 @@
 package com.studyhelper.controller;
 
-import com.studyhelper.db.properties.UiProperties;
+import com.studyhelper.db.properties.I18N;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -25,7 +25,7 @@ public class AboutFXMLController extends Application {
 
     private void setupGitHubLink() {
         githubLink.setText("Github profile");
-        githubLink.setTooltip(new Tooltip(new UiProperties().getGitHubProfileURL()));
+        githubLink.setTooltip(new Tooltip("https://github.com/misa998"));
     }
 
     @FXML
@@ -34,7 +34,7 @@ public class AboutFXMLController extends Application {
     }
 
     private void setupTextArea() {
-        aboutTextArea.setText(new UiProperties().getAboutText());
+        aboutTextArea.setText(I18N.getString("about.text"));
     }
 
     @FXML
@@ -44,7 +44,8 @@ public class AboutFXMLController extends Application {
 
     private void setupLinkedInLink() {
         linkedInLink.setText("LinkedIn profile");
-        linkedInLink.setTooltip(new Tooltip(new UiProperties().getLinkedInProfileURL()));
+        linkedInLink.setTooltip(
+                new Tooltip("https://www.linkedin.com/in/milos-i-9a6552a0/"));
     }
 
     @Override

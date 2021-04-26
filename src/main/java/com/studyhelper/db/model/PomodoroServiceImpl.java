@@ -3,6 +3,7 @@ package com.studyhelper.db.model;
 import com.studyhelper.controller.TrayIconController;
 import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.entity.TimePerDay;
+import com.studyhelper.db.properties.I18N;
 import javafx.beans.property.*;
 import java.time.Duration;
 
@@ -70,15 +71,19 @@ public class PomodoroServiceImpl implements PomodoroService{
         switch (PomodoroStudyStates.studyStateProperty.get()) {
             case STUDY:
                 if (isStudyTimerOver())
-                    trayIconController.displayMessage(getCurrentStudyTime().getMinute() + " minutes passed in study session. " + getStudySessionCounter() + " session over.");
+                    trayIconController.displayMessage(
+                            getCurrentStudyTime().getMinute() + " " + I18N.getString("pomodoro.studyOver.notification")
+                                 + " "  + getStudySessionCounter() + I18N.getString("pomodoro.sessionsPassed.notification"));
                 break;
             case MINIPAUSE:
                 if (isMiniPauseTimerOver())
-                    trayIconController.displayMessage(getCurrentStudyTime().getMinute() + " minutes passed in mini pause.");
+                    trayIconController.displayMessage(
+                            getCurrentStudyTime().getMinute() + " " + I18N.getString("pomodoro.miniPauseOver.notification"));
                 break;
             case LARGEPAUSE:
                 if (isLargePauseTimerOver())
-                    trayIconController.displayMessage(getCurrentStudyTime().getMinute() + " minutes passed in large pause.");
+                    trayIconController.displayMessage(
+                            getCurrentStudyTime().getMinute() + " " + I18N.getString("pomodoro.largePauseOver.notification"));
                 break;
         }
     }
@@ -103,13 +108,13 @@ public class PomodoroServiceImpl implements PomodoroService{
 
         studyStates.setStudyState(PomodoroStudyStates.StudyState.STUDY);
 
-        trayIconController.displayMessage("studying session started");
+        trayIconController.displayMessage(I18N.getString("pomodoro.started.notification"));
     }
 
     public void studySessionCounterReset(){
         studySessionCounter.setValue(0);
 
-        trayIconController.displayMessage("Study sessions over. Big pause!");
+        trayIconController.displayMessage(I18N.getString("pomodoro.finished.notification"));
     }
 
     public boolean isStudySessionOver(){

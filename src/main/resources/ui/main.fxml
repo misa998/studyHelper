@@ -3,15 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="600.0" prefWidth="840.0" stylesheets="@css/style.css"
-            fx:id="mainBorderPane"
-            xmlns="http://javafx.com/javafx/9.0.4"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.studyhelper.controller.MainController">
+<BorderPane fx:id="mainBorderPane" prefHeight="600.0" prefWidth="840.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.MainController">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab onSelectionChanged="#dashboardTabChanged" text="Dashboard">
+          <Tab onSelectionChanged="#dashboardTabChanged" text="%main.dashboard">
             <content>
               <AnchorPane fx:id="dashboardTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -19,7 +15,7 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="coursesTab" onSelectionChanged="#courseTabChange" text="Courses">
+          <Tab fx:id="coursesTab" onSelectionChanged="#courseTabChange" text="%main.courses">
             <content>
               <AnchorPane fx:id="coursesTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -28,7 +24,7 @@
              </AnchorPane>
             </content>
           </Tab>
-            <Tab onSelectionChanged="#pomodoroTabChange" text="Pomodoro">
+            <Tab onSelectionChanged="#pomodoroTabChange" text="%main.pomodoro">
                 <content>
                     <AnchorPane fx:id="pomodoroTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -36,7 +32,7 @@
                      </children></AnchorPane>
                 </content>
             </Tab>
-            <Tab onSelectionChanged="#motivationTabChanged" text="Motivation">
+            <Tab onSelectionChanged="#motivationTabChanged" text="%main.motivation">
                 <content>
                     <AnchorPane fx:id="motivationTabAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -53,17 +49,12 @@
         <menus>
           <Menu mnemonicParsing="false" text="_File">
             <items>
-              <MenuItem disable="true" mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="_Edit">
-            <items>
-              <MenuItem disable="true" mnemonicParsing="false" text="Delete" />
+              <MenuItem disable="true" mnemonicParsing="false" text="%menu.close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="_Help">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#onActionAboutMenuItem" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#onActionAboutMenuItem" text="%main.about" />
             </items>
           </Menu>
         </menus>

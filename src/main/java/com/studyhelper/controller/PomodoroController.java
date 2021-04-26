@@ -134,7 +134,9 @@ public class PomodoroController {
         LocalTime miniPauseTime = LocalTime.of(0, Integer.parseInt(miniPauseTimeTextField.getText()), 1);
         LocalTime largePauseTime = LocalTime.of(0, Integer.parseInt(largePauseTimeTextField.getText()), 1);
 
-        PomodoroServiceImpl.getInstance().setup(new Pomodoro(studySessionTime, miniPauseTime, largePauseTime, new CourseServiceImpl().get().byName(courseChoiceBox.getValue()).getId()));
+        PomodoroServiceImpl.getInstance().setup(
+                new Pomodoro(studySessionTime, miniPauseTime, largePauseTime,
+                        new CourseServiceImpl().get().byName(courseChoiceBox.getValue()).getId()));
     }
 
 

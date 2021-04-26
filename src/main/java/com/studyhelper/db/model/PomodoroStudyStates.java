@@ -1,18 +1,18 @@
 package com.studyhelper.db.model;
 
+import com.studyhelper.db.properties.I18N;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class PomodoroStudyStates {
 
-
     public static ObjectProperty<StudyState> studyStateProperty = new SimpleObjectProperty<>(StudyState.STOPPED);
 
     public enum StudyState {
-        MINIPAUSE("On mini pause"),
-        LARGEPAUSE("On large pause"),
-        STUDY("Studying"),
-        STOPPED("Not studying");
+        MINIPAUSE(I18N.getString("pomodoro.miniPause.enum")),
+        LARGEPAUSE(I18N.getString("pomodoro.largePause.enum")),
+        STUDY(I18N.getString("pomodoro.study.enum")),
+        STOPPED(I18N.getString("pomodoro.stopped.enum"));
 
         private String description;
 

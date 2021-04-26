@@ -16,12 +16,12 @@
          <children>
               <VBox alignment="CENTER" maxHeight="181.0" maxWidth="493.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="181.0" prefWidth="493.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid;               -fx-border-color: #ffcda1; -fx-background-color: #ffcda1;">
                   <children>
-                      <TextField fx:id="titleTextField" alignment="CENTER" prefHeight="37.0" prefWidth="487.0" promptText="Title" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: black;">
+                      <TextField fx:id="titleTextField" alignment="CENTER" prefHeight="37.0" prefWidth="487.0" promptText="%addMotivation.title.text" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: black;">
                           <font>
                               <Font name="System Bold" size="19.0" />
                           </font>
                       </TextField>
-                      <TextArea fx:id="bodyTextArea" prefHeight="159.0" prefWidth="457.0" promptText="Content" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 20; -fx-border-radius: 20;" wrapText="true" />
+                      <TextArea fx:id="bodyTextArea" prefHeight="159.0" prefWidth="457.0" promptText="%addMotivation.textArea.prompt" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-background-radius: 20; -fx-border-radius: 20;" wrapText="true" />
                   </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -29,7 +29,7 @@
               </VBox>
             <Button fx:id="addButton" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#onActionAdd">
                 <tooltip>
-                    <Tooltip text="Add new motivation" />
+                    <Tooltip text="%addMotivation.add.tooltip" />
                 </tooltip>
                 <graphic>
                     <ImageView>

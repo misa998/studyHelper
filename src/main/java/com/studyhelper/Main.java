@@ -3,6 +3,7 @@ package com.studyhelper;
 import com.studyhelper.controller.TrayIconController;
 import com.studyhelper.db.model.PomodoroServiceImpl;
 import com.studyhelper.db.model.PomodoroStudyStates;
+import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.UiProperties;
 import com.studyhelper.db.source.DataSource;
 import javafx.application.Application;
@@ -21,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends Application {
-    private final String LOG_FILE = "log/log" + "-" + LocalDate.now() + ".xml";
+    private final String LOG_FILE = "log" + "-" + LocalDate.now() + ".xml";
     private Logger logger = Logger.getLogger(Main.class.getName());
 
     private static Stage stage = null;
@@ -43,13 +44,14 @@ public class Main extends Application {
 
     private void configureStage(Stage primaryStage) throws Exception {
         UiProperties uiProp = new UiProperties();
-        Parent rootWindow = FXMLLoader.load(uiProp.getMainFXMLPath());
+        Parent rootWindow = FXMLLoader.load(
+                uiProp.getResourceURL("mainFXMLPath"), I18N.getResourceBundle());
         stage = primaryStage;
-        stage.setTitle(uiProp.getTitle());
+        stage.setTitle(I18N.getString("title"));
         stage.setResizable(false);
         //stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(new Scene(rootWindow, uiProp.getResolutionX(), uiProp.getResolutionY()));
-        stage.getIcons().add(new Image(uiProp.getMainIconPath()));
+        stage.setScene(new Scene(rootWindow, 840, 600));
+        stage.getIcons().add(new Image(String.valueOf(uiProp.getResourceURL("mainImage"))));
         stage.show();
     }
 

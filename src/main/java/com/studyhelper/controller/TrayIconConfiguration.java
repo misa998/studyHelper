@@ -1,6 +1,7 @@
 package com.studyhelper.controller;
 
 import com.studyhelper.Main;
+import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.UiProperties;
 import javafx.application.Platform;
 
@@ -14,7 +15,7 @@ public class TrayIconConfiguration {
     protected TrayIcon setupTrayIcon() {
         TrayIcon trayIcon;
         trayIcon = new TrayIcon(Objects.requireNonNull(loadAndScaleImage()));
-        trayIcon.setToolTip(new UiProperties().getTrayIconToolTip());
+        trayIcon.setToolTip(I18N.getString("trayIcon.caption"));
         trayIcon.setPopupMenu(configurePopupMenu());
         trayIcon.setImageAutoSize(true);
         trayIcon.addActionListener(onActionTrayNotification());
@@ -37,15 +38,15 @@ public class TrayIconConfiguration {
     }
 
     private Image createImageForSystemTray() throws MalformedURLException {
-        return Toolkit.getDefaultToolkit().getImage(new UiProperties().getMainIconURL());
+        return Toolkit.getDefaultToolkit().getImage(new UiProperties().getResourceURL("mainImage"));
     }
 
     protected PopupMenu configurePopupMenu(){
         final PopupMenu popupMenu = new PopupMenu();
 
-        MenuItem aboutMenuItem = new MenuItem("About");
-        MenuItem exitMenuItem = new MenuItem("Exit");
-        MenuItem hideMenuItem = new MenuItem("Hide System Tray");
+        MenuItem aboutMenuItem = new MenuItem(I18N.getString("trayIcon.about.menuItem"));
+        MenuItem exitMenuItem = new MenuItem(I18N.getString("trayIcon.exit.menuItem"));
+        MenuItem hideMenuItem = new MenuItem(I18N.getString("trayIcon.hide.menuItem"));
         popupMenu.add(aboutMenuItem);
         popupMenu.addSeparator();
         popupMenu.add(exitMenuItem);
