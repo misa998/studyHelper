@@ -19,10 +19,6 @@
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
-
-.scrollPane {
-    -fx-background-color: transparent;
-}
 .scrollPane .viewport{
     -fx-background-color: transparent;
 }
@@ -43,6 +39,7 @@
 .scrollPane .scroll-bar:horizontal .track-background {
     -fx-background-color: transparent;
 }
+
 .scrollPane .scroll-bar .increment-button,
 .scrollPane .scroll-bar .decrement-button {
     -fx-opacity: 0;
@@ -51,16 +48,21 @@
 
 .vBoxEachCourses{
     -fx-background-radius : 20;
-    -fx-border-radius: 20;
-    -fx-border-style : solid;
-    -fx-border-width : 3;
     -fx-background-color : #393351;
-    -fx-border-color : #393351;
 }
 .vBoxEachCourses:hover{
-    -fx-background-color : #524A7B;
-    -fx-border-color : #524A7B;
+    -fx-background-color: red;
+    -fx-border-color : #bf7878;
 }
+.vBoxEachCourses:pressed{
+    -fx-background-color : #bf7878;
+    -fx-border-color : #bf7878;
+}
+.vBoxEachMotivation{
+    -fx-background-radius : 20;
+    -fx-background-color : #eba694;
+}
+
 .courseNameText{
     -fx-text-fill: #cdcdcd;
 }

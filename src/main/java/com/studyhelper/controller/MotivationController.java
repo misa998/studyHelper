@@ -140,11 +140,22 @@ public class MotivationController {
         vbox.setId(String.valueOf(id));
         vbox.setStyle(vBoxEachMotivation.getStyle());
         vbox.setEffect(vBoxEachMotivation.getEffect());
-        vbox.setOnMouseClicked(vBoxEachMotivation.getOnMouseClicked());
         vbox.setPadding(vBoxEachMotivation.getPadding());
         vbox.setPrefSize(vBoxEachMotivation.getPrefWidth(), vBoxEachMotivation.getPrefHeight());
         vbox.setSpacing(10);
         vbox.setAlignment(vBoxEachMotivation.getAlignment());
+        vbox.setOnMouseClicked(vBoxEachMotivation.getOnMouseClicked());
+        vbox.hoverProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue)
+                    vbox.setStyle("-fx-background-color : #c3887a;" +
+                            "-fx-background-radius : 20;");
+                else
+                    vbox.setStyle("-fx-background-color : #eba694;" +
+                            "-fx-background-radius : 20;");
+            }
+        });
 
         return vbox;
     }

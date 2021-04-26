@@ -22,7 +22,8 @@ public class DatabaseProperties {
     }
 
     public void laodFile() throws IOException {
-        try(InputStream in = UiProperties.class.getClassLoader().getResourceAsStream("properties/database.properties")){
+        try(InputStream in = UiProperties.class
+                .getClassLoader().getResourceAsStream(DATABASE_PROPERTIES_PATH + DATABASE_PROPERTIES_NAME)){
             getProperties(in);
 
 

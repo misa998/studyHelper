@@ -2,7 +2,6 @@ package com.studyhelper.db.properties;
 
 import java.io.*;
 
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import java.util.Properties;
@@ -25,7 +24,9 @@ public class UiProperties {
         }
     }
     public void loadFile() throws IOException {
-        try (InputStream input = UiProperties.class.getClassLoader().getResourceAsStream(UI_PROPERTIES_PATH + UI_PROPERTIES_NAME)) {
+        try (InputStream input = UiProperties.class
+                .getClassLoader().getResourceAsStream(UI_PROPERTIES_PATH + UI_PROPERTIES_NAME)) {
+
             getProperties(input);
 
         } catch (NullPointerException | IOException e) {

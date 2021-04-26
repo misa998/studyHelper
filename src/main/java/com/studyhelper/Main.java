@@ -14,14 +14,13 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.logging.FileHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class Main extends Application {
+    private final String LOG_PATH = "log\\";
     private final String LOG_FILE = "log" + "-" + LocalDate.now() + ".xml";
     private Logger logger = Logger.getLogger(Main.class.getName());
 
@@ -64,6 +63,7 @@ public class Main extends Application {
 
     private void initialize() {
         try {
+            createDir();
             setupLogger();
         } catch (IOException e){
             e.printStackTrace();
@@ -71,8 +71,13 @@ public class Main extends Application {
         }
     }
 
+    private void createDir() {
+        File file = new File("log");
+        file.mkdir();
+    }
+
     private void setupLogger() throws IOException {
-        Handler handler = new FileHandler(LOG_FILE, true);
+        Handler handler = new FileHandler(LOG_PATH + LOG_FILE, true);
         Logger.getLogger("").addHandler(handler);
     }
 

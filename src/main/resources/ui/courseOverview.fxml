@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="courseOverviewAnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.CourseOverviewController">
       <children>
@@ -21,7 +22,7 @@
             <content>
                <VBox fx:id="vBoxCourses" alignment="CENTER" spacing="10.0">
                   <children>
-                     <VBox fx:id="vBoxEachCourse" alignment="CENTER" maxHeight="138.0" maxWidth="140.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxCoursesOnAction" prefHeight="120.0" prefWidth="118.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #393351; -fx-background-color: #393351; -fx-border-width: 3; -fx-border-style: solid;" styleClass="vBoxEachCourses" VBox.vgrow="ALWAYS">
+                     <VBox id="vBoxEachCourses" fx:id="vBoxEachCourse" alignment="CENTER" maxHeight="138.0" maxWidth="140.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxCoursesOnAction" prefHeight="120.0" prefWidth="118.0" style="-fx-background-color: #393351; -fx-background-radius: 20;" styleClass="vBoxEachCourses" VBox.vgrow="ALWAYS">
                         <children>
                            <TextField fx:id="courseNameTextField" alignment="CENTER" promptText="course name" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: #cdcdcd;" />
                            <Label alignment="CENTER" contentDisplay="CENTER" text="Hours spent" textAlignment="CENTER" textFill="#bcbcbc" wrapText="true">
@@ -52,7 +53,7 @@
 
          <TextField fx:id="todoTextField" layoutX="582.0" layoutY="14.0" promptText="%course.enter.todo.prompt" />
 
-         <Button fx:id="addTodo" alignment="CENTER" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#618cb0">
+         <Button fx:id="addTodo" alignment="CENTER" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#524a75">
             <tooltip><Tooltip text="%course.add.todo.tooltip" /></tooltip>
             <graphic>
                <ImageView>
@@ -81,9 +82,18 @@
             </graphic>
          </Button>
 
-         <TextArea fx:id="courseDescription" layoutX="200.0" layoutY="58.0" prefHeight="72.0" prefWidth="179.0" promptText="%course.description.prompt" style="-fx-background-color: transparent;" styleClass="text-area" wrapText="true" />
+         <TextArea fx:id="courseDescription" layoutX="199.0" layoutY="70.0" prefHeight="72.0" prefWidth="179.0" promptText="%course.description.prompt" style="-fx-background-color: transparent;" styleClass="text-area" wrapText="true" />
 
-         <Label layoutX="200.0" layoutY="37.0" text="%course.description" />
+         <Label layoutX="199.0" layoutY="49.0" text="%course.description" />
+
+      <DatePicker fx:id="dueDatePicker" layoutX="199.0" layoutY="191.0" prefHeight="25.0" prefWidth="128.0" />
+      <Label layoutX="199.0" layoutY="166.0" text="%course.due.label" />
+      <Label fx:id="selectedCourseNameLabel" alignment="CENTER" layoutX="191.0" layoutY="485.0" maxWidth="580.0" style="-fx-alignment: center; -fx-text-fill: #9e9999;" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam" textFill="#9e9999">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font></Label>
+
+
 
    </children>
 </AnchorPane>

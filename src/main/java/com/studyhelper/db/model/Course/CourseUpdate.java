@@ -5,6 +5,7 @@ import com.studyhelper.db.source.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,10 +53,32 @@ public class CourseUpdate implements CourseUpdateService{
         }
     }
 
+
     private void updateDescriptionExecute(String description, int id) throws SQLException {
         PreparedStatement updateCourseDesc = connection.prepareStatement(
                 "UPDATE course SET description= ? WHERE id= ?");
         updateCourseDesc.setString(1, description);
+        updateCourseDesc.setInt(2, id);
+
+        int affectedRows = updateCourseDesc.executeUpdate();
+        isUpdated(affectedRows);
+    }
+
+    @Override
+    public void due(LocalDate newValue, int id) {
+        try{
+            updateDueExecute(newValue, id);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage());
+        } finally {
+            DataSource.getInstance().closeConnection();
+        }
+    }
+
+    private void updateDueExecute(LocalDate newValue, int id) throws SQLException {
+        PreparedStatement updateCourseDesc = connection.prepareStatement(
+                "UPDATE course SET due= ? WHERE id= ?");
+        updateCourseDesc.setString(1, newValue.toString());
         updateCourseDesc.setInt(2, id);
 
         int affectedRows = updateCourseDesc.executeUpdate();

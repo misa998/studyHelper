@@ -13,6 +13,8 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -64,7 +66,12 @@ public class CourseOverviewController {
     private Button deleteCourse;
     @FXML
     private AnchorPane courseOverviewAnchorPane;
+    @FXML
+    private Label selectedCourseNameLabel;
+    @FXML
+    private DatePicker dueDatePicker;
 
+    private ObjectProperty<String> selectedCourseNameProperty = new SimpleObjectProperty<>("");
     private IntegerProperty selectedCourse = new SimpleIntegerProperty(0);
 
     private static final Logger logger = Logger.getLogger(CourseOverviewController.class.getName());
@@ -77,9 +84,31 @@ public class CourseOverviewController {
         fillTheListOfCourses();
         todoTableViewSetup();
         setupCourseDescription();
+        setupCourseDue();
         setupTodoButtons();
         setupSelectedCourseHandler();
+        setupSelectedCourseNameHandler();
         setupDeleteCourseButton();
+    }
+
+    private void setupCourseDue() {
+        dueDatePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
+            @Override
+            public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+                if(oldValue != null)
+                    new CourseServiceImpl().update().due(newValue, selectedCourse.get());
+
+                fillTheListOfCourses();
+            }
+        });
+    }
+
+    private void setupSelectedCourseNameHandler() {
+        selectedCourseNameProperty.bindBidirectional(
+                selectedCourseNameLabel.textProperty());
+        selectedCourseNameLabel.visibleProperty().bind(
+                Bindings.not(selectedCourse.lessThan(1))
+        );
     }
 
     private void setupDeleteCourseButton() {
@@ -95,11 +124,17 @@ public class CourseOverviewController {
     private ChangeListener<Number> selectedCourseListener(){
         return new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+            public void changed(ObservableValue<? extends Number> observable,
+                                Number oldValue, Number newValue) {
                 todoTableViewRefresh();
                 courseDescriptionRefresh();
+                dueDatePickerRefresh();
             }
         };
+    }
+
+    private void dueDatePickerRefresh() {
+        dueDatePicker.setValue(new CourseServiceImpl().get().byId(selectedCourse.get()).getDue());
     }
 
     private void setupTodoButtons() {
@@ -126,9 +161,11 @@ public class CourseOverviewController {
     private ChangeListener<Boolean> focusChangeListenerForDescription(){
         return new ChangeListener<Boolean>() {
             @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean oldValue, Boolean newValue) {
+            public void changed(ObservableValue<? extends Boolean> observableValue,
+                                Boolean oldValue, Boolean newValue) {
                 if(oldValue)
-                    new CourseServiceImpl().update().description(courseDescription.getText(), selectedCourse.get());
+                    new CourseServiceImpl().update().description(
+                            courseDescription.getText(), selectedCourse.get());
             }
         };
     }
@@ -136,10 +173,12 @@ public class CourseOverviewController {
     @FXML
     private void vboxCoursesOnAction(MouseEvent mouseEvent){
         VBox vbox = (VBox) mouseEvent.getSource();
+
         Course course = new CourseServiceImpl().get().byName(vbox.getId());
         if(course == null)
             return;
         selectedCourse.setValue(course.getId());
+        selectedCourseNameLabel.setText(vbox.getId());
     }
 
     @FXML
@@ -158,7 +197,7 @@ public class CourseOverviewController {
         String name = new CourseServiceImpl().get().byId(selectedCourse.get()).getName();
         if(name == null)
             return alert;
-        alert.setHeaderText(I18N.getString("alert.header") + name);
+        alert.setHeaderText(I18N.getString("alert.header") + " " + name);
         alert.setContentText(I18N.getString("alert.message"));
         alert.initOwner(courseOverviewAnchorPane.getScene().getWindow());
         alert.showingProperty().addListener(e -> updateBlurEffect());
@@ -197,7 +236,6 @@ public class CourseOverviewController {
     private void cleanOldDataForCourseList(){
         vBoxCourses.getChildren().clear();
         vBoxEachCourse.getChildren().clear();
-        selectedCourse.setValue(0);
     }
 
     private Comparator<Course> compareCoursesByDue(){
@@ -216,6 +254,30 @@ public class CourseOverviewController {
         Label labelForDue = setCourseListLabelDue(course);
 
         vbox.getChildren().addAll(textField, labelForHours, labelForDue);
+        return vbox;
+    }
+
+    private VBox setCourseListVBox(String courseName){
+        VBox vbox = new VBox();
+        vbox.setId(courseName);
+        vbox.setStyle(vBoxEachCourse.getStyle());
+        vbox.setEffect(vBoxEachCourse.getEffect());
+        vbox.setPrefSize(vBoxEachCourse.getPrefWidth(), vBoxEachCourse.getPrefHeight());
+        vbox.setSpacing(10);
+        vbox.setAlignment(vBoxEachCourse.getAlignment());
+        vbox.setOnMouseClicked(vBoxEachCourse.getOnMouseClicked());
+        vbox.hoverProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(newValue)
+                    vbox.setStyle("-fx-background-color : #524A7B;" +
+                            "-fx-background-radius : 20;");
+                else
+                    vbox.setStyle("-fx-background-color : #393351;" +
+                            "-fx-background-radius : 20;");
+            }
+        });
+
         return vbox;
     }
 
@@ -246,19 +308,6 @@ public class CourseOverviewController {
             label3.setText(time.getDuration().toHours() + " " + I18N.getString("courseList.hours.label"));
 
         return label3;
-    }
-
-    private VBox setCourseListVBox(String courseName){
-        VBox vbox = new VBox();
-        vbox.setId(courseName);
-        vbox.setStyle(vBoxEachCourse.getStyle());
-        vbox.setEffect(vBoxEachCourse.getEffect());
-        vbox.setOnMouseClicked(vBoxEachCourse.getOnMouseClicked());
-        vbox.setPrefSize(vBoxEachCourse.getPrefWidth(), vBoxEachCourse.getPrefHeight());
-        vbox.setSpacing(10);
-        vbox.setAlignment(vBoxEachCourse.getAlignment());
-
-        return vbox;
     }
 
     private Label setCourseListLabelDue(Course course) {
@@ -398,7 +447,7 @@ public class CourseOverviewController {
             new TodoServiceImpl().deleteTodo(
                     todoTableView.getSelectionModel().getSelectedItem());
 
-        todoTableViewRefresh();
+        selectedCourse.setValue(0);
     }
 
     @FXML

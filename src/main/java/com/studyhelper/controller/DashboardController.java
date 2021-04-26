@@ -8,7 +8,6 @@ import com.studyhelper.db.model.TimePerDayServiceImpl;
 import com.studyhelper.db.model.TimeServiceImpl;
 import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.LanguagePreference;
-import com.studyhelper.db.properties.UiProperties;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -32,7 +31,6 @@ import javafx.scene.web.WebView;
 
 import java.time.LocalDate;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -97,7 +95,7 @@ public class DashboardController {
 
         for(int i=0; i<courses.size(); i++){
             XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
-            series.setName(courses.get(i).getName());
+            series.setName(trimName(courses.get(i).getName()));
 
             ObservableList<TimePerDay> timePerDayObsList = new TimePerDayServiceImpl()
                     .getByCourse_id(courses.get(i).getId());
@@ -116,6 +114,11 @@ public class DashboardController {
 
             stackedBarChart.getData().add(series);
         }
+    }
+
+    private String trimName(String name){
+        int length = Math.min(name.length(), 10);
+        return name.substring(0, length);
     }
 
     private void setupSliderListener() {
@@ -146,7 +149,7 @@ public class DashboardController {
             } catch (NullPointerException e){
                 period = 0;
             }
-            pieChartData.add(new PieChart.Data(course.getName(), period));
+            pieChartData.add(new PieChart.Data(trimName(course.getName()), period));
         }
 
         return pieChartData;

@@ -21,7 +21,7 @@
             <content>
                <VBox fx:id="vBoxCourses" alignment="CENTER" spacing="10.0">
                   <children>
-                     <VBox fx:id="vBoxEachCourse" alignment="CENTER" maxHeight="138.0" maxWidth="140.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxCoursesOnAction" prefHeight="120.0" prefWidth="118.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #393351; -fx-background-color: #393351; -fx-border-width: 3; -fx-border-style: solid;" styleClass="vBoxEachCourses" VBox.vgrow="ALWAYS">
+                     <VBox id="vBoxEachCourses" fx:id="vBoxEachCourse" alignment="CENTER" maxHeight="138.0" maxWidth="140.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxCoursesOnAction" prefHeight="120.0" prefWidth="118.0" style="-fx-background-color: #393351; -fx-background-radius: 20;" styleClass="vBoxEachCourses" VBox.vgrow="ALWAYS">
                         <children>
                            <TextField fx:id="courseNameTextField" alignment="CENTER" promptText="course name" style="-fx-alignment: center; -fx-background-color: transparent; -fx-text-fill: #cdcdcd;" />
                            <Label alignment="CENTER" contentDisplay="CENTER" text="Hours spent" textAlignment="CENTER" textFill="#bcbcbc" wrapText="true">
@@ -52,7 +52,7 @@
 
          <TextField fx:id="todoTextField" layoutX="582.0" layoutY="14.0" promptText="%course.enter.todo.prompt" />
 
-         <Button fx:id="addTodo" alignment="CENTER" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#618cb0">
+         <Button fx:id="addTodo" alignment="CENTER" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#524a75">
             <tooltip><Tooltip text="%course.add.todo.tooltip" /></tooltip>
             <graphic>
                <ImageView>

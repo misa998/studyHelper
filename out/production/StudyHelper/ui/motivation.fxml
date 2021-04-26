@@ -11,7 +11,7 @@
         <ScrollPane fx:id="scrollPaneMotivation" layoutX="14.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="133.0" prefWidth="754.0" styleClass="scrollPane" vbarPolicy="NEVER">
             <HBox fx:id="hBoxMotivations" layoutX="14.0" layoutY="128.0" spacing="10.0">
                 <children>
-                    <VBox fx:id="vBoxEachMotivation" alignment="CENTER" maxHeight="269.0" maxWidth="493.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxMotivationOnAction" prefHeight="100.0" prefWidth="161.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid; -fx-border-color: #eba694; -fx-background-color: #eba694;" HBox.hgrow="NEVER" VBox.vgrow="ALWAYS">
+                    <VBox id="vBoxEachMotivation" fx:id="vBoxEachMotivation" alignment="CENTER" maxHeight="269.0" maxWidth="493.0" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#vboxMotivationOnAction" prefHeight="100.0" prefWidth="161.0" style="-fx-background-color: #eba694; -fx-background-radius: 20;" styleClass="vBoxEachMotivation" HBox.hgrow="NEVER" VBox.vgrow="ALWAYS">
                         <padding>
                             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                         </padding>
@@ -44,7 +44,7 @@
                 </ImageView>
             </graphic>
         </Button>
-        <VBox fx:id="vBoxSelectedMotivation" alignment="CENTER" layoutY="141.0" maxHeight="254.0" maxWidth="590.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="579.0" spacing="5.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid;               -fx-border-color: #ffcda1; -fx-background-color: #ffcda1;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" VBox.vgrow="ALWAYS">
+        <VBox fx:id="vBoxSelectedMotivation" alignment="CENTER" layoutX="40.0" layoutY="141.0" maxHeight="254.0" maxWidth="811.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="765.0" spacing="5.0" style="-fx-background-radius: 20; -fx-border-radius: 20; -fx-border-width: 3; -fx-border-style: solid;               -fx-border-color: #ffcda1; -fx-background-color: #ffcda1;" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="35.0" VBox.vgrow="ALWAYS">
             <children>
                 <TextField fx:id="titleTextField" promptText="Title" style="-fx-background-color: transparent;">
                     <font>
