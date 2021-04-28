@@ -1,4 +1,4 @@
-package com.studyhelper.db.model;
+package com.studyhelper.db.model.Pomodoro;
 
 import com.studyhelper.db.entity.Pomodoro;
 

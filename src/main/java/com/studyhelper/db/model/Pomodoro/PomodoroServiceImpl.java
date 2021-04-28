@@ -1,8 +1,9 @@
-package com.studyhelper.db.model;
+package com.studyhelper.db.model.Pomodoro;
 
 import com.studyhelper.controller.TrayIconController;
 import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.entity.TimePerDay;
+import com.studyhelper.db.model.TimePerDay.TimePerDayServiceImpl;
 import com.studyhelper.db.properties.I18N;
 import javafx.beans.property.*;
 import java.time.Duration;
@@ -49,7 +50,7 @@ public class PomodoroServiceImpl implements PomodoroService{
 
     public void endStudySession(){
         if(pomodoro != null)
-            new TimePerDayServiceImpl().addTimePerDay(
+            new TimePerDayServiceImpl().insert().add(
                     new TimePerDay(0, LocalDate.now(),
                             Duration.ofHours(studyTime.getHour()).plusMinutes(studyTime.getMinute()),
                             pomodoro.getCourse_id())

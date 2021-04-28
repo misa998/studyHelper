@@ -1,7 +1,7 @@
 package com.studyhelper.db.model.Course;
 
 import com.studyhelper.db.entity.Course;
-import com.studyhelper.db.model.TimeServiceImpl;
+import com.studyhelper.db.model.Time.TimeServiceImpl;
 import com.studyhelper.db.source.DataSource;
 
 import java.sql.Connection;
@@ -23,7 +23,7 @@ public class CourseInsert implements CourseInsertService{
     public void add(Course course) {
         try{
             Course courseNew = insertNewCourse(course);
-            new TimeServiceImpl().insertNewTime(courseNew.getId());
+            new TimeServiceImpl().insert().add(courseNew.getId());
         } catch (NullPointerException e){
             logger.log(Level.WARNING, e.getMessage());
         }

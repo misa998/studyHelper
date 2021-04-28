@@ -1,8 +1,8 @@
 package com.studyhelper.db.model.Course;
 
-import com.studyhelper.db.model.TimePerDayServiceImpl;
-import com.studyhelper.db.model.TimeServiceImpl;
-import com.studyhelper.db.model.TodoServiceImpl;
+import com.studyhelper.db.model.TimePerDay.TimePerDayServiceImpl;
+import com.studyhelper.db.model.Time.TimeServiceImpl;
+import com.studyhelper.db.model.Todo.TodoServiceImpl;
 import com.studyhelper.db.source.DataSource;
 
 import java.sql.Connection;
@@ -41,9 +41,9 @@ public class CourseDelete implements CourseDeleteService {
 
     private void deleteAllDataAboutCourse(int id) throws SQLException {
         deleteByIdExecute(id);
-        new TodoServiceImpl().deleteAllTodoByCourseId(id);
-        new TimePerDayServiceImpl().deleteAllTimePerDayByCourseId(id);
-        new TimeServiceImpl().deleteAllTimeByCourseId(id);
+        new TodoServiceImpl().delete().byCourseId(id);
+        new TimePerDayServiceImpl().delete().byCourseId(id);
+        new TimeServiceImpl().get().byCourseId(id);
     }
 
     private void isUpdated(int affectedRows) throws SQLException {

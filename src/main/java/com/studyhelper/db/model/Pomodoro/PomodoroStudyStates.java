@@ -1,4 +1,4 @@
-package com.studyhelper.db.model;
+package com.studyhelper.db.model.Pomodoro;
 
 import com.studyhelper.db.properties.I18N;
 import javafx.beans.property.ObjectProperty;

@@ -2,9 +2,9 @@ package com.studyhelper.db.model.Course;
 
 public interface CourseService {
 
-    CourseGet get();
-    CourseGetList getList();
-    CourseUpdate update();
-    CourseInsert insert();
-    CourseDelete delete();
+    CourseGetService get();
+    CourseGetListService getList();
+    CourseUpdateService update();
+    CourseInsertService insert();
+    CourseDeleteService delete();
 }
