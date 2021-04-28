@@ -1,23 +1,16 @@
-package com.studyhelper.controller;
+package com.studyhelper.controller.Courses;
 
 import com.studyhelper.db.entity.Course;
-import com.studyhelper.db.entity.Time;
 import com.studyhelper.db.entity.Todo;
 import com.studyhelper.db.model.Course.CourseServiceImpl;
-import com.studyhelper.db.model.TimeServiceImpl;
-import com.studyhelper.db.model.TodoServiceImpl;
+import com.studyhelper.db.model.Todo.TodoServiceImpl;
 import com.studyhelper.db.properties.I18N;
-import com.studyhelper.db.properties.UiProperties;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,13 +21,10 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,9 +82,11 @@ public class CourseOverviewController {
     }
 
     private void setupCourseDue() {
+        dueDatePicker.disableProperty().bind(selectedCourse.lessThan(1));
         dueDatePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
             @Override
-            public void changed(ObservableValue<? extends LocalDate> observable, LocalDate oldValue, LocalDate newValue) {
+            public void changed(ObservableValue<? extends LocalDate> observable,
+                                LocalDate oldValue, LocalDate newValue) {
                 if(oldValue != null)
                     new CourseServiceImpl().update().due(newValue, selectedCourse.get());
 
@@ -138,6 +130,7 @@ public class CourseOverviewController {
     }
 
     private void setupTodoButtons() {
+        todoTextField.disableProperty().bind(selectedCourse.lessThan(1));
         addTodo.disableProperty().bind(
                 Bindings.isEmpty(todoTextField.textProperty())
                         .or(selectedCourse.lessThan(1))
@@ -223,112 +216,25 @@ public class CourseOverviewController {
     private void fillTheListOfCourses(){
         cleanOldDataForCourseList();
 
-        ObservableList<Course> courseList = new CourseServiceImpl().getList().all();
-        courseList.sort(compareCoursesByDue());
+        VBoxForCourse vBoxForCourse = new VBoxForCourse();
+        vBoxForCourse.setvBoxModel(vBoxEachCourse);
+        VBoxForCourseFactory vboxFactory = new VBoxForCourseFactory(vBoxForCourse);
+        vboxFactory.setListenerForTextField(listenerForTextFieldInVBoxCourse());
+        GetVBoxesForCourses vboxes = new GetVBoxesForCourses(vboxFactory);
 
-        for (Course course : courseList) {
-            VBox vbox = createVBox(course);
+        vBoxCourses.getChildren().addAll(vboxes.getAll());
+    }
 
-            vBoxCourses.getChildren().add(vbox);
-        }
+    private ChangeListener<String> listenerForTextFieldInVBoxCourse() {
+        return (observableValue, oldName, newName) -> {
+            selectedCourse.setValue(new CourseServiceImpl().get().byName(oldName).getId());
+            new CourseServiceImpl().update().name(newName, selectedCourse.get());
+        };
     }
 
     private void cleanOldDataForCourseList(){
         vBoxCourses.getChildren().clear();
         vBoxEachCourse.getChildren().clear();
-    }
-
-    private Comparator<Course> compareCoursesByDue(){
-        return Comparator.comparing((Course c) -> c.getDue().isAfter(LocalDate.now()))
-                .thenComparing(c -> c.getDue().isBefore(LocalDate.now()))
-                .thenComparing(c -> c.getDue().isBefore(LocalDate.now().plusDays(10)))
-                .reversed()
-                .thenComparing(c -> c.getDue())
-                ;
-    }
-
-    private VBox createVBox(Course course) {
-        VBox vbox = setCourseListVBox(course.getName());
-        TextField textField = setCourseListTextField(course.getName());
-        Label labelForHours = setCourseListLabelHours(course.getId());
-        Label labelForDue = setCourseListLabelDue(course);
-
-        vbox.getChildren().addAll(textField, labelForHours, labelForDue);
-        return vbox;
-    }
-
-    private VBox setCourseListVBox(String courseName){
-        VBox vbox = new VBox();
-        vbox.setId(courseName);
-        vbox.setStyle(vBoxEachCourse.getStyle());
-        vbox.setEffect(vBoxEachCourse.getEffect());
-        vbox.setPrefSize(vBoxEachCourse.getPrefWidth(), vBoxEachCourse.getPrefHeight());
-        vbox.setSpacing(10);
-        vbox.setAlignment(vBoxEachCourse.getAlignment());
-        vbox.setOnMouseClicked(vBoxEachCourse.getOnMouseClicked());
-        vbox.hoverProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(newValue)
-                    vbox.setStyle("-fx-background-color : #524A7B;" +
-                            "-fx-background-radius : 20;");
-                else
-                    vbox.setStyle("-fx-background-color : #393351;" +
-                            "-fx-background-radius : 20;");
-            }
-        });
-
-        return vbox;
-    }
-
-    private TextField setCourseListTextField(String courseName){
-        TextField textField = new TextField();
-        textField.setStyle("-fx-background-color : transparent; " +
-                "-fx-text-fill : #cdcdcd; -fx-alignment : center;");
-        textField.setText(courseName);
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldName, String newName) {
-                selectedCourse.setValue(new CourseServiceImpl().get().byName(oldName).getId());
-                new CourseServiceImpl().update().name(newName, selectedCourse.get());
-            }
-        });
-
-        return textField;
-    }
-
-    private Label setCourseListLabelHours(int id){
-        Label label3 = new Label();
-        label3.setTextFill(Paint.valueOf("#cdcdcd"));
-        label3.setWrapText(true);
-        Time time = new TimeServiceImpl().getTimeByCourse_id(id);
-        if(time == null)
-            label3.setText("N/A");
-        else
-            label3.setText(time.getDuration().toHours() + " " + I18N.getString("courseList.hours.label"));
-
-        return label3;
-    }
-
-    private Label setCourseListLabelDue(Course course) {
-        Label label2 = new Label();
-        label2.setWrapText(true);
-        long daysLeft = Duration.between(LocalDate.now().atStartOfDay(), course.getDue().atStartOfDay()).toDays();
-        String daysLeftString;
-        if(daysLeft <= 0){
-            daysLeftString = " " + I18N.getString("courseList.due.label.expired");
-            label2.setTextFill(Paint.valueOf("#cdcdcd"));
-        } else if(daysLeft < 10){
-            daysLeftString = daysLeft + " " + I18N.getString("courseList.due.label.left");
-            label2.setTextFill(Paint.valueOf("#bf7878"));
-        }
-        else{
-            daysLeftString = daysLeft + " " + I18N.getString("courseList.due.label.left");
-            label2.setTextFill(Paint.valueOf("#8dae72"));
-        }
-        label2.setText(daysLeftString);
-
-        return label2;
     }
 
     private void todoTableViewSetup() {
@@ -341,7 +247,7 @@ public class CourseOverviewController {
         todoTableView.getItems().clear();
 
         final ObservableList<Todo> data = new TodoServiceImpl()
-                .getAllTodoByCourseId(selectedCourse.get());
+                .getList().byCourseId(selectedCourse.get());
         if(data == null)
             return;
         todoTableView.setItems(data);
@@ -423,19 +329,19 @@ public class CourseOverviewController {
     private void onActionCheckBoxUpdate(boolean isSelected, int rowIndex){
         Todo todoSelected = todoTableView.getItems().get(rowIndex);
         todoSelected.setCompleted(isSelected);
-        new TodoServiceImpl().updateTodo(todoSelected);
+        new TodoServiceImpl().update().byId(todoSelected);
     }
 
     @FXML
     private void itemCellOnEditCommit(TableColumn.CellEditEvent<Todo, String> cellEditEvent){
         Todo todoSelected = todoTableView.getSelectionModel().getSelectedItem();
         todoSelected.setItem(cellEditEvent.getNewValue());
-        new TodoServiceImpl().updateTodo(todoSelected);
+        new TodoServiceImpl().update().byId(todoSelected);
     }
 
     @FXML
     private void addTodoOnAction(){
-        new TodoServiceImpl().insertTodo(new Todo(0, false, todoTextField.getText(), selectedCourse.get()));
+        new TodoServiceImpl().insert().add(new Todo(0, false, todoTextField.getText(), selectedCourse.get()));
         todoTextField.setText("");
 
         todoTableViewRefresh();
@@ -444,8 +350,8 @@ public class CourseOverviewController {
     @FXML
     private void onActionDeleteSelectedTodo(){
         if(todoTableView.getSelectionModel().getSelectedItem() != null)
-            new TodoServiceImpl().deleteTodo(
-                    todoTableView.getSelectionModel().getSelectedItem());
+            new TodoServiceImpl().delete().byId(
+                    todoTableView.getSelectionModel().getSelectedItem().getId());
 
         selectedCourse.setValue(0);
     }
@@ -460,21 +366,12 @@ public class CourseOverviewController {
     }
 
     private Dialog<Course> configureDialog() throws IOException {
-        Dialog<Course> addCourseDialog = new Dialog<>();
-        String title = I18N.getString("addCourse.dialog.title");
-        addCourseDialog.setTitle(title);
-        addCourseDialog.getDialogPane().setContent(getLoaderForAddCourse().load());
-        addCourseDialog.showingProperty().addListener(dialogShowingProperty());
-        addCourseDialog.initOwner(courseOverviewAnchorPane.getScene().getWindow());
-        addCourseDialog.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        closeButtonConfig(addCourseDialog.getDialogPane().lookupButton(ButtonType.CLOSE));
+        GetDialogForAddingCourses dialog = new GetDialogForAddingCourses();
+        dialog.configureDialog();
+        dialog.setInitOwner(courseOverviewAnchorPane.getScene().getWindow());
+        dialog.getInsertDialog().showingProperty().addListener(dialogShowingProperty());
 
-        return addCourseDialog;
-    }
-
-    private void closeButtonConfig(Node close){
-        close.managedProperty().bind(close.visibleProperty());
-        close.setVisible(false);
+        return dialog.getInsertDialog();
     }
 
     private ChangeListener<? super Boolean> dialogShowingProperty() {
@@ -484,12 +381,4 @@ public class CourseOverviewController {
                 fillTheListOfCourses();
         };
     }
-
-    private FXMLLoader getLoaderForAddCourse(){
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(new UiProperties().getResourceURL("addCourseFXMLPath"));
-        fxmlLoader.setResources(I18N.getResourceBundle());
-        return fxmlLoader;
-    }
-
 }

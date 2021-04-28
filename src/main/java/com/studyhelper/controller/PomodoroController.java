@@ -3,8 +3,8 @@ package com.studyhelper.controller;
 import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.entity.Pomodoro;
 import com.studyhelper.db.model.Course.CourseServiceImpl;
-import com.studyhelper.db.model.PomodoroServiceImpl;
-import com.studyhelper.db.model.PomodoroStudyStates;
+import com.studyhelper.db.model.Pomodoro.PomodoroServiceImpl;
+import com.studyhelper.db.model.Pomodoro.PomodoroStudyStates;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,7 +22,7 @@ import javafx.scene.paint.Paint;
 import java.time.LocalTime;
 import java.util.Comparator;
 
-import static com.studyhelper.db.model.PomodoroStudyStates.StudyState.*;
+import static com.studyhelper.db.model.Pomodoro.PomodoroStudyStates.StudyState.*;
 
 public class PomodoroController {
 
@@ -85,7 +85,13 @@ public class PomodoroController {
     private void getCoursesForChoiceBox() {
         ObservableList<Course> courseList = new CourseServiceImpl().getList().all();
         courseList.sort(Comparator.comparing((Course c) -> c.getName()));
-        for(Course course : courseList) courseChoiceBox.getItems().add(course.getName());
+        for(Course course : courseList)
+            courseChoiceBox.getItems().add(trimName(course.getName()));
+    }
+
+    private String trimName(String name){
+        int length = Math.min(name.length(), 20);
+        return name.substring(0, length);
     }
 
     private void progressBarSetup() {

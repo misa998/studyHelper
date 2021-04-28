@@ -1,11 +1,5 @@
-package com.studyhelper.controller;
+package com.studyhelper.controller.Dashboard;
 
-import com.studyhelper.db.entity.Course;
-import com.studyhelper.db.entity.Time;
-import com.studyhelper.db.entity.TimePerDay;
-import com.studyhelper.db.model.Course.CourseServiceImpl;
-import com.studyhelper.db.model.TimePerDayServiceImpl;
-import com.studyhelper.db.model.TimeServiceImpl;
 import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.LanguagePreference;
 import javafx.beans.property.IntegerProperty;
@@ -14,14 +8,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -29,7 +20,6 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
-import java.time.LocalDate;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,9 +42,11 @@ public class DashboardController {
     private final Logger logger = Logger.getLogger(DashboardController.class.getName());
 
     private IntegerProperty daysToShowInChart = new SimpleIntegerProperty(5);
+    private GetDataForStackedChart chartData = new GetDataForStackedChart(0);
     private ObjectProperty<Locale> localeProperty = new SimpleObjectProperty<>();
 
     private String RADIO_URL = "http://tunein.com/popout/player/s288329";
+
 
     public void initialize(){
         setupLanguage();
@@ -91,34 +83,9 @@ public class DashboardController {
 
     private void refreshStackedBarChart(){
         stackedBarChart.getData().clear();
-        ObservableList<Course> courses = new CourseServiceImpl().getList().all();
+        chartData.setDaysToShow(daysToShowInChart.get());
 
-        for(int i=0; i<courses.size(); i++){
-            XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
-            series.setName(trimName(courses.get(i).getName()));
-
-            ObservableList<TimePerDay> timePerDayObsList = new TimePerDayServiceImpl()
-                    .getByCourse_id(courses.get(i).getId());
-
-            for(int j = 0; j < daysToShowInChart.get(); j++) {
-                double minutes = 0.0;
-                LocalDate date = LocalDate.now().minusDays(daysToShowInChart.subtract(j).get());
-
-                for(int k=0; k < timePerDayObsList.size(); k++){
-                    if(timePerDayObsList.get(k).getDate().isEqual(date)){
-                        minutes += timePerDayObsList.get(k).getDuration().toMinutes();
-                    }
-                }
-                series.getData().add(new XYChart.Data<>(String.valueOf(date.getDayOfMonth()), minutes));
-            }
-
-            stackedBarChart.getData().add(series);
-        }
-    }
-
-    private String trimName(String name){
-        int length = Math.min(name.length(), 10);
-        return name.substring(0, length);
+        stackedBarChart.getData().addAll(chartData.getAllSeries());
     }
 
     private void setupSliderListener() {
@@ -134,25 +101,7 @@ public class DashboardController {
 
     private void pieChartSetup() {
         coursePieChart.getData().clear();
-        coursePieChart.getData().addAll(getCourseDataForPieChart());
-    }
-
-    private ObservableList<PieChart.Data> getCourseDataForPieChart(){
-        final ObservableList<Course> data = new CourseServiceImpl().getList().all();
-
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        for(Course course : data){
-            Time time = new TimeServiceImpl().getTimeByCourse_id(course.getId());
-            long period;
-            try{
-                period = time.getDuration().toHours();
-            } catch (NullPointerException e){
-                period = 0;
-            }
-            pieChartData.add(new PieChart.Data(trimName(course.getName()), period));
-        }
-
-        return pieChartData;
+        coursePieChart.getData().addAll(new GetDataForPieChart().get());
     }
 
     @FXML

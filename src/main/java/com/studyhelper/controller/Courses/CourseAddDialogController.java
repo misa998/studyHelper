@@ -1,4 +1,4 @@
-package com.studyhelper.controller;
+package com.studyhelper.controller.Courses;
 
 import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.model.Course.CourseServiceImpl;
@@ -12,7 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ControllerAddCourseDialog {
+public class CourseAddDialogController {
     @FXML
     private TextField editName;
     @FXML

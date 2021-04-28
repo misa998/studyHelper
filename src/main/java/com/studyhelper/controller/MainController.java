@@ -9,8 +9,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

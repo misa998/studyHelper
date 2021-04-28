@@ -1,8 +1,8 @@
 package com.studyhelper;
 
 import com.studyhelper.controller.TrayIconController;
-import com.studyhelper.db.model.PomodoroServiceImpl;
-import com.studyhelper.db.model.PomodoroStudyStates;
+import com.studyhelper.db.model.Pomodoro.PomodoroServiceImpl;
+import com.studyhelper.db.model.Pomodoro.PomodoroStudyStates;
 import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.UiProperties;
 import com.studyhelper.db.source.DataSource;

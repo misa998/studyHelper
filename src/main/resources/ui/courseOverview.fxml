@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="courseOverviewAnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.CourseOverviewController">
+<AnchorPane fx:id="courseOverviewAnchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.Courses.CourseOverviewController">
       <children>
 
          <Button fx:id="addCourseButton" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCourseButtonAction">
@@ -53,7 +53,7 @@
 
          <TextField fx:id="todoTextField" layoutX="582.0" layoutY="14.0" promptText="%course.enter.todo.prompt" />
 
-         <Button fx:id="addTodo" alignment="CENTER" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#524a75">
+         <Button fx:id="addTodo" alignment="CENTER" defaultButton="true" layoutX="745.0" layoutY="14.0" mnemonicParsing="false" onAction="#addTodoOnAction" textFill="#524a75">
             <tooltip><Tooltip text="%course.add.todo.tooltip" /></tooltip>
             <graphic>
                <ImageView>

@@ -1,18 +1,16 @@
-package com.studyhelper.controller;
+package com.studyhelper.controller.Motivation;
 
 import com.studyhelper.db.entity.Motivation;
-import com.studyhelper.db.model.MotivationServiceImpl;
+import com.studyhelper.db.model.Motivation.MotivationServiceImpl;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-public class ControllerAddMotivationDialog {
+public class MotivationAddDialogController {
     @FXML
     private TextField titleTextField;
     @FXML
@@ -38,7 +36,7 @@ public class ControllerAddMotivationDialog {
 
     public void insertData(){
         Motivation motivation = new Motivation(0, titleTextField.getText(), bodyTextArea.getText());
-        int id = new MotivationServiceImpl().insertMotivation(motivation);
+        int id = new MotivationServiceImpl().insert().add(motivation);
     }
 
     private void closeWindow(ActionEvent ae) {

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="moitvationAnchorPane" prefHeight="546.0" prefWidth="840.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.MotivationController">
+<AnchorPane fx:id="moitvationAnchorPane" prefHeight="546.0" prefWidth="840.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.studyhelper.controller.Motivation.MotivationController">
     <children>
         <ScrollPane fx:id="scrollPaneMotivation" layoutX="14.0" layoutY="22.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="133.0" prefWidth="754.0" styleClass="scrollPane" vbarPolicy="NEVER">
             <HBox fx:id="hBoxMotivations" layoutX="14.0" layoutY="128.0" spacing="10.0">
