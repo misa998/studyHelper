@@ -1,11 +1,7 @@
 package com.studyhelper.controller.Dashboard;
 
-import com.studyhelper.db.properties.I18N;
-import com.studyhelper.db.properties.LanguagePreference;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -13,14 +9,12 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.StackedBarChart;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,49 +30,20 @@ public class DashboardController {
     private WebView webView;
     @FXML
     private PieChart coursePieChart;
-    @FXML
-    private ChoiceBox<Locale> langChoiceBox;
 
     private final Logger logger = Logger.getLogger(DashboardController.class.getName());
 
     private IntegerProperty daysToShowInChart = new SimpleIntegerProperty(5);
     private GetDataForStackedChart chartData = new GetDataForStackedChart(0);
-    private ObjectProperty<Locale> localeProperty = new SimpleObjectProperty<>();
 
     private String RADIO_URL = "http://tunein.com/popout/player/s288329";
 
 
     public void initialize(){
-        setupLanguage();
         setupSliderListener();
         refreshStackedBarChart();
         pieChartSetup();
         setupRadio();
-    }
-
-    private void setupLanguage() {
-        setupChoiceBox();
-        localeProperty.bindBidirectional(I18N.getLocaleProperty());
-        langChoiceBox.getSelectionModel().selectedItemProperty()
-                .addListener(new ChangeListener<Locale>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Locale> observable,
-                                        Locale oldValue, Locale newValue) {
-                        localeProperty.setValue(newValue);
-                        saveLangChoice(newValue);
-                    }
-                });
-    }
-
-    private void saveLangChoice(Locale newValue){
-        new LanguagePreference().set(newValue.toLanguageTag());
-    }
-
-    private void setupChoiceBox() {
-        for(Locale locale : I18N.getLanguages()){
-            langChoiceBox.getItems().add(locale);
-        }
-        langChoiceBox.setValue(localeProperty.getValue());
     }
 
     private void refreshStackedBarChart(){

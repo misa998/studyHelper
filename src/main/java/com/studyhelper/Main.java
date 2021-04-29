@@ -17,7 +17,10 @@ import javafx.scene.image.Image;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.logging.*;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Handler;
+import java.util.logging.FileHandler;
 
 public class Main extends Application {
     private final String LOG_PATH = "log\\";
@@ -42,16 +45,20 @@ public class Main extends Application {
     }
 
     private void configureStage(Stage primaryStage) throws Exception {
-        UiProperties uiProp = new UiProperties();
-        Parent rootWindow = FXMLLoader.load(
-                uiProp.getResourceURL("mainFXMLPath"), I18N.getResourceBundle());
+        Parent rootWindow = getMainControllerLoader().load();
         stage = primaryStage;
         stage.setTitle(I18N.getString("title"));
         stage.setResizable(false);
-        //stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(new Scene(rootWindow, 840, 600));
-        stage.getIcons().add(new Image(String.valueOf(uiProp.getResourceURL("mainImage"))));
+        stage.getIcons().add(new Image(String.valueOf(new UiProperties().getResourceURL("mainImage"))));
         stage.show();
+    }
+
+    private FXMLLoader getMainControllerLoader(){
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(new UiProperties().getResourceURL("mainFXMLPath"));
+        fxmlLoader.setResources(I18N.getResourceBundle());
+        return fxmlLoader;
     }
 
     private void showErrorMessage() {

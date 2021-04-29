@@ -1,104 +1,75 @@
 package com.studyhelper.controller;
 
 import com.studyhelper.db.properties.I18N;
+import com.studyhelper.db.properties.LanguagePreference;
 import com.studyhelper.db.properties.UiProperties;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainController {
 
-	// https://edencoding.com/scene-background/
-    @FXML
-    private AnchorPane dashboardTabAnchorPane;
-    @FXML
-    private AnchorPane coursesTabAnchorPane;
-    @FXML
-    private AnchorPane pomodoroTabAnchorPane;
-    @FXML
-    private AnchorPane motivationTabAnchorPane;
     @FXML
     private BorderPane mainBorderPane;
+    @FXML
+    private Menu languageMenu;
 
     private final Logger logger = Logger.getLogger(MainController.class.getName());
-    private UiProperties uiProperties = new UiProperties();
-
-    private AnchorPane dashboardAnchorPane = null;
-    private AnchorPane coursesAnchorPane = null;
-    private AnchorPane pomodoroAnchorPane = null;
-    private AnchorPane motivationAnchorPane = null;
 
     public void initialize(){
-
+        setupLanguageMenu();
+        loadTabsPane();
     }
 
-    @FXML
-    public void courseTabChange(){
-        if(coursesAnchorPane == null)
-            loadCourseTab();
-    }
-
-    private void loadCourseTab() {
+    private void loadTabsPane() {
         try {
-            coursesAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("courseOverviewFXMLPath"), I18N.getResourceBundle());
+            mainBorderPane.setCenter(FXMLLoader.load(
+                            new UiProperties().getResourceURL("tabsPaneFXMLPath"),
+                            I18N.getResourceBundle()));
         } catch (IOException e){
             logger.log(Level.WARNING, e.getMessage());
         }
-        coursesTabAnchorPane.getChildren().setAll(coursesAnchorPane);
     }
 
-    @FXML
-    public void dashboardTabChanged(){
-        if(dashboardAnchorPane == null)
-            loadDashboardTab();
-    }
+    private ObjectProperty<Locale> localeProperty = new SimpleObjectProperty<>();
 
-    private void loadDashboardTab() {
-        try {
-            dashboardAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("dashboardFXMLPath"), I18N.getResourceBundle());
-        } catch (IOException e){
-            logger.log(Level.WARNING, e.getMessage());
+    private void setupLanguageMenu() {
+        localeProperty.bindBidirectional(I18N.getLocaleProperty());
+        for(Locale locale : I18N.getLanguages()) {
+            MenuItem item = new MenuItem(locale.toString());
+            item.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    alertUser();
+                    saveLangChoice(item.getText());
+                }
+            });
+            languageMenu.getItems().add(item);
         }
-
-        dashboardTabAnchorPane.getChildren().setAll(dashboardAnchorPane);
     }
 
-    @FXML
-    public void pomodoroTabChange() {
-        if(pomodoroAnchorPane == null)
-            loadPomodoroTab();
+    private void saveLangChoice(String langChoice){
+        Locale locale = new Locale(langChoice);
+        localeProperty.setValue(locale);
+        new LanguagePreference().set(locale.toString());
     }
 
-    private void loadPomodoroTab() {
-        try {
-            pomodoroAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("pomodoroFXMLPath"), I18N.getResourceBundle());
-        } catch (IOException e){
-            logger.log(Level.WARNING, e.getMessage());
-        }
-
-        pomodoroTabAnchorPane.getChildren().setAll(pomodoroAnchorPane);
-    }
-
-    @FXML
-    public void motivationTabChanged() {
-        if(motivationAnchorPane == null)
-            loadMotivationTab();
-    }
-
-    private void loadMotivationTab() {
-        try {
-            motivationAnchorPane = FXMLLoader.load(uiProperties.getResourceURL("motivationFXMLPath"), I18N.getResourceBundle());
-        } catch (IOException e){
-            logger.log(Level.WARNING, e.getMessage());
-        }
-
-        motivationTabAnchorPane.getChildren().setAll(motivationAnchorPane);
+    private void alertUser() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(I18N.getString("menu.langChanged.title"));
+        alert.setHeaderText(I18N.getString("menu.langChanged.header"));
+        alert.initOwner(mainBorderPane.getScene().getWindow());
+        alert.showAndWait();
     }
 
     @FXML
@@ -122,7 +93,12 @@ public class MainController {
 
     private FXMLLoader getFXMLLoader(){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(uiProperties.getResourceURL("aboutFXMLPath"));
+        fxmlLoader.setLocation(new UiProperties().getResourceURL("aboutFXMLPath"));
         return fxmlLoader;
+    }
+
+    @FXML
+    private void onActionClose(){
+        System.exit(-1);
     }
 }

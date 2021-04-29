@@ -36,7 +36,6 @@
       </Button>
 
       <PieChart fx:id="coursePieChart" animated="false" layoutX="551.0" layoutY="236.0" legendSide="TOP" prefHeight="234.0" prefWidth="237.0" title="%dashboard.pieChart.title" />
-      <ChoiceBox fx:id="langChoiceBox" layoutX="734.0" layoutY="14.0" prefHeight="25.0" prefWidth="70.0" />
 
    </children>
 </AnchorPane>

@@ -5,7 +5,13 @@ import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.UiProperties;
 import javafx.application.Platform;
 
-import java.awt.*;
+import java.awt.TrayIcon;
+import java.awt.SystemTray;
+import java.awt.Image;
+import java.awt.PopupMenu;
+import java.awt.MenuItem;
+import java.awt.Toolkit;
+
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.util.Objects;

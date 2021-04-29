@@ -149,7 +149,6 @@ public class PomodoroController {
 
     private void timerLabelCleanUp(){
         PomodoroServiceImpl.getInstance().timerReset();
-//        studyTimerLabel.setText(PomodoroServiceImpl.getInstance().getCurrentStudyTimeString());
         studyTimerLabel.setTextFill(Paint.valueOf("#404040"));
     }
 

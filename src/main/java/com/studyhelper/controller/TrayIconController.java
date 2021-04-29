@@ -2,7 +2,8 @@ package com.studyhelper.controller;
 
 import com.studyhelper.db.properties.I18N;
 
-import java.awt.*;
+import java.awt.TrayIcon;
+import java.awt.SystemTray;
 
 public class TrayIconController {
     public static TrayIcon trayIcon;
