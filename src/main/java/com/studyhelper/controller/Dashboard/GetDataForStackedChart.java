@@ -20,6 +20,11 @@ public class GetDataForStackedChart {
         this.daysToShow = daysToShow;
     }
 
+    public GetDataForStackedChart() {
+        this.seriesList = new ArrayList<>();
+        this.daysToShow = 0;
+    }
+
     public void setDaysToShow(int daysToShow) {
         this.daysToShow = daysToShow;
     }

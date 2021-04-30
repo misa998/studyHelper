@@ -4,19 +4,20 @@ import com.studyhelper.db.entity.Course;
 import com.studyhelper.db.entity.Time;
 import com.studyhelper.db.model.Course.CourseServiceImpl;
 import com.studyhelper.db.model.Time.TimeServiceImpl;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 
+import java.util.ArrayList;
+
 public class GetDataForPieChart {
 
-    private final ObservableList<PieChart.Data> pieChartData;
+    private final ArrayList<PieChart.Data> pieChartData;
 
     public GetDataForPieChart() {
-        this.pieChartData = FXCollections.observableArrayList();
+        this.pieChartData = new ArrayList<>();
     }
 
-    public ObservableList<PieChart.Data> get() {
+    public ArrayList<PieChart.Data> get() {
         populate();
         return pieChartData;
     }

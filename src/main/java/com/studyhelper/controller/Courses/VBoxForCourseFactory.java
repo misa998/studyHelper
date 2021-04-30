@@ -31,7 +31,7 @@ public class VBoxForCourseFactory {
 
     public void createVbox(Course course){
         vBoxForCourse.setCourse(course);
-        vBoxForCourse.setvBox(vBoxSetup(course.getName()));
+        vBoxForCourse.setvBox(vBoxSetup(course.getId()));
         vBoxForCourse.setNameTextField(textFieldSetup(course.getName()));
         vBoxForCourse.setLabelForHours(hoursLabelSetup(course.getId()));
         vBoxForCourse.setLabelForDue(dueLabelSetup(course.getDue()));
@@ -43,9 +43,9 @@ public class VBoxForCourseFactory {
         );
     }
 
-    private VBox vBoxSetup(String courseName) {
+    private VBox vBoxSetup(int courseName) {
         VBox newVbox = new VBox();
-        newVbox.setId(courseName);
+        newVbox.setId(String.valueOf(courseName));
         newVbox.setStyle(vBoxForCourse.getvBoxModel().getStyle());
         newVbox.setEffect(vBoxForCourse.getvBoxModel().getEffect());
         newVbox.setPrefSize(vBoxForCourse.getvBoxModel().getPrefWidth(), vBoxForCourse.getvBoxModel().getPrefHeight());

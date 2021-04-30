@@ -61,8 +61,8 @@ public class CourseOverviewController {
     @FXML
     private DatePicker dueDatePicker;
 
-    private ObjectProperty<String> selectedCourseNameProperty = new SimpleObjectProperty<>("");
     private IntegerProperty selectedCourse = new SimpleIntegerProperty(0);
+    private Course course;
 
     private static final Logger logger = Logger.getLogger(CourseOverviewController.class.getName());
 
@@ -96,8 +96,6 @@ public class CourseOverviewController {
     }
 
     private void setupSelectedCourseNameHandler() {
-        selectedCourseNameProperty.bindBidirectional(
-                selectedCourseNameLabel.textProperty());
         selectedCourseNameLabel.visibleProperty().bind(
                 Bindings.not(selectedCourse.lessThan(1))
         );
@@ -126,7 +124,7 @@ public class CourseOverviewController {
     }
 
     private void dueDatePickerRefresh() {
-        dueDatePicker.setValue(new CourseServiceImpl().get().byId(selectedCourse.get()).getDue());
+        dueDatePicker.setValue(course.getDue());
     }
 
     private void setupTodoButtons() {
@@ -167,11 +165,11 @@ public class CourseOverviewController {
     private void vboxCoursesOnAction(MouseEvent mouseEvent){
         VBox vbox = (VBox) mouseEvent.getSource();
 
-        Course course = new CourseServiceImpl().get().byName(vbox.getId());
+        course = new CourseServiceImpl().get().byId(Integer.parseInt(vbox.getId()));
         if(course == null)
             return;
         selectedCourse.setValue(course.getId());
-        selectedCourseNameLabel.setText(vbox.getId());
+        selectedCourseNameLabel.setText(course.getName());
     }
 
     @FXML
@@ -180,6 +178,7 @@ public class CourseOverviewController {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && (result.get() == ButtonType.OK)){
             new CourseServiceImpl().delete().byId(selectedCourse.get());
+
             fillTheListOfCourses();
         }
     }
@@ -187,7 +186,7 @@ public class CourseOverviewController {
     private Alert deleteCourseAlertDialogConfig() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(I18N.getString("alert.title"));
-        String name = new CourseServiceImpl().get().byId(selectedCourse.get()).getName();
+        String name = course.getName();
         if(name == null)
             return alert;
         alert.setHeaderText(I18N.getString("alert.header") + " " + name);
@@ -352,8 +351,6 @@ public class CourseOverviewController {
         if(todoTableView.getSelectionModel().getSelectedItem() != null)
             new TodoServiceImpl().delete().byId(
                     todoTableView.getSelectionModel().getSelectedItem().getId());
-
-        selectedCourse.setValue(0);
     }
 
     @FXML

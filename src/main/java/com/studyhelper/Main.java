@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.logging.Handler;
@@ -24,7 +23,7 @@ import java.util.logging.FileHandler;
 
 public class Main extends Application {
     private final String LOG_PATH = "log\\";
-    private final String LOG_FILE = "log" + "-" + LocalDate.now() + ".xml";
+    private final String LOG_FILE = "errorLog" + ".xml";
     private Logger logger = Logger.getLogger(Main.class.getName());
 
     private static Stage stage = null;
@@ -84,7 +83,7 @@ public class Main extends Application {
     }
 
     private void setupLogger() throws IOException {
-        Handler handler = new FileHandler(LOG_PATH + LOG_FILE, true);
+        Handler handler = new FileHandler(LOG_PATH + LOG_FILE,1000000, 3, true);
         Logger.getLogger("").addHandler(handler);
     }
 
