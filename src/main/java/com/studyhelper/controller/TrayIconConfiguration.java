@@ -50,24 +50,16 @@ public class TrayIconConfiguration {
     protected PopupMenu configurePopupMenu(){
         final PopupMenu popupMenu = new PopupMenu();
 
-        MenuItem aboutMenuItem = new MenuItem(I18N.getString("trayIcon.about.menuItem"));
         MenuItem exitMenuItem = new MenuItem(I18N.getString("trayIcon.exit.menuItem"));
         MenuItem hideMenuItem = new MenuItem(I18N.getString("trayIcon.hide.menuItem"));
-        popupMenu.add(aboutMenuItem);
-        popupMenu.addSeparator();
         popupMenu.add(exitMenuItem);
         popupMenu.addSeparator();
         popupMenu.add(hideMenuItem);
 
-        aboutMenuItem.addActionListener(aboutMenuItemActionListener());
         exitMenuItem.addActionListener(exitMenuItemActionListener());
         hideMenuItem.addActionListener(hideMenuItemActionListener());
 
         return popupMenu;
-    }
-
-    private ActionListener aboutMenuItemActionListener(){
-        return e -> Platform.runLater(() -> new MainController().onActionAboutMenuItem());
     }
 
     private ActionListener exitMenuItemActionListener(){

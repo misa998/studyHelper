@@ -86,12 +86,7 @@ public class PomodoroController {
         ObservableList<Course> courseList = new CourseServiceImpl().getList().all();
         courseList.sort(Comparator.comparing((Course c) -> c.getName()));
         for(Course course : courseList)
-            courseChoiceBox.getItems().add(trimName(course.getName()));
-    }
-
-    private String trimName(String name){
-        int length = Math.min(name.length(), 20);
-        return name.substring(0, length);
+            courseChoiceBox.getItems().add(course.getName());
     }
 
     private void progressBarSetup() {

@@ -27,8 +27,6 @@ public class DashboardController {
     @FXML
     private StackedBarChart<String, Double> stackedBarChart;
     @FXML
-    private WebView webView;
-    @FXML
     private PieChart coursePieChart;
 
     private final Logger logger = Logger.getLogger(DashboardController.class.getName());
@@ -36,14 +34,10 @@ public class DashboardController {
     private IntegerProperty daysToShowInChart = new SimpleIntegerProperty(5);
     private GetDataForStackedChart chartData = new GetDataForStackedChart(0);
 
-    private String RADIO_URL = "http://tunein.com/popout/player/s288329";
-
-
     public void initialize(){
         setupSliderListener();
         refreshStackedBarChart();
         pieChartSetup();
-        setupRadio();
     }
 
     private void refreshStackedBarChart(){
@@ -67,38 +61,5 @@ public class DashboardController {
     private void pieChartSetup() {
         coursePieChart.getData().clear();
         coursePieChart.getData().addAll(new GetDataForPieChart().get());
-    }
-
-    @FXML
-    private void setupRadio(){
-        unableToLoadWebViewLabel.setVisible(false);
-
-        WebEngine webEngine = webView.getEngine();
-        webEngine.setOnError(onErrorWebEngine());
-        webEngine.getLoadWorker().stateProperty().addListener(failedStateListener());
-        webEngine.load(RADIO_URL);
-    }
-
-    private ChangeListener<Worker.State> failedStateListener() {
-        return new ChangeListener<Worker.State>() {
-            @Override
-            public void changed(ObservableValue ov, Worker.State oldState,
-                                Worker.State newState) {
-                if (newState == Worker.State.FAILED) {
-                    unableToLoadWebViewLabel.setVisible(true);
-                }
-            }
-        };
-    }
-
-    private EventHandler<WebErrorEvent> onErrorWebEngine(){
-        return new EventHandler<WebErrorEvent>() {
-            @Override
-            public void handle(WebErrorEvent webErrorEvent) {
-                logger.log(Level.WARNING,
-                        webErrorEvent.getMessage() + " \n " +
-                                "Another instance of an app may be running in the background.");
-            }
-        };
     }
 }

@@ -1,6 +1,7 @@
 package com.studyhelper.controller;
 
 import com.studyhelper.db.properties.I18N;
+import com.studyhelper.db.properties.UiPreferences;
 
 import java.awt.TrayIcon;
 import java.awt.SystemTray;
@@ -22,6 +23,10 @@ public class TrayIconController {
         }
     }
 
+    private boolean isTurnedOn(){
+        return Boolean.parseBoolean(new UiPreferences().get("ui.notifications"));
+    }
+
     private boolean isSupported(){
         return SystemTray.isSupported();
     }
@@ -32,7 +37,7 @@ public class TrayIconController {
     }
 
     public void displayMessage(String message){
-        if(trayIcon != null) {
+        if(trayIcon != null && isTurnedOn()) {
             String caption = I18N.getString("trayIcon.caption");
             trayIcon.displayMessage(caption, message, TrayIcon.MessageType.INFO);
         }

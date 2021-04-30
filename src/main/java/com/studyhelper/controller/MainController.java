@@ -2,6 +2,7 @@ package com.studyhelper.controller;
 
 import com.studyhelper.db.properties.I18N;
 import com.studyhelper.db.properties.LanguagePreference;
+import com.studyhelper.db.properties.UiPreferences;
 import com.studyhelper.db.properties.UiProperties;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -23,11 +24,14 @@ public class MainController {
     private BorderPane mainBorderPane;
     @FXML
     private Menu languageMenu;
+    @FXML
+    private CheckBox notificationCheckBox;
 
     private final Logger logger = Logger.getLogger(MainController.class.getName());
 
     public void initialize(){
         setupLanguageMenu();
+        setNotifCheckBox();
         loadTabsPane();
     }
 
@@ -73,6 +77,18 @@ public class MainController {
     }
 
     @FXML
+    public void onActionTurnOffNotifications(){
+        new UiPreferences().set("ui.notifications", String.valueOf(notificationCheckBox.isSelected()));
+    }
+
+    private void setNotifCheckBox() {
+        notificationCheckBox.setSelected(
+                Boolean.parseBoolean(
+                        new UiPreferences().get("ui.notifications"))
+        );
+    }
+
+    @FXML
     public void onActionAboutMenuItem(){
         try {
             getDialogConfig().showAndWait();
@@ -83,7 +99,7 @@ public class MainController {
 
     private Dialog<ButtonType> getDialogConfig() throws IOException {
         Dialog<ButtonType> aboutDialog = new Dialog<>();
-//        aboutDialog.initOwner(mainBorderPane.getScene().getWindow());
+        aboutDialog.initOwner(mainBorderPane.getScene().getWindow());
         aboutDialog.setTitle("About");
         aboutDialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         aboutDialog.getDialogPane().setContent(getFXMLLoader().load());

@@ -1,14 +1,12 @@
 package com.studyhelper.db.properties;
 
-import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 public class LanguagePreference {
-    private final Logger logger = Logger.getLogger(LanguagePreference.class.getName());
-
-    Preferences pref = Preferences.userNodeForPackage(LanguagePreference.class);
+    Preferences pref;
 
     public LanguagePreference() {
+        pref = Preferences.userNodeForPackage(LanguagePreference.class);
     }
 
     public void set(String value) {
