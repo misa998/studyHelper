@@ -14,6 +14,12 @@ public class UiPreferences {
     }
 
     public String get(String key){
-        return pref.get(key, null);
+        String value = pref.get(key, null);
+        if(value == null) {
+            set("ui.notifications", String.valueOf(true));
+            return String.valueOf(true);
+        }
+        else
+            return value;
     }
 }

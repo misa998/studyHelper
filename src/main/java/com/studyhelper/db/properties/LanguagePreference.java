@@ -1,5 +1,6 @@
 package com.studyhelper.db.properties;
 
+import java.util.Locale;
 import java.util.prefs.Preferences;
 
 public class LanguagePreference {
@@ -14,6 +15,11 @@ public class LanguagePreference {
     }
 
     public String get(String key){
-        return pref.get(key, null);
+        String value =  pref.get(key, null);
+        if(value == null) {
+            set(Locale.UK.toString());
+            return Locale.UK.toString();
+        }else
+            return value;
     }
 }

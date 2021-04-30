@@ -17,7 +17,7 @@ Postoji nekoliko nacina za pokretanje programa i oni ce biti navedeni po tezini.
     - Preuzmite code sa github-a,
     - raspakujte ga,
     - otvorite glavni folder i
-    - u commandline kucajte: mvn javafx:run 
+    - u commandline kucajte: mvn clean validate compile javafx:run 
 
 
 3. Ja sam kolega programer. Hteo bih da pokrenem kod u svom IDE.

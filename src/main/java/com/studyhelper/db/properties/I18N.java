@@ -41,6 +41,7 @@ public class I18N {
     public static ArrayList<Locale> getLanguages(){
         lang.add(new Locale("sr_sp"));
         lang.add(Locale.UK);
+        lang.add(Locale.US);
         return lang;
     }
 }
