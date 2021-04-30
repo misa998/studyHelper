@@ -23,8 +23,6 @@ public class CreateNewSchema {
             createTimePerDayTable();
             createTodoTable();
             createMotivationTable();
-
-            logger.log(Level.INFO, "Creating schemas successfully finished.");
         }catch (Exception e){
             logger.log(Level.SEVERE, e.getMessage());
         } finally {

@@ -16,8 +16,8 @@ public class DataSource {
         return instance;
     }
 
-    public final String DB_FILE_NAME = new DatabaseProperties().getDB_FILE_NAME();
-    public final String URL = new DatabaseProperties().getURL() + DB_FILE_NAME;
+    public final String DB_FILE_NAME = new DatabaseProperties().get("DB_FILE_NAME");
+    public final String URL = new DatabaseProperties().get("URL") + DB_FILE_NAME;
 
     private Connection connection;
 
@@ -38,10 +38,8 @@ public class DataSource {
 
     public void closeConnection(){
         try{
-            if(connection != null)
-                connection.close();
-
-        } catch (SQLException e){
+            connection.close();
+        } catch (SQLException | NullPointerException e){
             logger.log(Level.SEVERE, e.getMessage());
         }
     }

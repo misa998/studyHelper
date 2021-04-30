@@ -16,7 +16,7 @@
          </yAxis>
       </StackedBarChart>
 
-      <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="414.0" majorTickUnit="24.0" max="29.0" min="2.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="5.0">
+      <Slider fx:id="daysSliderForChart" layoutX="194.0" layoutY="414.0" majorTickUnit="24.0" max="29.0" min="2.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="8.0">
          <tooltip><Tooltip text="%dashboard.slider.tooltip" /></tooltip>
       </Slider>
 

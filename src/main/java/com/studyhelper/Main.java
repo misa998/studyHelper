@@ -22,8 +22,6 @@ import java.util.logging.Handler;
 import java.util.logging.FileHandler;
 
 public class Main extends Application {
-    private final String LOG_PATH = "log\\";
-    private final String LOG_FILE = "errorLog" + ".xml";
     private Logger logger = Logger.getLogger(Main.class.getName());
 
     private static Stage stage = null;
@@ -33,11 +31,43 @@ public class Main extends Application {
     }
 
     @Override
+    public void init() throws Exception {
+        super.init();
+        setup();
+    }
+
+    private void setup() {
+        setupLogger();
+        new TrayIconController().showTray();
+        DataSource.getInstance().firstConnection();
+    }
+
+    private void setupLogger() {
+        try {
+            setupLoggerHandler();
+        } catch (IOException e){
+            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+    }
+
+    private void setupLoggerHandler() throws IOException {
+        createDir();
+        Handler handler = new FileHandler("log\\errorLog.xml",
+                1000000, 3, true);
+        Logger.getLogger("").addHandler(handler);
+    }
+
+    private void createDir() {
+        File file = new File("log");
+        file.mkdir();
+    }
+
+    @Override
     public void start(Stage primaryStage) {
         try {
             configureStage(primaryStage);
         } catch (Exception e){
-            e.printStackTrace();
             logger.log(Level.SEVERE, e.getMessage());
             showErrorMessage();
         }
@@ -49,7 +79,8 @@ public class Main extends Application {
         stage.setTitle(I18N.getString("title"));
         stage.setResizable(false);
         stage.setScene(new Scene(rootWindow, 840, 600));
-        stage.getIcons().add(new Image(String.valueOf(new UiProperties().getResourceURL("mainImage"))));
+        stage.getIcons().add(new Image(String.valueOf(
+                new UiProperties().getResourceURL("mainImage"))));
         stage.show();
     }
 
@@ -63,28 +94,8 @@ public class Main extends Application {
     private void showErrorMessage() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Error while loading the app. Check fxml location.");
+        alert.setHeaderText("Error while loading the app.");
         alert.show();
-    }
-
-    private void initialize() {
-        try {
-            createDir();
-            setupLogger();
-        } catch (IOException e){
-            e.printStackTrace();
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-    }
-
-    private void createDir() {
-        File file = new File("log");
-        file.mkdir();
-    }
-
-    private void setupLogger() throws IOException {
-        Handler handler = new FileHandler(LOG_PATH + LOG_FILE,1000000, 3, true);
-        Logger.getLogger("").addHandler(handler);
     }
 
     public static void showMinimizedStage(){
@@ -92,24 +103,18 @@ public class Main extends Application {
     }
 
     @Override
-    public void init() throws Exception {
-        super.init();
-        initialize();
-        new TrayIconController().showTray();
-        DataSource.getInstance().firstConnection();
-    }
-
-    @Override
     public void stop() throws Exception {
         TrayIconController.closeSystemTray();
+        stopPomodoro();
+        super.stop();
+    }
 
-        if(PomodoroStudyStates.studyStateProperty.get() == PomodoroStudyStates.StudyState.STUDY) {
+    private void stopPomodoro() {
+        if(PomodoroStudyStates.studyStateProperty.get()
+                == PomodoroStudyStates.StudyState.STUDY) {
             PomodoroServiceImpl.getInstance().endStudySession();
             logger.log(Level.SEVERE, "Window closed while state is STUDY");
         }
         DataSource.getInstance().closeConnection();
-
-        super.stop();
     }
-
 }

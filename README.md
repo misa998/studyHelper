@@ -4,25 +4,24 @@ Pokretanje programa:
 
 Postoji nekoliko nacina za pokretanje programa i oni ce biti navedeni po tezini.
 
-1. Ne razumem se ja. Hocu samo da kliknem dva puta i otvorim
+1. Najlaksi nacin
    
     - Preuzmite softver sa linka (), 
     - raspakujte ga i 
-    - pokretine xxx.exe. 
-    - Ne brisite nista iz tog foldera.
+    - pokrenite StudyHelper-1.0.exe. 
 
 
-2. Razumem se nesto ja tu malo. Imam i maven
+2. Tezi nacin
 
     - Preuzmite code sa github-a,
-    - raspakujte ga,
     - otvorite glavni folder i
     - u commandline kucajte: mvn clean validate compile javafx:run 
 
 
-3. Ja sam kolega programer. Hteo bih da pokrenem kod u svom IDE.
+3. Najtezi nacin
    
-    - File / Project / Project SDK / minimum: 9.0.4
+   Za IntelliJ, u slucaju da se projekat ne pokrene odmah:
+    - File / Project / Project SDK / minimum: 11.0.1
     - File / Modules / Sources
         - Add Content Root / selektovati glavni folder projekta
         - odabrati src\main\java kao Sources Folders, klikom na folder java, pa iznad Sources

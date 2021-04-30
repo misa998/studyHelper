@@ -6,12 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DatabaseProperties {
-    private String URL = null;
-    private String DB_FILE_NAME = null;
-
     private final Logger logger = Logger.getLogger(DatabaseProperties.class.getName());
     private String DATABASE_PROPERTIES_PATH = "properties/";
     private String DATABASE_PROPERTIES_NAME = "database.properties";
+
+    private Properties properties;
 
     public DatabaseProperties() {
         try {
@@ -22,11 +21,9 @@ public class DatabaseProperties {
     }
 
     public void laodFile() throws IOException {
-        try(InputStream in = UiProperties.class
-                .getClassLoader().getResourceAsStream(DATABASE_PROPERTIES_PATH + DATABASE_PROPERTIES_NAME)){
+        try(InputStream in = UiProperties.class.getClassLoader().
+                        getResourceAsStream(DATABASE_PROPERTIES_PATH + DATABASE_PROPERTIES_NAME)){
             getProperties(in);
-
-
         } catch (NullPointerException | IOException e){
             logger.log(Level.SEVERE, e.getMessage());
             System.exit(-1);
@@ -34,18 +31,11 @@ public class DatabaseProperties {
     }
 
     private void getProperties(InputStream in) throws IOException {
-        Properties properties = new Properties();
+        properties = new Properties();
         properties.load(in);
-
-        URL = properties.getProperty("URL");
-        DB_FILE_NAME = properties.getProperty("DB_FILE_NAME");
     }
 
-    public String getURL(){
-        return URL;
-    }
-
-    public String getDB_FILE_NAME(){
-        return DB_FILE_NAME;
+    public String get(String name){
+        return properties.getProperty(name);
     }
 }
