@@ -11,13 +11,14 @@ Postoji nekoliko nacina za pokretanje programa i oni ce biti navedeni po tezini.
 
 1. Najlaksi nacin
    
-    - Preuzmite softver sa linka (), 
-    - raspakujte ga i 
+    - Preuzmite zip sa linka (https://drive.google.com/drive/folders/1DhiPSd9CcLV-iEh9dhHzxOdNltoHoeR6?usp=sharing), 
+    - raspakujte zip (Desni klik / Extract) i 
     - pokrenite StudyHelper-1.0.exe. 
 
 
 2. Tezi nacin
 
+    - Potreban je minimum jdk-11.
     - Preuzmite code sa github-a,
     - otvorite glavni folder i
     - u commandline kucajte: mvn clean validate compile javafx:run 
