@@ -9,14 +9,14 @@ Pokretanje programa:
 
 Postoji nekoliko nacina za pokretanje programa i oni ce biti navedeni po tezini.
 
-1. Najlaksi nacin
+1. Najlaksi nacin (dupli klik)
    
     - Preuzmite zip sa linka (https://drive.google.com/drive/folders/1DhiPSd9CcLV-iEh9dhHzxOdNltoHoeR6?usp=sharing), 
     - raspakujte zip (Desni klik / Extract) i 
     - pokrenite StudyHelper-1.0.exe. 
 
 
-2. Tezi nacin
+2. Tezi nacin (maven)
 
     - Potreban je minimum jdk-11.
     - Preuzmite code sa github-a,
@@ -24,7 +24,7 @@ Postoji nekoliko nacina za pokretanje programa i oni ce biti navedeni po tezini.
     - u commandline kucajte: mvn clean validate compile javafx:run 
 
 
-3. Najtezi nacin
+3. Najtezi nacin (project import)
    
    Za IntelliJ, u slucaju da se projekat ne pokrene odmah:
     - File / Project / Project SDK / minimum: 11.0.1
