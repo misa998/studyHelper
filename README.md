@@ -7,11 +7,13 @@ This software is intended for people that want to study and monitor todos more e
 
 Running the software
 
-1. 
+1.
+
     - download an zip file (https://drive.google.com/drive/folders/1DhiPSd9CcLV-iEh9dhHzxOdNltoHoeR6?usp=sharing),  
     - run StudyHelper-1.0.exe. 
 
 
-2. 
+2.
+
     - minimum jdk-11.
     - mvn clean validate compile javafx:run 
