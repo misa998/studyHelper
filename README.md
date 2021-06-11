@@ -1,9 +1,9 @@
 # studyHelper
 
-Ovaj program namenjen je ljudima koji zele da efikasnije uce i prate svoje obaveze.\
-  Unesite svoje predmete, rokove za zavrsetak i obaveze koje imate i svakog predmeta;\
-  Koristite Pomodoro tehniku i vreme utroseno na ucenje ce biti zabelezeno. To Vas moze znatno motivisati za dalji rad.\
-  Tu je i tab za motivaciju, gde mozete upisati neke savete, algoritam za resavanje problema ili neke reci motivacije za dalji rad.
+This software is intended for people that want to study and monitor todos more efficiently. \
+  \n\nInsert your courses, dues for completion and todos for each of them; \
+  \nUse Pomodoro technique and time you spend will be available in chart. That can motivate you for future work. \
+  \nThere's also motivation tab, where you can add some advices, problem solving algorithms or some motivational speeches just for you.
 
 Pokretanje programa:
 
