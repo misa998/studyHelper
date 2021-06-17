@@ -1,6 +1,5 @@
 package com.studyhelper.dao;
 
-import com.studyhelper.entity.Authorities;
 import com.studyhelper.entity.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -9,9 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -47,8 +44,10 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getByUsername(String username) {
         Session session = entityManager.unwrap(Session.class);
-        User user = session.get(User.class, username);
-        return user;
+        Query<User> query = session.createQuery("from User c where c.username=:userName", User.class);
+        query.setParameter("userName", username);
+
+        return query.getSingleResult();
     }
 
     @Transactional
@@ -58,11 +57,5 @@ public class UserDAOImpl implements UserDAO {
         Query query = session.createQuery("delete from User where id=:userId");
         query.setParameter("userId", id);
         query.executeUpdate();
-    }
-
-    @Override
-    public void edit(User user) {
-        Session session = entityManager.unwrap(Session.class);
-        session.update(user);
     }
 }

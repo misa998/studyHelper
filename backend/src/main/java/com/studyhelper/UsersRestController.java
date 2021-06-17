@@ -11,12 +11,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/users")
 @ResponseBody
-public class RestController {
+public class UsersRestController {
 
     private UserService userService;
 
     @Autowired
-    public RestController(UserService userService){
+    public UsersRestController(UserService userService){
         this.userService = userService;
     }
 
@@ -28,7 +28,7 @@ public class RestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    public User getAllUser(@PathVariable("id") int id){
+    public User getUser(@PathVariable("id") int id){
         return userService.getById(id);
     }
 

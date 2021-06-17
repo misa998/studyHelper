@@ -1,8 +1,6 @@
 package com.studyhelper.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -10,7 +8,7 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private int id = 0;
     @Column(name="username")
     private String username;
     @Column(name="password")
@@ -52,7 +50,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", userName=" + username +
+        return "User [id=" + id + ", username=" + username +
                 ", password=" + password + "]";
     }
 }

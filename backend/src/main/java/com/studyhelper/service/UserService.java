@@ -10,6 +10,4 @@ public interface UserService {
     User getById(int id);
     User getByUsername(String username);
     void remove(int user);
-
-    void edit(User user);
 }
