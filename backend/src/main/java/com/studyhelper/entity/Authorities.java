@@ -1,48 +1,26 @@
 package com.studyhelper.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="authorities")
+@Getter
+@Setter
 public class Authorities {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name="id", nullable = false)
     private int id;
 
-    @ManyToOne(cascade= CascadeType.ALL)
-    @JoinColumn(name="username")
-    private User username;
-
-    @Column(name="authority")
-    private String authority = "ROLE_USER";
-
-    public Authorities(String auth, User user) {
-        this.username = user;
-        this.authority = auth;
-    }
-
-    public Authorities(User username) {
-        this.username = username;
-    }
-
-    public User getUsername() {
-        return username;
-    }
-
-    public void setUsername(User username) {
-        this.username = username;
-    }
-
-    public String getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
+    private String authority;
 
     public Authorities() {
     }
 
+    public Authorities(String name) {
+        this.authority = name;
+    }
 }

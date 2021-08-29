@@ -1,5 +1,6 @@
 package com.studyhelper;
 
+
 import com.studyhelper.entity.User;
 import com.studyhelper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,17 @@ public class UsersRestController {
 
     private UserService userService;
 
+
     @Autowired
     public UsersRestController(UserService userService){
         this.userService = userService;
+
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public List<User> getAllUsers(){
+
         return userService.getAll();
     }
 
@@ -35,14 +39,8 @@ public class UsersRestController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseTransfer addUser(@RequestBody User user){
+        System.out.println(user);
         userService.add(user);
-        return new ResponseTransfer("Thank you kamagen.");
-    }
-
-    @RequestMapping(method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseTransfer editUser(@RequestBody User user){
-        userService.edit(user);
         return new ResponseTransfer("Thank you kamagen.");
     }
 

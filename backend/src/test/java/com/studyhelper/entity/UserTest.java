@@ -1,9 +1,9 @@
 package com.studyhelper.entity;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Null;
 
 public class UserTest {
 
@@ -11,8 +11,9 @@ public class UserTest {
     private User unknown;
 
     @BeforeEach
+    @Ignore
     public void setUp(){
-        john = new User("john", "123");
+//        john = new User("john", "123");
         unknown = new User();
     }
 

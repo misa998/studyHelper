@@ -1,5 +1,6 @@
 package com.studyhelper.service;
 
+import com.studyhelper.dao.UserDAO;
 import com.studyhelper.dao.UserDAOImpl;
 import com.studyhelper.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,14 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
 
-    private UserDAOImpl userDAO;
+    private UserDAO userDAO;
 
     @Autowired
     public UserServiceImpl(UserDAOImpl userDAO){
         this.userDAO = userDAO;
     }
+
+    public UserServiceImpl(){}
 
     @Override
     public List<User> getAll() {
