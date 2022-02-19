@@ -8,14 +8,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="studyhelper" />
+        <module name="frontend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="studyhelper" target="11" />
+      <module name="frontend" target="14" />
+      <module name="studyhelper" target="14" />
+      <module name="StudyHelper" target="14" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="frontend" options="-parameters" />
       <module name="studyhelper" options="-parameters" />
     </option>
   </component>

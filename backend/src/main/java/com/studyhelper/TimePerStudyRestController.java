@@ -1,6 +1,7 @@
 package com.studyhelper;
 
 import com.studyhelper.entity.time.TimePerStudy;
+import com.studyhelper.rest.ResponseTransfer;
 import com.studyhelper.service.TimePerStudyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

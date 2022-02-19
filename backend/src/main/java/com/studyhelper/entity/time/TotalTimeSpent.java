@@ -2,10 +2,7 @@ package com.studyhelper.entity.time;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.studyhelper.entity.Course;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,6 +13,7 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class TotalTimeSpent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,18 +23,12 @@ public class TotalTimeSpent {
     @Column(name = "hours", nullable = false)
     private double hours;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "totalTimeSpent")
     @OneToOne(mappedBy = "totalTimeSpent", cascade = CascadeType.ALL)
     private Course course;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "timePerStudyList")
     @OneToMany(mappedBy="totalTimeSpent", cascade= {CascadeType.DETACH,
             	CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH,})
     private List<TimePerStudy> timePerStudyList;
-
-    public TotalTimeSpent(double hours) {
-        this.hours = hours;
-    }
-
-    public TotalTimeSpent(){}
 }

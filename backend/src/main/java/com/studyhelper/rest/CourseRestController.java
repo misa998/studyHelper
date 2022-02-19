@@ -1,4 +1,4 @@
-package com.studyhelper;
+package com.studyhelper.rest;
 
 import com.studyhelper.entity.Course;
 import com.studyhelper.service.CourseService;

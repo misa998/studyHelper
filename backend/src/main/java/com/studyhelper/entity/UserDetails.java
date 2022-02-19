@@ -1,7 +1,9 @@
 package com.studyhelper.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import java.time.LocalDate;
 @Table(name = "user_details")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,17 +36,8 @@ public class UserDetails {
     @Column(name = "country")
     private String country;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "user")
     @OneToOne(mappedBy = "userDetails", cascade = CascadeType.ALL)
     private User user;
 
-    public UserDetails(String firstName, String lastName, LocalDate birthday, String gender, String county) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.country = county;
-    }
-
-    public UserDetails(){}
 }

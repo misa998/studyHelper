@@ -1,9 +1,7 @@
 package com.studyhelper.entity.time;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 @Table(name = "time_per_study")
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TimePerStudy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,15 +34,5 @@ public class TimePerStudy {
         this.hours = hours;
         this.startingTime = localDateTime.toString();
         this.totalTimeSpent = totalTimeSpent;
-    }
-
-    public TimePerStudy(int id, double hours, String startingTime, TotalTimeSpent totalTimeSpent) {
-        this.id = id;
-        this.hours = hours;
-        this.startingTime = startingTime;
-        this.totalTimeSpent = totalTimeSpent;
-    }
-
-    public TimePerStudy() {
     }
 }

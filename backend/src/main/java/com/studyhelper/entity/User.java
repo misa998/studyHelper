@@ -2,10 +2,7 @@ package com.studyhelper.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,11 +10,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="user")
+@Table(name="users")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -44,17 +42,17 @@ public class User implements Serializable {
     )
     private Set<Authorities> authorities = new HashSet<>();
 
-    @JsonBackReference
+    @JsonBackReference(value = "user")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_details_id")
     private UserDetails userDetails;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "userStudent")
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private Student student;
 
-    public User() {
-    }
+    @Transient
+    private String passwordConfirm;
 
     public User(String username, String password, String email, short enabled, UserDetails userDetails) {
         this.username = username;

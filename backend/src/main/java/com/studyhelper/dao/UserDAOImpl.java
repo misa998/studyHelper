@@ -5,6 +5,7 @@ import com.studyhelper.entity.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -17,12 +18,12 @@ import java.util.Set;
 public class UserDAOImpl implements UserDAO {
 
     private EntityManager entityManager;
-    private BCryptPasswordEncoder passEncoder;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserDAOImpl(EntityManager mng, BCryptPasswordEncoder passEncoder){
+    public UserDAOImpl(EntityManager mng, @Lazy BCryptPasswordEncoder passwordEncoder){
         this.entityManager = mng;
-        this.passEncoder = passEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,11 +37,8 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void add(User user) {
         Session session = entityManager.unwrap(Session.class);
-        System.out.println(user.getPassword());
-        String password = passEncoder.encode(user.getPassword());
+        String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
-        boolean isMatch = passEncoder.matches(user.getPassword(), password);
-        System.out.println(isMatch);
         user.setAuthorities(Set.of(new Authorities("ROLE_USER")));
 
         session.saveOrUpdate(user);
@@ -69,6 +67,5 @@ public class UserDAOImpl implements UserDAO {
         Query query = session.createQuery("delete from User where id=:userId");
         query.setParameter("userId", id);
         int result = query.executeUpdate();
-        System.out.println(result);
     }
 }

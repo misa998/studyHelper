@@ -1,4 +1,4 @@
-package com.studyhelper;
+package com.studyhelper.rest;
 
 public class ResponseTransfer {
     private String text;

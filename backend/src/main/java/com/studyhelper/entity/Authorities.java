@@ -1,6 +1,8 @@
 package com.studyhelper.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Table(name="authorities")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Authorities {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -17,10 +21,7 @@ public class Authorities {
 
     private String authority;
 
-    public Authorities() {
-    }
-
-    public Authorities(String name) {
-        this.authority = name;
+    public Authorities(String authority) {
+        this.authority = authority;
     }
 }

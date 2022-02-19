@@ -2,10 +2,7 @@ package com.studyhelper.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.studyhelper.entity.time.TotalTimeSpent;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,30 +29,14 @@ public class Course {
     @Column(name = "due", nullable = false)
     private String due;
 
-    @JsonBackReference
+    @JsonBackReference(value = "totalTimeSpent")
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "total_time_spent_id")
     private TotalTimeSpent totalTimeSpent;
 
-    @JsonBackReference
+    @JsonBackReference(value = "studentCourse")
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "student_id")
     private Student student;
 
-    public Course(String name, String description, LocalDateTime due, TotalTimeSpent totalTimeSpent, Student student) {
-        this.name = name;
-        this.description = description;
-        this.due = due.toString();
-        this.totalTimeSpent = totalTimeSpent;
-        this.student = student;
-    }
-
-    public Course(int id, String name, String description, String due, TotalTimeSpent totalTimeSpent, Student student) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.due = due;
-        this.totalTimeSpent = totalTimeSpent;
-        this.student = student;
-    }
 }

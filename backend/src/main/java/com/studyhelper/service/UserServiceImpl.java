@@ -4,6 +4,7 @@ import com.studyhelper.dao.UserDAO;
 import com.studyhelper.dao.UserDAOImpl;
 import com.studyhelper.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public class UserServiceImpl implements UserService{
     private UserDAO userDAO;
 
     @Autowired
-    public UserServiceImpl(UserDAOImpl userDAO){
+    public UserServiceImpl(@Lazy UserDAOImpl userDAO){
         this.userDAO = userDAO;
     }
 
