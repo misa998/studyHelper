@@ -4,6 +4,8 @@ package com.studyhelper;
 import com.studyhelper.entity.User;
 import com.studyhelper.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +18,8 @@ public class UsersRestController {
 
     private UserService userService;
 
-
     @Autowired
-    public UsersRestController(UserService userService){
+    public UsersRestController(@Lazy UserService userService){
         this.userService = userService;
 
     }
@@ -26,7 +27,6 @@ public class UsersRestController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public List<User> getAllUsers(){
-
         return userService.getAll();
     }
 

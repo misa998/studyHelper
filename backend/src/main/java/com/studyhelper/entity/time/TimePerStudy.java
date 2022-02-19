@@ -25,7 +25,7 @@ public class TimePerStudy {
     @Column(name = "starting_time", nullable = false)
     private String startingTime;
 
-    @JsonBackReference
+    @JsonBackReference(value = "timePerStudyList")
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "total_time_spent_id")
     private TotalTimeSpent totalTimeSpent;
