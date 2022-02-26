@@ -1,11 +1,9 @@
 package com.studyhelper.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.studyhelper.entity.time.TotalTimeSpent;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "course")
@@ -29,12 +27,7 @@ public class Course {
     @Column(name = "due", nullable = false)
     private String due;
 
-    @JsonBackReference(value = "totalTimeSpent")
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "total_time_spent_id")
-    private TotalTimeSpent totalTimeSpent;
-
-    @JsonBackReference(value = "studentCourse")
+     @JsonBackReference(value = "studentCourse")
     @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "student_id")
     private Student student;
