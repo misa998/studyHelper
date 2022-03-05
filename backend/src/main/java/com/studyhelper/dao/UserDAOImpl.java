@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getById(int id) {
+    public User getById(BigDecimal id) {
         Session session = entityManager.unwrap(Session.class);
         User user = session.get(User.class, id);
         return user;
@@ -64,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Transactional
     @Override
-    public void remove(int id) {
+    public void remove(BigDecimal id) {
         Session session = entityManager.unwrap(Session.class);
         Query query = session.createQuery("delete from User where id=:userId");
         query.setParameter("userId", id);

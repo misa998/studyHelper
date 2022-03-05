@@ -2,6 +2,7 @@ package com.studyhelper.dao;
 
 import com.studyhelper.entity.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface UserDAO {
@@ -9,9 +10,9 @@ public interface UserDAO {
 
     void add(User user);
 
-    User getById(int id);
+    User getById(BigDecimal id);
 
     User getByUsername(String username);
 
-    void remove(int id);
+    void remove(BigDecimal id);
 }

@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,7 +37,7 @@ public class CourseDAOImpl implements CourseDAO {
     }
 
     @Override
-    public Course getById(int id) {
+    public Course getById(BigDecimal id) {
         Session session = entityManager.unwrap(Session.class);
         Course course = session.get(Course.class, id);
         return course;
@@ -53,7 +54,7 @@ public class CourseDAOImpl implements CourseDAO {
 
     @Transactional
     @Override
-    public void remove(int id) {
+    public void remove(BigDecimal id) {
         Session session = entityManager.unwrap(Session.class);
         Query query = session.createQuery("delete from Course where id=:courseId");
         query.setParameter("courseId", id);

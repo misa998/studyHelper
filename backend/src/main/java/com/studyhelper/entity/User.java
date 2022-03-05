@@ -1,9 +1,10 @@
 package com.studyhelper.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,18 +39,18 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id = 0;
+    private BigDecimal id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "enabled")
+    @Column(name = "enabled", nullable = false)
     private short enabled = 1;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -62,12 +63,14 @@ public class User implements Serializable {
 
     @JsonBackReference(value = "user")
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_details_id")
+    @JoinColumn(name = "user_details_id", unique = true)
     private UserDetails userDetails;
 
-    @JsonManagedReference(value = "userStudent")
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    private Student student;
+    @Column(name = "create_datetime", nullable = false)
+    private Timestamp createDateTime;
+
+    @Column(name = "update_datetime", nullable = false)
+    private Timestamp updateDateTime;
 
     @Transient
     private String passwordConfirm;

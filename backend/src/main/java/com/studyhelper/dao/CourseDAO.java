@@ -2,6 +2,7 @@ package com.studyhelper.dao;
 
 import com.studyhelper.entity.Course;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface CourseDAO {
@@ -9,9 +10,9 @@ public interface CourseDAO {
 
     void add(Course course);
 
-    Course getById(int id);
+    Course getById(BigDecimal id);
 
     Course getByName(String name);
 
-    void remove(int id);
+    void remove(BigDecimal id);
 }

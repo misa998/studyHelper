@@ -2,6 +2,8 @@ package com.studyhelper.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -28,7 +30,7 @@ public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private int id;
+    private BigDecimal id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -44,6 +46,12 @@ public class UserDetails {
 
     @Column(name = "country")
     private String country;
+
+    @Column(name = "create_datetime", nullable = false)
+    private Timestamp createDateTime;
+
+    @Column(name = "update_datetime", nullable = false)
+    private Timestamp updateDateTime;
 
     @JsonManagedReference(value = "user")
     @OneToOne(mappedBy = "userDetails", cascade = CascadeType.ALL)

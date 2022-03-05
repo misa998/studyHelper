@@ -2,6 +2,9 @@ package com.studyhelper.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,20 +32,26 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private int id;
+    private BigDecimal id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = true)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "due", nullable = false)
+    @Column(name = "due")
     private String due;
 
-    @JsonBackReference(value = "studentCourse")
+    @Column(name = "create_datetime", nullable = false)
+    private Timestamp createDateTime;
+
+    @Column(name = "update_datetime", nullable = false)
+    private Timestamp updateDateTime;
+
+    @JsonBackReference(value = "userCourse")
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
 }

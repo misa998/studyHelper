@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -32,7 +33,7 @@ public class CourseRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    public Course getById(@PathVariable("id") int id) {
+    public Course getById(@PathVariable("id") BigDecimal id) {
         return courseService.getById(id);
     }
 
@@ -45,7 +46,7 @@ public class CourseRestController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     @ResponseBody
-    public void remove(@PathVariable("id") int id) {
+    public void remove(@PathVariable("id") BigDecimal id) {
         courseService.remove(id);
     }
 }

@@ -6,6 +6,7 @@ import com.studyhelper.entity.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course getById(int id) {
+    public Course getById(BigDecimal id) {
         return this.courseDAO.getById(id);
     }
 
@@ -38,7 +39,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void remove(int id) {
+    public void remove(BigDecimal id) {
         this.courseDAO.remove(id);
     }
 }

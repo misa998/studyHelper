@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import lombok.extern.log4j.Log4j2;
@@ -45,7 +46,7 @@ public class UsersRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     @ResponseBody
-    public User getUser(@PathVariable("id") final int id) {
+    public User getUser(@PathVariable("id") final BigDecimal id) {
         log.debug("Get method called for user id " + id);
         return userService.getById(id);
     }
@@ -66,7 +67,7 @@ public class UsersRestController {
      */
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
     @ResponseBody
-    public ResponseTransfer deleteUser(@PathVariable("id") final int id) {
+    public ResponseTransfer deleteUser(@PathVariable("id") final BigDecimal id) {
         log.debug("Delete method called for user id " + id);
         userService.remove(id);
         return new ResponseTransfer("Thank you kamagen.");
