@@ -1,21 +1,23 @@
 package com.studyhelper.dao;
 
 import com.studyhelper.entity.Course;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 public class CourseDAOImpl implements CourseDAO {
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
-    public CourseDAOImpl(EntityManager em){
+    public CourseDAOImpl(EntityManager em) {
         this.entityManager = em;
     }
 

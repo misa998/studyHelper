@@ -1,6 +1,5 @@
 package com.studyhelper.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -35,16 +36,16 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic();
         http.authorizeRequests()
-        .antMatchers(HttpMethod.POST, "/users").anonymous()
-        .antMatchers(HttpMethod.GET, "/users").hasRole("USER")
-        .antMatchers(HttpMethod.DELETE).anonymous()
-        .antMatchers(HttpMethod.GET, "/home").hasRole("USER")
-        .antMatchers("/registration").permitAll()
-        .and().formLogin().permitAll()
-        .and().logout().permitAll()
-        .and().exceptionHandling().accessDeniedPage("/403")
-        .and().exceptionHandling().accessDeniedPage("/404")
-        .and().csrf().disable()
+                .antMatchers(HttpMethod.POST, "/users").anonymous()
+                .antMatchers(HttpMethod.GET, "/users").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE).anonymous()
+                .antMatchers(HttpMethod.GET, "/home").hasRole("USER")
+                .antMatchers("/registration").permitAll()
+                .and().formLogin().permitAll()
+                .and().logout().permitAll()
+                .and().exceptionHandling().accessDeniedPage("/403")
+                .and().exceptionHandling().accessDeniedPage("/404")
+                .and().csrf().disable()
         ;
     }
 

@@ -2,6 +2,7 @@ package com.studyhelper.security;
 
 import com.studyhelper.entity.Authorities;
 import com.studyhelper.entity.User;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 public class MyUserDetails implements UserDetails {
 
-    private User user;
+    private final User user;
 
     public MyUserDetails(User user) {
         this.user = user;
@@ -24,7 +25,7 @@ public class MyUserDetails implements UserDetails {
         Set<Authorities> authorities = user.getAuthorities();
         List<SimpleGrantedAuthority> simpleGrantedAuthorityList = new ArrayList<>();
 
-        for(Authorities auth : authorities){
+        for (Authorities auth : authorities) {
             simpleGrantedAuthorityList.add(new SimpleGrantedAuthority(auth.getAuthority()));
         }
 

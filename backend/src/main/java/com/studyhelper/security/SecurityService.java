@@ -1,7 +1,5 @@
 package com.studyhelper.security;
 
-import org.springframework.stereotype.Service;
-
 public interface SecurityService {
     String findLoggedInUsername();
 

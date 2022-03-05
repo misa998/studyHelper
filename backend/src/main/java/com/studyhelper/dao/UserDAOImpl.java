@@ -2,6 +2,7 @@ package com.studyhelper.dao;
 
 import com.studyhelper.entity.Authorities;
 import com.studyhelper.entity.User;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +10,20 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-    private EntityManager entityManager;
-    private BCryptPasswordEncoder passwordEncoder;
+    private final EntityManager entityManager;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserDAOImpl(EntityManager mng, @Lazy BCryptPasswordEncoder passwordEncoder){
+    public UserDAOImpl(EntityManager mng, @Lazy BCryptPasswordEncoder passwordEncoder) {
         this.entityManager = mng;
         this.passwordEncoder = passwordEncoder;
     }

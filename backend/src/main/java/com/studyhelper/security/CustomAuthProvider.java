@@ -21,11 +21,11 @@ public class CustomAuthProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         MyUserDetails user = (MyUserDetails) userDetailsService.loadUserByUsername(username);
-        if(passwordEncoder.matches(password, user.getPassword())){
+        if (passwordEncoder.matches(password, user.getPassword())) {
             return new UsernamePasswordAuthenticationToken(
-                 username, password, user.getAuthorities()
+                    username, password, user.getAuthorities()
             );
-        }else{
+        } else {
             throw new BadCredentialsException("Bad credentials yo");
         }
     }
